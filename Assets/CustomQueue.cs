@@ -1,55 +1,46 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
-using UnityEngine;
 
-public class CustomQueue<T> : MonoBehaviour
-{
-    private List<T> queue = new List<T>();
-    private int counter = 0;
-    private int queueSize = 7;
-
-    public bool enqueue(T value)
+public class CustomQueue<T> {
+    
+    private List<T> _list;
+    private int _index;
+    
+    public CustomQueue()
     {
-        if (queue.Count == queueSize)
-            return false;
+        _list = new List<T>();
+        _index = 0;
+    }
+
+    /// <summary>
+    /// Queue up a T
+    /// </summary>
+    /// <param name="value">This is the parameter that gets queued up</param>
+    /// <returns>true if successful, false if not successful</returns>
+    public void Enqueue(T value)
+    {
+        _list.Add(value);
+    }
+
+    public T Dequeue()        
+    {
+         if (IsEmpty())
+            return default;
         
-        queue.Add(value);
-        counter++;
-        return true;
+         return _list[_index++];
     }
 
-    public object dequeue()        //public T dequeue() gint nicht wegen dem null
+    public T Peek()
     {
-         if (queue.Count == 0)
-             return null;
-        
-         return queue[counter--];
+        return _list[_index];
     }
 
-    public T peek()
+    public bool IsEmpty()
     {
-        return queue[counter];
+        return _index >= _list.Count;
     }
 
-    public bool isFull()
+    public void ResetQueue()
     {
-        if (queue.Count == queueSize)
-            return true;
-
-        return false;
-    }
-
-    public bool isEmpty()
-    {
-        if (queue.Count == 0)
-            return true;
-
-        return false;
-    }
-
-    public void resetQueue()
-    {
-        counter = queue.Count;
+        _index = 0;
     }
 }
