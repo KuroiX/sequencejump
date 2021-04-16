@@ -11,7 +11,7 @@ public class CustomQueue<T> : MonoBehaviour
 
     public bool enqueue(T value)
     {
-        if (queue.Count == 7)
+        if (queue.Count == queueSize)
             return false;
         
         queue.Add(value);
@@ -34,7 +34,7 @@ public class CustomQueue<T> : MonoBehaviour
 
     public bool isFull()
     {
-        if (queue.Count == 7)
+        if (queue.Count == queueSize)
             return true;
 
         return false;
