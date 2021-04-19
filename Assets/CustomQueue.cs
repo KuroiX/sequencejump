@@ -21,6 +21,10 @@ public class CustomQueue<T> {
         _list.Add(value);
     }
 
+    /// <summary>
+    /// Dequeue a T
+    /// </summary>
+    /// <returns>T that got dequeued</returns>
     public T Dequeue()        
     {
          if (IsEmpty())
@@ -29,16 +33,27 @@ public class CustomQueue<T> {
          return _list[_index++];
     }
 
+    /// <summary>
+    /// See the next T to be dequeued
+    /// </summary>
+    /// <returns>the next T to be dequeued</returns>
     public T Peek()
     {
         return _list[_index];
     }
 
+    /// <summary>
+    /// Tells you if the queue is empty
+    /// </summary>
+    /// <returns>true if empty, false if not empty</returns>
     public bool IsEmpty()
     {
         return _index >= _list.Count;
     }
 
+    /// <summary>
+    /// Reset the queue
+    /// </summary>
     public void ResetQueue()
     {
         _index = 0;
