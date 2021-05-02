@@ -1,30 +1,34 @@
 using System.Collections.Generic;
 
-public class CustomQueue<T> {
+/// <summary>
+/// Same functionality as a queue, but information is not lost so it can be reset.
+/// </summary>
+/// <typeparam name="T">Generic type</typeparam>
+public class ResettableQueue<T> {
     
     private List<T> _list;
     private int _index;
     
-    public CustomQueue()
+    public ResettableQueue()
     {
         _list = new List<T>();
         _index = 0;
     }
 
     /// <summary>
-    /// Queue up a T
+    /// Enqueues an item
     /// </summary>
-    /// <param name="value">This is the parameter that gets queued up</param>
+    /// <param name="value">Item that gets enqueued</param>
     /// <returns>true if successful, false if not successful</returns>
-    public void Enqueue(T value)
+    public void Enqueue(T item)
     {
-        _list.Add(value);
+        _list.Add(item);
     }
 
     /// <summary>
-    /// Dequeue a T
+    /// Dequeues the next item
     /// </summary>
-    /// <returns>T that got dequeued</returns>
+    /// <returns>Item that gets dequeued</returns>
     public T Dequeue()        
     {
          if (IsEmpty())
@@ -34,9 +38,9 @@ public class CustomQueue<T> {
     }
 
     /// <summary>
-    /// See the next T to be dequeued
+    /// Shows the next item to be dequeued
     /// </summary>
-    /// <returns>the next T to be dequeued</returns>
+    /// <returns>Next item to be dequeued</returns>
     public T Peek()
     {
         return _list[_index];
@@ -45,17 +49,26 @@ public class CustomQueue<T> {
     /// <summary>
     /// Tells you if the queue is empty
     /// </summary>
-    /// <returns>true if empty, false if not empty</returns>
+    /// <returns>True</returns>
     public bool IsEmpty()
     {
         return _index >= _list.Count;
     }
 
     /// <summary>
-    /// Reset the queue
+    /// Resets the queue
     /// </summary>
     public void ResetQueue()
     {
+        _index = 0;
+    }
+
+    /// <summary>
+    /// Clears the current queue
+    /// </summary>
+    public void Clear()
+    {
+        _list.Clear();
         _index = 0;
     }
 }
