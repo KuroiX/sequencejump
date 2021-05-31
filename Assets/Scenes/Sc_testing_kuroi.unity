@@ -350,11 +350,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bda12643621f9a4489db724de21b150e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementOptions:
+  movementSettings:
     groundSpeed: 10
-    groundAcceleration: 0
-    airSpeed: 5
-    airAcceleration: 0
+    groundAcceleration: 0.5
+    airSpeed: 9
+    airAcceleration: 0.4
   environmentLayerMask:
     serializedVersion: 2
     m_Bits: 128
