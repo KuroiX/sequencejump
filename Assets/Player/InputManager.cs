@@ -36,7 +36,7 @@ public class @InputManager : IInputActionCollection, IDisposable
                 },
                 {
                     ""name"": ""Move"",
-                    ""type"": ""Value"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""a6f42d74-0a44-421d-9265-ec9de14553e0"",
                     ""expectedControlType"": ""Axis"",
                     ""processors"": """",
