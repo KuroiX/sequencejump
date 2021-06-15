@@ -1,3 +1,6 @@
+using System;
+using System.Collections;
+using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -25,6 +28,9 @@ namespace Player
         [SerializeField] private MovementSettings movementSettings;
 
         [Header("Other Settings")]
+        [SerializeField] private float jumpHeight;
+        [SerializeField] private float maxFallSpeed;
+        [SerializeField] private bool shortHoppable;
         [SerializeField] private LayerMask environmentLayerMask;
 
         #region Input-Handling
@@ -52,6 +58,7 @@ namespace Player
         private void InitializeInput()
         {
             _inputManager.PlayerMovement.Jump.performed += Jump;
+            _inputManager.PlayerMovement.Jump.canceled += JumpEnd;
             _inputManager.PlayerMovement.Dash.performed += Dash;
         
             _inputManager.PlayerMovement.Move.performed += Move;
@@ -70,12 +77,52 @@ namespace Player
         #endregion
 
         private bool _isGrounded;
-        
+
+        private bool _isJumping = false;
+
+        private float CalculateJumpVelocity(float jumpHeight)
+        {
+            // Should be moved to Start() later
+            
+            // Basically explicit euler
+            float fixedTimeStep = Time.fixedDeltaTime;
+            float gravity = Physics2D.gravity.y * _rb.gravityScale;
+
+            float position = 0;
+            float velocity = 0;
+
+            while (true)
+            {
+                position += velocity * fixedTimeStep;
+                velocity += gravity * fixedTimeStep;
+                
+                if (position < -jumpHeight)
+                {
+                    break;
+                }
+            }
+            
+            return -velocity;
+        }
+
         private void Jump(InputAction.CallbackContext ctx)
         {
+            Debug.Log("Jump");
             if (_isGrounded)
             {
-                _rb.AddForce(Vector2.up * 500);
+                _rb.velocity = new Vector2(_rb.velocity.x, CalculateJumpVelocity(jumpHeight));
+                _isJumping = true;
+            }
+        }
+
+        private void JumpEnd(InputAction.CallbackContext ctx)
+        {
+            Vector2 velocity = _rb.velocity;
+            
+            if (shortHoppable && _isJumping && velocity.y > 0)
+            {
+                _rb.velocity = new Vector2(velocity.x, velocity.y * 0.5f);
+                _isJumping = false;
             }
         }
     
@@ -91,8 +138,11 @@ namespace Player
             _movementInput = ctx.ReadValue<float>();
         }
 
+        private float _actualVelocity = 0;
+
         private void FixedUpdate()
         {
+            #region x
             float acceleration = _isGrounded ? movementSettings.groundAcceleration : movementSettings.airAcceleration;
             float speed = _isGrounded ? movementSettings.groundSpeed : movementSettings.airSpeed;
 
@@ -106,7 +156,34 @@ namespace Player
             // but shouldn't matter here since fixedDeltaTime should always be the same
             float newSpeed = Mathf.Lerp(currentSpeed, targetSpeed, acceleration);
             
-            _rb.velocity = new Vector2(newSpeed, velocity.y);
+            #endregion
+
+            /*
+            if (!_isGrounded)
+            {
+                _actualVelocity += Physics2D.gravity.y * Time.fixedDeltaTime * 5;
+            }
+
+            //float newSpeedY = velocity.y + (velocity.y <= 1 ? fallSpeedMultiplyer * Physics2D.gravity.y * Time.fixedDeltaTime : 0);
+
+            float newSpeedY = newSpeedY < -maxFallSpeed ? -maxFallSpeed : newSpeedY;
+
+            float newSpeedY = 0;
+
+            if (_actualVelocity > 2)
+            {
+                newSpeedY = jumpForce;
+            }
+            else 
+            {
+                newSpeedY = _actualVelocity * .7f;
+            }
+            */
+
+            float newSpeedY = velocity.y;
+            newSpeedY = newSpeedY < -maxFallSpeed ? -maxFallSpeed : newSpeedY;
+            
+            _rb.velocity = new Vector2(newSpeed, newSpeedY);
         }
 
         private bool IsGrounded()
@@ -146,7 +223,38 @@ namespace Player
         // TODO: FixedUpdate?
         private void Update()
         {
-            _isGrounded = IsGrounded();
+            bool newGrounded = IsGrounded();
+            
+            if (!_cliffJumpBufferRoutineStarted && _isGrounded && !newGrounded)
+            {
+                Debug.Log("Bois");
+                _cliffJumpBuffer = StartCoroutine(CliffJumpBuffer());
+                _cliffJumpBufferRoutineStarted = true;
+            }
+            else if (newGrounded)
+            {
+                _isGrounded = true;
+                _cliffJumpBufferRoutineStarted = false;
+                if (_cliffJumpBuffer != null)
+                {
+                    StopCoroutine(_cliffJumpBuffer);
+                }
+            }
+        }
+
+        private Coroutine _cliffJumpBuffer;
+        private bool _cliffJumpBufferRoutineStarted;
+
+        private IEnumerator CliffJumpBuffer()
+        {
+            yield return new WaitForSeconds(.1f);
+            //Jump(new InputAction.CallbackContext());
+            _isGrounded = false;
+        }
+
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            Debug.Log("Entered trigger");
         }
     }
 }
