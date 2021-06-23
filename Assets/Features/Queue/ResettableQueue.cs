@@ -8,7 +8,17 @@ public class ResettableQueue<T> {
     
     private List<T> _list;
     private int _index;
-    
+
+    public int Size
+    {
+        get => _list.Count;
+    }
+
+    public int Count
+    {
+        get => Size - _index;
+    }
+
     public ResettableQueue()
     {
         _list = new List<T>();
@@ -43,6 +53,9 @@ public class ResettableQueue<T> {
     /// <returns>Next item to be dequeued</returns>
     public T Peek()
     {
+        if (IsEmpty())
+            return default;
+        
         return _list[_index];
     }
 
