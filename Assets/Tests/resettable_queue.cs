@@ -74,9 +74,9 @@ namespace Tests
         {
             _queue.Enqueue(1);
 
-            Assert.AreEqual(1, _queue.CurrentSize);
+            Assert.AreEqual(1, _queue.Count);
             Assert.AreEqual(1, _queue.Dequeue());
-            Assert.AreEqual(0, _queue.CurrentSize);
+            Assert.AreEqual(0, _queue.Count);
             Assert.IsTrue(_queue.IsEmpty());
         }
 
@@ -88,9 +88,9 @@ namespace Tests
             _queue.Enqueue(3);
             _queue.Enqueue(4);
 
-            Assert.AreEqual(4, _queue.CurrentSize);
+            Assert.AreEqual(4, _queue.Count);
             Assert.AreEqual(1, _queue.Dequeue());
-            Assert.AreEqual(3, _queue.CurrentSize);
+            Assert.AreEqual(3, _queue.Count);
             Assert.AreEqual(2, _queue.Dequeue());
             Assert.AreEqual(3, _queue.Dequeue());
             Assert.AreEqual(4, _queue.Dequeue());
@@ -126,9 +126,9 @@ namespace Tests
         {
             _queue.Enqueue(1);
             
-            Assert.AreEqual(1, _queue.CurrentSize);
+            Assert.AreEqual(1, _queue.Count);
             Assert.AreEqual(1, _queue.Peek());
-            Assert.AreEqual(1, _queue.CurrentSize);
+            Assert.AreEqual(1, _queue.Count);
             
             _queue.Enqueue(2);
             
@@ -149,7 +149,7 @@ namespace Tests
             _queue.Clear();
 
             Assert.AreEqual(0, _queue.Size);
-            Assert.AreEqual(0, _queue.CurrentSize);
+            Assert.AreEqual(0, _queue.Count);
             
             Assert.IsTrue(_queue.IsEmpty());
         }
@@ -168,14 +168,14 @@ namespace Tests
             
             
             Assert.AreEqual(3, _queue.Size);
-            Assert.AreEqual(3, _queue.CurrentSize);
+            Assert.AreEqual(3, _queue.Count);
             
             Assert.AreEqual(1, _queue.Dequeue());
             Assert.AreEqual(2, _queue.Dequeue());
             Assert.AreEqual(3, _queue.Dequeue());
             
             Assert.AreEqual(3, _queue.Size);
-            Assert.AreEqual(0, _queue.CurrentSize);
+            Assert.AreEqual(0, _queue.Count);
         }
 
         [Test]
@@ -196,7 +196,7 @@ namespace Tests
         }
         
         [Test]
-        public void has_correct_currentsize()
+        public void has_correct_count()
         {
             Assert.AreEqual(0, _queue.Size);
             
@@ -204,12 +204,12 @@ namespace Tests
             _queue.Enqueue(2);
             _queue.Enqueue(3);
             
-            Assert.AreEqual(3, _queue.CurrentSize);
+            Assert.AreEqual(3, _queue.Count);
             
             _queue.Dequeue();
             _queue.Dequeue();
             
-            Assert.AreEqual(1, _queue.CurrentSize);
+            Assert.AreEqual(1, _queue.Count);
         }
     }
 }

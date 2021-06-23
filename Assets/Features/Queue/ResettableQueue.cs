@@ -14,7 +14,7 @@ public class ResettableQueue<T> {
         get => _list.Count;
     }
 
-    public int CurrentSize
+    public int Count
     {
         get => Size - _index;
     }
