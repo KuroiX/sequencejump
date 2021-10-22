@@ -1,15 +1,13 @@
-using System;
 using System.Collections;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Player
+namespace Features.Player
 {
     public class PlayerController : MonoBehaviour
     {
-        private InputManager _inputManager;
-
+        private ICharacterInput _characterInput;
+        
         private Rigidbody2D _rb;
         private BoxCollider2D _collider;
 
@@ -33,48 +31,14 @@ namespace Player
         [SerializeField] private bool shortHoppable;
         [SerializeField] private LayerMask environmentLayerMask;
 
-        #region Input-Handling
-        
         private void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
             //_cc = GetComponent<CharacterController>();
             _collider = GetComponent<BoxCollider2D>();
-        
-            _inputManager = new InputManager();
-            _inputManager.PlayerMovement.Enable();
-        }
-
-        private void OnEnable()
-        {
-            InitializeInput();
-        }
-
-        private void OnDisable()
-        {
-            TerminateInput();
-        }
-
-        private void InitializeInput()
-        {
-            _inputManager.PlayerMovement.Jump.performed += Jump;
-            _inputManager.PlayerMovement.Jump.canceled += JumpEnd;
-            _inputManager.PlayerMovement.Dash.performed += Dash;
-        
-            _inputManager.PlayerMovement.Move.performed += Move;
-            _inputManager.PlayerMovement.Move.canceled += Move;
-        }
-
-        private void TerminateInput()
-        {
-            _inputManager.PlayerMovement.Jump.performed -= Jump;
-            _inputManager.PlayerMovement.Dash.performed -= Dash;
-        
-            _inputManager.PlayerMovement.Move.performed -= Move;
-            _inputManager.PlayerMovement.Move.canceled -= Move;
+            _characterInput = GetComponent<ICharacterInput>();
         }
         
-        #endregion
 
         private bool _isGrounded;
 
@@ -105,7 +69,7 @@ namespace Player
             return -velocity;
         }
 
-        private void Jump(InputAction.CallbackContext ctx)
+        private void Jump()
         {
             Debug.Log("Jump");
             if (_isGrounded)
@@ -115,27 +79,20 @@ namespace Player
             }
         }
 
-        private void JumpEnd(InputAction.CallbackContext ctx)
+        private void JumpEnd()
         {
             Vector2 velocity = _rb.velocity;
             
             if (shortHoppable && _isJumping && velocity.y > 0)
             {
                 _rb.velocity = new Vector2(velocity.x, velocity.y * 0.5f);
-                _isJumping = false;
             }
+            _isJumping = false;
         }
     
-        private void Dash(InputAction.CallbackContext ctx)
+        private void Dash()
         {
             Debug.Log("Dash");
-        }
-
-        private float _movementInput;
-    
-        private void Move(InputAction.CallbackContext ctx)
-        {
-            _movementInput = ctx.ReadValue<float>();
         }
 
         private float _actualVelocity = 0;
@@ -148,7 +105,7 @@ namespace Player
 
             Vector2 velocity = _rb.velocity;
 
-            float targetSpeed = _movementInput * speed;
+            float targetSpeed = _characterInput.Horizontal * speed;
 
             float currentSpeed = velocity.x;
 
@@ -184,6 +141,7 @@ namespace Player
             newSpeedY = newSpeedY < -maxFallSpeed ? -maxFallSpeed : newSpeedY;
             
             _rb.velocity = new Vector2(newSpeed, newSpeedY);
+
         }
 
         private bool IsGrounded()
@@ -240,6 +198,11 @@ namespace Player
                     StopCoroutine(_cliffJumpBuffer);
                 }
             }
+            
+            if (_isGrounded && _characterInput.Jump) Jump();
+            if (!_characterInput.Jump && _isJumping) JumpEnd();
+            if (_characterInput.Dash) Dash();
+            
         }
 
         private Coroutine _cliffJumpBuffer;
