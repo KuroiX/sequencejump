@@ -3,7 +3,13 @@
     public interface ICharacterInput
     {
         float Horizontal { get; }
-        bool Jump { get; }
-        bool Dash { get; }
+        bool JumpPerformed { get; }
+        
+        bool JumpBuffered { get; }
+        bool JumpCanceled { get; }
+        float JumpTimeStamp { get; set; }
+        
+        float JumpEndTimeStamp { get; }
+        
     }
 }

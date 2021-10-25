@@ -7,95 +7,34 @@ namespace Features.Player
     public class PlayerController : MonoBehaviour
     {
         private ICharacterInput _characterInput;
-        
         private Rigidbody2D _rb;
         private BoxCollider2D _collider;
 
-        [System.Serializable]
-        private struct MovementSettings
-        {
-            [Header("Ground Settings")]
-            public float groundSpeed;
-            public float groundAcceleration;
-            [Tooltip("Copy from ground options if no other behavior is wanted.")]
-            [Header("Air Settings")]
-            public float airSpeed;
-            public float airAcceleration;
-        }
-
         [SerializeField] private MovementSettings movementSettings;
+        
+        [Header("Jump Settings")]
+        [SerializeField] private float jumpHeight;
+        [SerializeField] private bool shortHoppable;
+        
+        [Header("Dash Settings")]
 
         [Header("Other Settings")]
-        [SerializeField] private float jumpHeight;
         [SerializeField] private float maxFallSpeed;
-        [SerializeField] private bool shortHoppable;
         [SerializeField] private LayerMask environmentLayerMask;
+        
+        private bool _isGrounded;
 
+        private bool _isJumping;
+        private float _coyoteTimeStamp;
+
+        #region MonoBehaviour
+        
         private void Awake()
         {
             _rb = GetComponent<Rigidbody2D>();
-            //_cc = GetComponent<CharacterController>();
             _collider = GetComponent<BoxCollider2D>();
             _characterInput = GetComponent<ICharacterInput>();
         }
-        
-
-        private bool _isGrounded;
-
-        private bool _isJumping = false;
-
-        private float CalculateJumpVelocity(float jumpHeight)
-        {
-            // Should be moved to Start() later
-            
-            // Basically explicit euler
-            float fixedTimeStep = Time.fixedDeltaTime;
-            float gravity = Physics2D.gravity.y * _rb.gravityScale;
-
-            float position = 0;
-            float velocity = 0;
-
-            while (true)
-            {
-                position += velocity * fixedTimeStep;
-                velocity += gravity * fixedTimeStep;
-                
-                if (position < -jumpHeight)
-                {
-                    break;
-                }
-            }
-            
-            return -velocity;
-        }
-
-        private void Jump()
-        {
-            Debug.Log("Jump");
-            if (_isGrounded)
-            {
-                _rb.velocity = new Vector2(_rb.velocity.x, CalculateJumpVelocity(jumpHeight));
-                _isJumping = true;
-            }
-        }
-
-        private void JumpEnd()
-        {
-            Vector2 velocity = _rb.velocity;
-            
-            if (shortHoppable && _isJumping && velocity.y > 0)
-            {
-                _rb.velocity = new Vector2(velocity.x, velocity.y * 0.5f);
-            }
-            _isJumping = false;
-        }
-    
-        private void Dash()
-        {
-            Debug.Log("Dash");
-        }
-
-        private float _actualVelocity = 0;
 
         private void FixedUpdate()
         {
@@ -143,7 +82,32 @@ namespace Features.Player
             _rb.velocity = new Vector2(newSpeed, newSpeedY);
 
         }
+        
+        private void Update()
+        {
+            CheckGroundedAndCoyote();
 
+            if ((_characterInput.JumpPerformed || _characterInput.JumpBuffered )&&
+                IsAllowedToJump()) Jump();
+            
+            if (_characterInput.JumpCanceled) JumpEnd();
+        }
+
+        #endregion MonoBehaviour
+        
+        #region Gathering Information
+        
+        private void CheckGroundedAndCoyote()
+        {
+            bool wasGrounded = _isGrounded;
+            _isGrounded = IsGrounded();
+            
+            if (wasGrounded && !_isGrounded && !_isJumping)
+            {
+                _coyoteTimeStamp = Time.unscaledTime;
+            }
+        }
+        
         private bool IsGrounded()
         {
             Bounds bounds = _collider.bounds;
@@ -157,8 +121,10 @@ namespace Features.Player
                 environmentLayerMask);
         
             bool result = col != null;
-
+            
+#if UNITY_EDITOR
             DrawBoxDebug(result, bounds, xMargin, yMargin);
+#endif
 
             return result;
         }
@@ -178,46 +144,63 @@ namespace Features.Player
                 Vector2.down * (yMargin * 2), rayColor);
         }
 
-        // TODO: FixedUpdate?
-        private void Update()
+        #endregion
+        
+        #region Jump
+        
+        private float CalculateJumpVelocity(float jumpHeight)
         {
-            bool newGrounded = IsGrounded();
+            // TODO: Should be moved to Start() later when we decided on a jumpHeight
             
-            if (!_cliffJumpBufferRoutineStarted && _isGrounded && !newGrounded)
+            // Basically explicit euler
+            float fixedTimeStep = Time.fixedDeltaTime;
+            float gravity = Physics2D.gravity.y * _rb.gravityScale;
+
+            float position = 0;
+            float velocity = 0;
+
+            while (true)
             {
-                Debug.Log("Bois");
-                _cliffJumpBuffer = StartCoroutine(CliffJumpBuffer());
-                _cliffJumpBufferRoutineStarted = true;
-            }
-            else if (newGrounded)
-            {
-                _isGrounded = true;
-                _cliffJumpBufferRoutineStarted = false;
-                if (_cliffJumpBuffer != null)
+                position += velocity * fixedTimeStep;
+                velocity += gravity * fixedTimeStep;
+                
+                if (position < -jumpHeight)
                 {
-                    StopCoroutine(_cliffJumpBuffer);
+                    break;
                 }
             }
             
-            if (_isGrounded && _characterInput.Jump) Jump();
-            if (!_characterInput.Jump && _isJumping) JumpEnd();
-            if (_characterInput.Dash) Dash();
+            return -velocity;
+        }
+
+        private bool IsAllowedToJump()
+        {
+            bool canCoyoteJump = (Time.unscaledTime - _coyoteTimeStamp) < .1f;
+            return _isGrounded || canCoyoteJump;
+        }
+        
+        private void Jump()
+        {
+            _rb.velocity = new Vector2(_rb.velocity.x, CalculateJumpVelocity(jumpHeight));
+            _isJumping = true;
+        }
+
+        private void JumpEnd()
+        {
+            Vector2 velocity = _rb.velocity;
             
+            if (shortHoppable && _isJumping && velocity.y > 0)
+            {
+                _rb.velocity = new Vector2(velocity.x, velocity.y * 0.5f);
+            }
+            _isJumping = false;
         }
-
-        private Coroutine _cliffJumpBuffer;
-        private bool _cliffJumpBufferRoutineStarted;
-
-        private IEnumerator CliffJumpBuffer()
+        
+        #endregion
+    
+        private void Dash()
         {
-            yield return new WaitForSeconds(.1f);
-            //Jump(new InputAction.CallbackContext());
-            _isGrounded = false;
-        }
-
-        private void OnTriggerEnter2D(Collider2D other)
-        {
-            Debug.Log("Entered trigger");
+            Debug.Log("Dash");
         }
     }
 }

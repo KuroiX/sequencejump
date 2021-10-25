@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -22,9 +23,9 @@ namespace Features.Player
 
         private void InitializeInput()
         {
-            _inputManager.PlayerMovement.Jump.performed += Jump2;
+            _inputManager.PlayerMovement.Jump.performed += Jump;
             _inputManager.PlayerMovement.Jump.canceled += JumpEnd;
-            _inputManager.PlayerMovement.Dash.performed += Dash2;
+            _inputManager.PlayerMovement.Dash.performed += Dash;
             
             _inputManager.PlayerMovement.Move.performed += Move;
             _inputManager.PlayerMovement.Move.canceled += Move;
@@ -37,6 +38,10 @@ namespace Features.Player
 
         private void TerminateInput()
         {
+            _inputManager.PlayerMovement.Jump.performed -= Jump;
+            _inputManager.PlayerMovement.Jump.canceled -= JumpEnd;
+            _inputManager.PlayerMovement.Dash.performed -= Dash;
+            
             _inputManager.PlayerMovement.Move.performed -= Move;
             _inputManager.PlayerMovement.Move.canceled -= Move;
         }
@@ -46,23 +51,40 @@ namespace Features.Player
             Horizontal = ctx.ReadValue<float>();
         }
 
-        private void Jump2(InputAction.CallbackContext ctx)
+        private void Jump(InputAction.CallbackContext ctx)
         {
-            Jump = true;
+            JumpPerformed = true;
+            JumpTimeStamp = Time.unscaledTime;
         }
 
         private void JumpEnd(InputAction.CallbackContext ctx)
         {
-            Jump = false;
+            JumpCanceled = true;
+            JumpEndTimeStamp = Time.unscaledTime;
         }
 
-        private void Dash2(InputAction.CallbackContext ctx)
+        private void Dash(InputAction.CallbackContext ctx)
         {
-            Dash = true;
+            
+        }
+
+        private void Action(InputAction.CallbackContext ctx)
+        {
+            
+        }
+
+        private void LateUpdate()
+        {
+            JumpPerformed = false;
+            JumpCanceled = false;
         }
 
         public float Horizontal { get; private set; }
-        public bool Jump { get; private set; }
-        public bool Dash { get; private set; }
+        public bool JumpPerformed { get; private set; }
+        public bool JumpBuffered => Time.unscaledTime - JumpTimeStamp < 0.1f;
+
+        public bool JumpCanceled { get; private set; }
+        public float JumpTimeStamp { get; set; }
+        public float JumpEndTimeStamp { get; private set; }
     }
 }
