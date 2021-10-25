@@ -701,8 +701,10 @@ MonoBehaviour:
     airSpeed: 7
     airAcceleration: 0.4
   jumpHeight: 2.5
-  maxFallSpeed: 25
   shortHoppable: 0
+  dashDistance: 3
+  dashSpeed: 50
+  maxFallSpeed: 25
   environmentLayerMask:
     serializedVersion: 2
     m_Bits: 128
@@ -715,7 +717,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 582054957}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0a7609a14806acf4bb4e7ea8ce1d7126, type: 3}
+  m_Script: {fileID: 11500000, guid: 6bff4e27f30243d48dd46c3b4ec95536, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &811198547

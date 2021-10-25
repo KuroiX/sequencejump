@@ -17,6 +17,8 @@ namespace Features.Player
         [SerializeField] private bool shortHoppable;
         
         [Header("Dash Settings")]
+        [SerializeField] private float dashDistance;
+        [SerializeField] private float dashSpeed;
 
         [Header("Other Settings")]
         [SerializeField] private float maxFallSpeed;
@@ -26,6 +28,7 @@ namespace Features.Player
 
         private bool _isJumping;
         private float _coyoteTimeStamp;
+        private float _direction;
 
         #region MonoBehaviour
         
@@ -34,10 +37,14 @@ namespace Features.Player
             _rb = GetComponent<Rigidbody2D>();
             _collider = GetComponent<BoxCollider2D>();
             _characterInput = GetComponent<ICharacterInput>();
+
+            _initialGravityScale = _rb.gravityScale;
         }
 
         private void FixedUpdate()
         {
+            if (_isDashing) return;
+            
             #region x
             float acceleration = _isGrounded ? movementSettings.groundAcceleration : movementSettings.airAcceleration;
             float speed = _isGrounded ? movementSettings.groundSpeed : movementSettings.airSpeed;
@@ -86,11 +93,21 @@ namespace Features.Player
         private void Update()
         {
             CheckGroundedAndCoyote();
+            CalculateDirection();
 
-            if ((_characterInput.JumpPerformed || _characterInput.JumpBuffered )&&
-                IsAllowedToJump()) Jump();
+            if ((_characterInput.JumpPerformed || _characterInput.JumpBuffered) &&
+                IsAllowedToJump())
+            {
+                DashEnd();
+                Jump();
+            }
             
             if (_characterInput.JumpCanceled) JumpEnd();
+
+            if (_characterInput.DashPerformed) Dash();
+
+            _dashTime -= Time.deltaTime;
+            if (_dashTime < 0 && _isDashing) DashEnd();
         }
 
         #endregion MonoBehaviour
@@ -142,6 +159,11 @@ namespace Features.Player
             // Top-right to down
             Debug.DrawRay(bounds.min + Vector3.up * yMargin + Vector3.right * (bounds.extents.y * 2) - Vector3.right * xMargin, 
                 Vector2.down * (yMargin * 2), rayColor);
+        }
+
+        private void CalculateDirection()
+        {
+            _direction = _characterInput.Horizontal != 0 ? _characterInput.Horizontal : _direction;
         }
 
         #endregion
@@ -197,10 +219,24 @@ namespace Features.Player
         }
         
         #endregion
+
+        private float _initialGravityScale;
+        private bool _isDashing;
+        private float _dashTime;
     
         private void Dash()
         {
-            Debug.Log("Dash");
+            _dashTime = dashDistance / dashSpeed;
+            _rb.velocity = new Vector2(dashSpeed * _direction, 0);
+            _isDashing = true;
+            _rb.gravityScale = 0;
+        }
+
+        private void DashEnd()
+        {
+            _rb.gravityScale = _initialGravityScale;
+            _rb.velocity = new Vector2(0, 0);
+            _isDashing = false;
         }
     }
 }

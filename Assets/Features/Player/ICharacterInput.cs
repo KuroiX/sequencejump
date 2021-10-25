@@ -11,5 +11,7 @@
         
         float JumpEndTimeStamp { get; }
         
+        bool DashPerformed { get; }
+        
     }
 }

@@ -1,14 +1,10 @@
-using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Features.Player
 {
-    // TODO: whole queue functionality really
-    public class QueueProcessor : MonoBehaviour, ICharacterInput
+    public class StandardInput : MonoBehaviour, ICharacterInput
     {
-        private ResettableQueue<Action> _actionQueue = new ResettableQueue<Action>();
-        
         private InputManager _inputManager;
 
         private void Awake()
@@ -24,7 +20,9 @@ namespace Features.Player
 
         private void InitializeInput()
         {
-            // TODO: "Action" input
+            _inputManager.PlayerMovement.Jump.performed += Jump;
+            _inputManager.PlayerMovement.Jump.canceled += JumpEnd;
+            _inputManager.PlayerMovement.Dash.performed += Dash;
             
             _inputManager.PlayerMovement.Move.performed += Move;
             _inputManager.PlayerMovement.Move.canceled += Move;
@@ -37,7 +35,9 @@ namespace Features.Player
 
         private void TerminateInput()
         {
-            // TODO: "Action" input
+            _inputManager.PlayerMovement.Jump.performed -= Jump;
+            _inputManager.PlayerMovement.Jump.canceled -= JumpEnd;
+            _inputManager.PlayerMovement.Dash.performed -= Dash;
             
             _inputManager.PlayerMovement.Move.performed -= Move;
             _inputManager.PlayerMovement.Move.canceled -= Move;
@@ -48,32 +48,12 @@ namespace Features.Player
             Horizontal = ctx.ReadValue<float>();
         }
 
-        private void Action(InputAction.CallbackContext ctx)
-        {
-            // TODO: save currentAction in case of jump for short-hop
-            
-            Action currentAction = _actionQueue.Dequeue();
-
-            switch (currentAction)
-            {
-                case Player.Action.Jump:
-                    Jump(ctx);
-                    break;
-                case Player.Action.Dash:
-                    Dash(ctx);
-                    break;
-                default:
-                    throw new NotImplementedException(
-                        "An Action was dequeued that has not been implemented in QueueProcessor.cs");
-            }
-        }
-        
         private void Jump(InputAction.CallbackContext ctx)
         {
             JumpPerformed = true;
             JumpTimeStamp = Time.unscaledTime;
         }
-        
+
         private void JumpEnd(InputAction.CallbackContext ctx)
         {
             JumpCanceled = true;
@@ -84,7 +64,7 @@ namespace Features.Player
         {
             DashPerformed = true;
         }
-
+        
         private void LateUpdate()
         {
             JumpPerformed = false;
