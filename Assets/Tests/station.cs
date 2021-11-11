@@ -1,3 +1,4 @@
+using Features.Player;
 using Features.Station;
 using NUnit.Framework;
 
@@ -10,16 +11,17 @@ namespace Tests
         public void does_not_reset_queue_when_not_current_station()
         {
             // Arrange
-            Station station1 = new Station();
-            Station station2 = new Station();
-            ResettableQueue<int> queue = new ResettableQueue<int>();
+            
+            ResettableQueue<Action> queue = new ResettableQueue<Action>();
+            Station station1 = new Station(queue);
+            Station station2 = new Station(queue);
             
             station1.OpenStation();
-            queue.Enqueue(1);
+            queue.Enqueue(Action.Dash);
             queue.Dequeue();
 
             // Act
-            station2.HandleOnTriggerEnter(queue);
+            station2.HandleOnTriggerEnter();
             
             // Assert
             Assert.AreEqual(true, queue.IsEmpty());

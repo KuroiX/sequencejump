@@ -1,24 +1,33 @@
+using System;
 using UnityEngine;
+using Action = Features.Player.Action;
 
 namespace Features.Station
 {
     public class StationBehaviour : MonoBehaviour
     {
-        private Station _station;
+        public static event EventHandler StationEntered;
+        public static event EventHandler StationExited;
+
+        [SerializeField] private ActionCount[] actionCount;
         
+        private Station _station;
+
         private void Start()
         {
-            _station = new Station();
+            _station = new Station(new ResettableQueue<Action>());
         }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
-            _station.HandleOnTriggerEnter(new ResettableQueue<int>());
+            _station.HandleOnTriggerEnter();
+            StationEntered?.Invoke(this, new StationEventArgs(_station));
         }
 
-        public void OpenStation()
+        private void OnTriggerExit2D(Collider2D other)
         {
-            _station.OpenStation();
+            StationExited?.Invoke(this, EventArgs.Empty);
         }
+        
     }
 }
