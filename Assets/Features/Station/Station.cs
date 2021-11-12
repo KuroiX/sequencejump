@@ -1,44 +1,55 @@
-using System.Collections.Generic;
-using Features.Player;
+using Features.Actions;
+using Features.Queue;
 
 namespace Features.Station
 {
     public class Station
     {
-        private static Station _currentStation;
+        public static Station CurrentStation { get; private set; }
 
         public readonly ActionCounter ActionCounter;
 
-        private ResettableQueue<Action> _queue;
+        // Optional
+        private int _maxAssignableCount;
+        public int AssignableCount;
+        public bool HasAssignableCount;
+        
+        private ResettableQueue<CharacterAction> _queue;
 
-        public Station(ResettableQueue<Action> queue)
+        public Station(StationSettings settings, ResettableQueue<CharacterAction> queue)
         {
+            _maxAssignableCount = settings.maxAssignableActions;
+            AssignableCount = _maxAssignableCount;
+            HasAssignableCount = _maxAssignableCount != 0;
+            
             _queue = queue;
-            ActionCounter = new ActionCounter();
+            
+            ActionCounter = new ActionCounter(settings.actionCounts);
         }
 
         public void OpenStation()
         {
-            if (_currentStation != this)
+            if (CurrentStation != this)
             {
                 // empty queue
             }
             
-            _currentStation = this;
+            CurrentStation = this;
         }
 
         public void HandleOnTriggerEnter()
         {
-            if (_currentStation == this)
+            if (CurrentStation == this)
             {
                 _queue.ResetQueue();
             }
         }
 
         // Called from button/interface?
-        public void EnqueueAction(Action action)
+        public void EnqueueAction(CharacterAction characterAction)
         {
-            _queue.Enqueue(action);
+            _queue.Enqueue(characterAction);
+            ActionCounter.RemoveAction(characterAction);
         }
     }
 }

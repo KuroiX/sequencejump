@@ -1,6 +1,7 @@
 using System;
+using Features.Actions;
+using Features.Queue;
 using UnityEngine;
-using Action = Features.Player.Action;
 
 namespace Features.Station
 {
@@ -9,13 +10,13 @@ namespace Features.Station
         public static event EventHandler StationEntered;
         public static event EventHandler StationExited;
 
-        [SerializeField] private ActionCount[] actionCount;
+        [SerializeField] private StationSettings settings;
         
         private Station _station;
 
         private void Start()
         {
-            _station = new Station(new ResettableQueue<Action>());
+            _station = new Station(settings, new ResettableQueue<CharacterAction>());
         }
 
         private void OnTriggerEnter2D(Collider2D other)
@@ -23,7 +24,7 @@ namespace Features.Station
             _station.HandleOnTriggerEnter();
             StationEntered?.Invoke(this, new StationEventArgs(_station));
         }
-
+        
         private void OnTriggerExit2D(Collider2D other)
         {
             StationExited?.Invoke(this, EventArgs.Empty);

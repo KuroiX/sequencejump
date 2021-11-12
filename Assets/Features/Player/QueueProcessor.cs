@@ -1,4 +1,6 @@
 using System;
+using Features.Actions;
+using Features.Queue;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,7 +9,7 @@ namespace Features.Player
     // TODO: whole queue functionality really
     public class QueueProcessor : MonoBehaviour, ICharacterInput
     {
-        private ResettableQueue<Action> _actionQueue = new ResettableQueue<Action>();
+        private ResettableQueue<CharacterAction> _actionQueue = new ResettableQueue<CharacterAction>();
         
         private InputManager _inputManager;
 
@@ -52,20 +54,20 @@ namespace Features.Player
         {
             // TODO: save currentAction in case of jump for short-hop
             
-            Action currentAction = _actionQueue.Dequeue();
+            CharacterAction currentAction = _actionQueue.Dequeue();
 
-            switch (currentAction)
-            {
-                case Player.Action.Jump:
-                    Jump(ctx);
-                    break;
-                case Player.Action.Dash:
-                    Dash(ctx);
-                    break;
-                default:
-                    throw new NotImplementedException(
-                        "An Action was dequeued that has not been implemented in QueueProcessor.cs");
-            }
+            // switch (currentAction)
+            // {
+            //     case Player.Action.Jump:
+            //         Jump(ctx);
+            //         break;
+            //     case Player.Action.Dash:
+            //         Dash(ctx);
+            //         break;
+            //     default:
+            //         throw new NotImplementedException(
+            //             "An Action was dequeued that has not been implemented in QueueProcessor.cs");
+            // }
         }
         
         private void Jump(InputAction.CallbackContext ctx)

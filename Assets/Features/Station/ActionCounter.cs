@@ -1,23 +1,31 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Features.Player;
+using Features.Actions;
 
 namespace Features.Station
 {
     public class ActionCounter
     {
-        private readonly Dictionary<Action, int> _availableActions;
+        private readonly Dictionary<CharacterAction, int> _availableActions;
 
-        public Dictionary<Action, int> CurrentAvailableActions
-        {
-            get;
-            private set;
-        }
+        private Dictionary<CharacterAction, int> CurrentAvailableActions;
 
-        public ActionCounter()
+        public ActionCounter(ActionCount[] count)
         {
-            _availableActions = new Dictionary<Action, int>();
-            CurrentAvailableActions = new Dictionary<Action, int>();
+            _availableActions = new Dictionary<CharacterAction, int>();
+            CurrentAvailableActions = new Dictionary<CharacterAction, int>();
+            
+            foreach (var value in CharacterAction.CharacterActions.Values)
+            {
+                _availableActions[value] = 0;
+            }
+
+            for (int i = 0; i < count.Length; i++)
+            {
+                _availableActions[count[i].CharacterAction] = count[i].Count;
+            }
+            
+            ResetCurrentAvailableActions();
         }
         
         private void ResetCurrentAvailableActions()
@@ -29,22 +37,22 @@ namespace Features.Station
             }
         }
 
-        public bool RemoveAction(Action action)
+        public bool RemoveAction(CharacterAction characterAction)
         {
-            bool hasActionLeft = HasActionLeft(action);
+            bool hasActionLeft = HasActionLeft(characterAction);
             
             if (hasActionLeft)
             {
-                CurrentAvailableActions[action]--;
+                CurrentAvailableActions[characterAction]--;
             }
    
             return hasActionLeft;
         }
 
-        public bool HasActionLeft(Action action)
+        public bool HasActionLeft(CharacterAction characterAction)
         {
-            return !CurrentAvailableActions.Keys.Contains(action) &&
-                   CurrentAvailableActions[action] != 0;
+            return CurrentAvailableActions.Keys.Contains(characterAction) &&
+                   CurrentAvailableActions[characterAction] != 0;
         }
     }
 }

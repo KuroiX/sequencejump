@@ -1,10 +1,12 @@
-﻿using Features.Player;
+﻿using System;
+using Features.Actions;
 
 namespace Features.Station
 {
+    [Serializable]
     public struct ActionCount
     {
-        public Action Action;
+        public CharacterAction CharacterAction;
         public int Count;
     }
 }
