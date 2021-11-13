@@ -17,25 +17,31 @@ namespace Features.Station.UI
         
         private void OnEnable()
         {
-            StationBehaviour.StationEntered += StationEnteredBehaviour;
-            StationBehaviour.StationExited += StationExitedBehaviour;
+            Station.StationEntered += StationEnteredBehaviour;
+            Station.StationExited += StationExitedBehaviour;
+            
+            Station.StationOpened += StationExitedBehaviour;
+            Station.StationClosed += StationEnteredBehaviour;
         }
 
         private void OnDisable()
         {
-            StationBehaviour.StationEntered -= StationEnteredBehaviour;
-            StationBehaviour.StationExited -= StationExitedBehaviour;
+            Station.StationEntered -= StationEnteredBehaviour;
+            Station.StationExited -= StationExitedBehaviour;
+            
+            Station.StationOpened -= StationExitedBehaviour;
+            Station.StationClosed -= StationEnteredBehaviour;
         }
 
         private void StationEnteredBehaviour(object sender, EventArgs args)
         {
-            _buttonComponent.onClick.AddListener(() => ((StationEventArgs) args).Station.OpenStation());
+            _buttonComponent.onClick.AddListener(((StationEventArgs) args).Station.OpenStation);
             buttonObject.SetActive(true);
         }
 
         private void StationExitedBehaviour(object sender, EventArgs args)
         {
-            _buttonComponent.onClick.RemoveListener(() => ((StationEventArgs) args).Station.OpenStation());
+            _buttonComponent.onClick.RemoveListener(((StationEventArgs) args).Station.OpenStation);
             buttonObject.SetActive(false);
         }
     }

@@ -7,9 +7,6 @@ namespace Features.Station
 {
     public class StationBehaviour : MonoBehaviour
     {
-        public static event EventHandler StationEntered;
-        public static event EventHandler StationExited;
-
         [SerializeField] private StationSettings settings;
         
         private Station _station;
@@ -22,12 +19,11 @@ namespace Features.Station
         private void OnTriggerEnter2D(Collider2D other)
         {
             _station.HandleOnTriggerEnter();
-            StationEntered?.Invoke(this, new StationEventArgs(_station));
         }
         
         private void OnTriggerExit2D(Collider2D other)
         {
-            StationExited?.Invoke(this, EventArgs.Empty);
+            _station.HandleOnTriggerExit();
         }
         
     }

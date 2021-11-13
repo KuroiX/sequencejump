@@ -8,7 +8,7 @@ namespace Features.Station
     {
         private readonly Dictionary<CharacterAction, int> _availableActions;
 
-        private Dictionary<CharacterAction, int> CurrentAvailableActions;
+        public Dictionary<CharacterAction, int> CurrentAvailableActions;
 
         public ActionCounter(ActionCount[] count)
         {
@@ -28,7 +28,7 @@ namespace Features.Station
             ResetCurrentAvailableActions();
         }
         
-        private void ResetCurrentAvailableActions()
+        public void ResetCurrentAvailableActions()
         {
             foreach (var key in _availableActions.Keys)
             {

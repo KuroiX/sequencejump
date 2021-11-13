@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b46101a4411b5624e8ebf88ae4349f45, type: 3}
   m_Name: Dash
   m_EditorClassIdentifier: 
-  Name: 
+  Name: Dash
