@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Features.Actions;
+using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace Features.Station
@@ -7,6 +8,6 @@ namespace Features.Station
     public struct StationSettings
     {
         public int maxAssignableActions;
-        [SerializeField] public ActionCount[] actionCounts;
+        [SerializeField] public ActionCounter[] actionCounts;
     }
 }

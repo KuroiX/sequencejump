@@ -23,7 +23,7 @@ namespace Features.Station.UI
         {
             _button.onClick.AddListener(() => Station.CurrentStation.EnqueueAction(action));
             Station.StationChanged += SetText;
-            _text.text = action.Name + " x" + Station.CurrentStation.ActionCounter.CurrentAvailableActions[action];
+            _text.text = action.Name + " x" + Station.CurrentStation.ActionCounter.CurrentAvailableInstances[action];
         }
 
         private void OnDisable()
@@ -34,7 +34,7 @@ namespace Features.Station.UI
 
         private void SetText(object sender, EventArgs args)
         {
-            _text.text = action.Name + " x" + ((StationEventArgs) args).Station.ActionCounter.CurrentAvailableActions[action];
+            _text.text = action.Name + " x" + ((StationEventArgs) args).Station.ActionCounter.CurrentAvailableInstances[action];
         }
     }
 }

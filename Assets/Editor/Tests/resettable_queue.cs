@@ -1,8 +1,9 @@
 ﻿using Features.Queue;
 using NUnit.Framework;
 
-namespace Tests
+namespace Editor.Tests
 {
+    [TestFixture]
     public class resettable_queue
     {
         private enum E

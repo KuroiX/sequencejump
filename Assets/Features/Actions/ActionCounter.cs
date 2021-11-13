@@ -1,11 +1,12 @@
 ﻿using System;
-using Features.Actions;
+using UnityEngine;
 
-namespace Features.Station
+namespace Features.Actions
 {
     [Serializable]
-    public struct ActionCount
+    public struct ActionCounter
     {
+        [HideInInspector]
         public CharacterAction CharacterAction;
         public int Count;
     }

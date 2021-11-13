@@ -1,7 +1,7 @@
 using System;
+using System.Linq;
 using Features.Actions;
 using Features.Queue;
-using UnityEngine;
 
 namespace Features.Station
 {
@@ -16,7 +16,7 @@ namespace Features.Station
         public static event EventHandler StationExited;
 
         
-        public readonly ActionCounter ActionCounter;
+        public readonly InstanceCounter<CharacterAction> ActionCounter;
 
         // Optional
         public readonly bool HasAssignableCount;
@@ -34,8 +34,34 @@ namespace Features.Station
             HasAssignableCount = _maxAssignableCount != 0;
             
             _queue = queue;
+
+            // TODO: UGLY AF, SHOULD BE MOVED TO CUSTOM INSPECTOR ASAP
+            int size = CharacterAction.CharacterActions.Count;
+            int inputSize = settings.actionCounts.Length;
+
+            CharacterAction[] actions = new CharacterAction[size];
+            int[] count = new int[size];
             
-            ActionCounter = new ActionCounter(settings.actionCounts);
+            int i = 0;
+            for (; i < inputSize; i++)
+            {
+                actions[i] = settings.actionCounts[i].CharacterAction;
+                count[i] = settings.actionCounts[i].Count;
+            }
+
+            foreach (var value in CharacterAction.CharacterActions.Values)
+            {
+                if (!actions.Contains(value))
+                {
+                    actions[i] = value;
+                    count[i] = 0;
+                    i++;
+                }
+            }
+            // --------------------------------------------------------
+            
+            ActionCounter = new InstanceCounter<CharacterAction>(actions, count);
+            
             _args = new StationEventArgs(this);
         }
 
@@ -97,7 +123,7 @@ namespace Features.Station
         
         public void EnqueueAction(CharacterAction characterAction)
         {
-            bool isAllowedToEnqueue = (!HasAssignableCount || AssignableCount > 0) && ActionCounter.RemoveAction(characterAction);
+            bool isAllowedToEnqueue = (!HasAssignableCount || AssignableCount > 0) && ActionCounter.RemoveInstance(characterAction);
             
             if (!isAllowedToEnqueue) return;
             
@@ -110,7 +136,7 @@ namespace Features.Station
         public void ResetStation()
         {
             _queue.Clear();
-            ActionCounter.ResetCurrentAvailableActions();
+            ActionCounter.ResetCurrentAvailableInstances();
             AssignableCount = _maxAssignableCount;
             
             OnStationChanged();

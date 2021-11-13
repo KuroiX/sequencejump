@@ -13540,11 +13540,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   settings:
     maxAssignableActions: 3
-    actionCounts:
-    - CharacterAction: {fileID: 11400000, guid: c17468274298c9344ba03303e056c843, type: 2}
-      Count: 3
-    - CharacterAction: {fileID: 11400000, guid: c5a3fa996b5c5844e9441966365ca7b5, type: 2}
-      Count: 2
+    actionCounts: []
 --- !u!61 &504723518
 BoxCollider2D:
   m_ObjectHideFlags: 0

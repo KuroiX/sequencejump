@@ -1,4 +1,3 @@
-using System;
 using Features.Actions;
 using Features.Queue;
 using UnityEngine;
@@ -25,6 +24,5 @@ namespace Features.Station
         {
             _station.HandleOnTriggerExit();
         }
-        
     }
 }
