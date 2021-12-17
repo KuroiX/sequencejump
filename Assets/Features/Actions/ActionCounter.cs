@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Features.Actions
 {
@@ -7,7 +8,7 @@ namespace Features.Actions
     public struct ActionCounter
     {
         [HideInInspector]
-        public CharacterAction CharacterAction;
-        public int Count;
+        public CharacterAction characterAction;
+        public int count;
     }
 }
