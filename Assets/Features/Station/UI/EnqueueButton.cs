@@ -21,15 +21,20 @@ namespace Features.Station.UI
         
         private void OnEnable()
         {
-            _button.onClick.AddListener(() => Station.CurrentStation.EnqueueAction(action));
+            _button.onClick.AddListener(Enqueue);
             Station.StationChanged += SetText;
             _text.text = action.Name + " x" + Station.CurrentStation.ActionCounter.CurrentCount[action];
         }
 
         private void OnDisable()
         {
-            _button.onClick.RemoveAllListeners();
+            _button.onClick.RemoveListener(Enqueue);
             Station.StationChanged -= SetText;
+        }
+
+        private void Enqueue()
+        {
+            Station.CurrentStation.EnqueueAction(action);
         }
 
         private void SetText(object sender, EventArgs args)
