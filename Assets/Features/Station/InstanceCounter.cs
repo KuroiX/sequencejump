@@ -1,50 +1,60 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Features.Station
 {
     public class InstanceCounter<T>
     {
-        private readonly Dictionary<T, int> _availableInstances;
+        private readonly Dictionary<T, int> _availableCount;
 
-        public Dictionary<T, int> CurrentAvailableInstances;
+        public Dictionary<T, int> CurrentCount { get; }
 
         public InstanceCounter(T[] instance, int[] count)
         {
-            _availableInstances = new Dictionary<T, int>();
-            CurrentAvailableInstances = new Dictionary<T, int>();
+            _availableCount = new Dictionary<T, int>();
+            CurrentCount = new Dictionary<T, int>();
+
+            if (count.Length != instance.Length)
+            {
+                throw new FormatException(
+                    $"Instance length {instance.Length} and count length {count.Length} must be equal.");
+            }
 
             for (int i = 0; i < count.Length; i++)
             {
-                _availableInstances[instance[i]] = count[i];
+                if (count[i] < 0)
+                {
+                    throw new ArgumentException($"Instance count at index {i} is negative, but should only be positive.");
+                }
+                _availableCount[instance[i]] = count[i];
+                CurrentCount[instance[i]] = count[i];
             }
-            
-            ResetCurrentAvailableInstances();
         }
         
-        public void ResetCurrentAvailableInstances()
+        public void Reset()
         {
-            foreach (var key in _availableInstances.Keys)
+            foreach (var key in _availableCount.Keys)
             {
-                int amount = _availableInstances[key];
-                CurrentAvailableInstances[key] = amount;
+                int amount = _availableCount[key];
+                CurrentCount[key] = amount;
             }
         }
 
-        public bool RemoveInstance(T instance)
+        public bool Remove(T instance)
         {
-            bool hasInstanceLeft = HasInstanceLeft(instance);
+            bool hasInstanceLeft = HasLeft(instance);
             
             if (hasInstanceLeft)
             {
-                CurrentAvailableInstances[instance]--;
+                CurrentCount[instance]--;
             }
    
             return hasInstanceLeft;
         }
 
-        public bool HasInstanceLeft(T instance)
+        public bool HasLeft(T instance)
         {
-            return CurrentAvailableInstances[instance] != 0;
+            return CurrentCount[instance] != 0;
         }
     }
 }

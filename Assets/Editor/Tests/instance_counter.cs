@@ -1,4 +1,5 @@
-﻿using Features.Station;
+﻿using System;
+using Features.Station;
 using NUnit.Framework;
 
 namespace Editor.Tests
@@ -6,7 +7,7 @@ namespace Editor.Tests
     [TestFixture]
     public class instance_counter
     {
-        private readonly int[] _t = {0, 1, 2, 3, 4};
+        private readonly int[] _instances = {0, 1, 2, 3, 4};
         private readonly int[] _counts = {1, 2, 3, 4, 5};
 
         private InstanceCounter<int> _myCounter;
@@ -14,59 +15,89 @@ namespace Editor.Tests
         [SetUp]
         public void Init()
         {
-           _myCounter = new InstanceCounter<int>(_t, _counts);
+           _myCounter = new InstanceCounter<int>(_instances, _counts);
+        }
+        
+        [Test]
+        public void throws_argument_exception_with_negative_count_on_instantiation()
+        {
+            Assert.Throws<ArgumentException>(() =>
+            {
+                InstanceCounter<int> myCounter = new InstanceCounter<int>(new[] {0}, new[] {-1});
+            });
+        }
+        
+        [Test]
+        public void throws_format_exception_with_longer_instance_array_size_on_instantiation()
+        {
+            Assert.Throws<FormatException>(() =>
+            {
+                InstanceCounter<int> myCounter = new InstanceCounter<int>(new[] {0, 0}, new[] {0});
+            });
+        }
+        
+        [Test]
+        public void throws_format_exception_with_longer_count_array_size_on_instantiation()
+        {
+            Assert.Throws<FormatException>(() =>
+            {
+                InstanceCounter<int> myCounter = new InstanceCounter<int>(new[] {0}, new[] {0, 0});
+            });
         }
 
         [Test]
-        public void has_correct_item_counts_after_instantiation()
+        public void has_correct_instance_counts_after_instantiation()
         {
-            for (int i = 0; i < _counts.Length; i++)
+            for (int i = 0; i < _instances.Length; i++)
             {
-                Assert.AreEqual(i + 1, _myCounter.CurrentAvailableInstances[i]);
+                Assert.AreEqual(_counts[i], _myCounter.CurrentCount[_instances[i]]);
             }
         }
 
         [Test]
-        [TestCase(0)]
-        [TestCase(1)]
-        [TestCase(2)]
-        [TestCase(3)]
-        [TestCase(4)]
-        public void returns_correct_boolean_on_remove_item(int value)
+        public void returns_correct_boolean_on_remove()
         {
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < _instances.Length; i++)
             {
-                var before = _myCounter.CurrentAvailableInstances[value];
-                Assert.AreEqual(before > 0, _myCounter.RemoveInstance(value));
+                int before = _counts[i];
+                Assert.AreEqual(before > 0, _myCounter.Remove(i));
+            }
+        }
+        
+        [Test]
+        public void returns_correct_boolean_on_has_left()
+        {
+            for (int i = 0; i < _instances.Length; i++)
+            {
+                int before = _counts[i];
+                Assert.AreEqual(before > 0, _myCounter.HasLeft(i));
             }
         }
 
         [Test]
-        [TestCase(0)]
-        [TestCase(1)]
-        [TestCase(2)]
-        [TestCase(3)]
-        [TestCase(4)]
-        public void has_correct_item_count_after_remove(int value)
+        public void has_correct_item_count_after_remove()
         {
-            int before = _myCounter.CurrentAvailableInstances[value];
-            _myCounter.RemoveInstance(value);
-            Assert.AreEqual(before-1, _myCounter.CurrentAvailableInstances[value]);
+            for (int i = 0; i < _instances.Length; i++)
+            {
+                int before = _counts[i];
+                _myCounter.Remove(_instances[i]);
+                Assert.AreEqual(before - 1, _myCounter.CurrentCount[_instances[i]]);
+            }
         }
 
         [Test]
         public void has_correct_item_count_after_reset()
         {
-            for (int i = 0; i < _t.Length; i++)
+            for (int i = 0; i < _instances.Length; i++)
             {
-                for (int j = 0; _myCounter.RemoveInstance(i) || j < _t.Length * 2; j++);
+                _myCounter.Remove(_instances[i]);
             }
             
-            _myCounter.ResetCurrentAvailableInstances();
+            _myCounter.Reset();
             
-            for (int i = 0; i < _counts.Length; i++)
+            for (int i = 0; i < _instances.Length; i++)
             {
-                Assert.AreEqual(i + 1, _myCounter.CurrentAvailableInstances[i]);
+                Assert.AreEqual(_counts[i], _myCounter.CurrentCount[_instances[i]]);
             }
         }
     }
