@@ -14,12 +14,12 @@ namespace Features.Station.UI
         
         private void OnEnable()
         {
-            _button.onClick.AddListener(Station.CurrentStation.ResetStation);
+            _button.onClick.AddListener(Station.CurrentStation.Reset);
         }
 
         private void OnDisable()
         {
-            _button.onClick.RemoveListener(Station.CurrentStation.ResetStation);
+            _button.onClick.RemoveListener(Station.CurrentStation.Reset);
         }
     }
 }

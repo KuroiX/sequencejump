@@ -39,7 +39,7 @@ namespace Features.Station.UI
 
         private void UpdateText(object sender, EventArgs args)
         {
-            _text.text = ((StationEventArgs) args).Station.AssignableCount.ToString();
+            _text.text = Station.CurrentStation.AssignableCount.ToString();
         }
     }
 }

@@ -35,13 +35,13 @@ namespace Features.Station.UI
 
         private void StationEnteredBehaviour(object sender, EventArgs args)
         {
-            _buttonComponent.onClick.AddListener(((StationEventArgs) args).Station.OpenStation);
+            _buttonComponent.onClick.AddListener(((StationEventArgs) args).Station.Open);
             buttonObject.SetActive(true);
         }
 
         private void StationExitedBehaviour(object sender, EventArgs args)
         {
-            _buttonComponent.onClick.RemoveListener(((StationEventArgs) args).Station.OpenStation);
+            _buttonComponent.onClick.RemoveListener(((StationEventArgs) args).Station.Open);
             buttonObject.SetActive(false);
         }
     }

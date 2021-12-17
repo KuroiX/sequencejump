@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using Features.Actions;
 using Features.Queue;
 
@@ -16,96 +15,59 @@ namespace Features.Station
         public static event EventHandler StationExited;
 
         
-        public readonly InstanceCounter<CharacterAction> ActionCounter;
+        public InstanceCounter<ICharacterAction> ActionCounter { get; }
 
-        // Optional
-        public readonly bool HasAssignableCount;
-        public int AssignableCount;
+        public bool HasAssignableCount => _maxAssignableCount > 0;
+        public int AssignableCount { get; private set; }
         private readonly int _maxAssignableCount;
 
-        private ResettableQueue<CharacterAction> _queue;
-        // :(
-        private readonly StationEventArgs _args;
+        private readonly ResettableQueue<ICharacterAction> _queue;
 
-        public Station(StationSettings settings, ResettableQueue<CharacterAction> queue)
+        public Station(
+            ResettableQueue<ICharacterAction> queue, 
+            InstanceCounter<ICharacterAction> counter,
+            int maxAssignableCount = 0)
         {
-            _maxAssignableCount = settings.maxAssignableActions;
-            AssignableCount = _maxAssignableCount;
-            HasAssignableCount = _maxAssignableCount != 0;
+            if (maxAssignableCount < 0)
+            {
+                throw new ArgumentException($"maxAssignableCount ({maxAssignableCount}) can never be negative.");
+            }
             
             _queue = queue;
-
-            // TODO: UGLY AF, SHOULD BE MOVED TO CUSTOM INSPECTOR ASAP
-            int size = CharacterAction.CharacterActions.Count;
-            int inputSize = settings.actionCounts.Length;
-
-            CharacterAction[] actions = new CharacterAction[size];
-            int[] count = new int[size];
+            ActionCounter = counter;
             
-            int i = 0;
-            for (; i < inputSize; i++)
-            {
-                actions[i] = settings.actionCounts[i].CharacterAction;
-                count[i] = settings.actionCounts[i].Count;
-            }
-
-            foreach (var value in CharacterAction.CharacterActions.Values)
-            {
-                if (!actions.Contains(value))
-                {
-                    actions[i] = value;
-                    count[i] = 0;
-                    i++;
-                }
-            }
-            // --------------------------------------------------------
-            
-            ActionCounter = new InstanceCounter<CharacterAction>(actions, count);
-            
-            _args = new StationEventArgs(this);
+            _maxAssignableCount = maxAssignableCount;
+            AssignableCount = _maxAssignableCount;
         }
 
+        #region Event Methods
+        
         private void OnStationEntered()
         {
-            StationEntered?.Invoke(this, _args);
+            StationEntered?.Invoke(this, new StationEventArgs(this));
         }
         
         private void OnStationOpened()
         {
-            StationOpened?.Invoke(this, _args);
+            StationOpened?.Invoke(this, EventArgs.Empty);
         }
         
         private void OnStationChanged()
         {
-            StationChanged?.Invoke(this, _args);
+            StationChanged?.Invoke(this, EventArgs.Empty);
         }
 
         private void OnStationClosed()
         {
-            StationClosed?.Invoke(this, _args);
+            StationClosed?.Invoke(this, EventArgs.Empty);
         }
         
         private void OnStationExited()
         {
-            StationExited?.Invoke(this, _args);
+            StationExited?.Invoke(this, EventArgs.Empty);
         }
-
-        public void OpenStation()
-        {
-            if (CurrentStation != this)
-            {
-                _queue.Clear();
-                ResetStation();
-            }
-            
-            CurrentStation = this;
-            OnStationOpened();
-        }
-
-        public void CloseStation()
-        {
-            OnStationClosed();
-        }
+        
+        #endregion
         
         public void HandleOnTriggerEnter()
         {
@@ -115,31 +77,50 @@ namespace Features.Station
             }
             OnStationEntered();
         }
-
-        public void HandleOnTriggerExit()
+        
+        public void Open()
         {
-            OnStationExited();
+            if (CurrentStation != this)
+            {
+                Reset();
+                CurrentStation = this;
+            }
+            
+            OnStationOpened();
         }
         
-        public void EnqueueAction(CharacterAction characterAction)
+        public void Reset()
         {
-            bool isAllowedToEnqueue = (!HasAssignableCount || AssignableCount > 0) && ActionCounter.RemoveInstance(characterAction);
+            _queue.Clear();
+            ActionCounter.Reset();
+            AssignableCount = _maxAssignableCount;
+            
+            OnStationChanged();
+        }
+
+        public void EnqueueAction(ICharacterAction characterAction)
+        {
+            bool isAllowedToEnqueue = (!HasAssignableCount || AssignableCount > 0) && ActionCounter.Remove(characterAction);
             
             if (!isAllowedToEnqueue) return;
             
             _queue.Enqueue(characterAction);
-            AssignableCount -= 1;
+            if (HasAssignableCount)
+            {
+                AssignableCount -= 1;
+            }
             
             OnStationChanged();
         }
 
-        public void ResetStation()
+        public void Close()
         {
-            _queue.Clear();
-            ActionCounter.ResetCurrentAvailableInstances();
-            AssignableCount = _maxAssignableCount;
-            
-            OnStationChanged();
+            OnStationClosed();
+        }
+
+        public void HandleOnTriggerExit()
+        {
+            OnStationExited();
         }
     }
 }
