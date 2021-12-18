@@ -11,6 +11,10 @@ namespace Features.Actions
 
         public string Name;
 
+        [SerializeField]
+        private Sprite sprite;
+        public Sprite Sprite => sprite;
+
         private void OnEnable()
         {
             CharacterActions ??= new Dictionary<string, CharacterAction>();
