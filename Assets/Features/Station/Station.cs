@@ -64,7 +64,7 @@ namespace Features.Station
         
         private void OnStationExited()
         {
-            StationExited?.Invoke(this, EventArgs.Empty);
+            StationExited?.Invoke(this, new StationEventArgs(this));
         }
         
         #endregion

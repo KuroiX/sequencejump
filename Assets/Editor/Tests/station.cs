@@ -75,7 +75,7 @@ namespace Editor.Tests
         }
         
         [Test]
-        public void sends_relevant_station_as_event_args_in_station_entered_event_on_trigger_enter()
+        public void sends_relevant_station_as_event_args_in_station_entered_on_trigger_enter()
         {
             EventArgs myArgs = EventArgs.Empty;
             
@@ -331,6 +331,21 @@ namespace Editor.Tests
             _station.HandleOnTriggerExit();
             
             Assert.IsTrue(received);
+        }
+        
+        [Test]
+        public void sends_relevant_station_as_event_args_in_station_exited_on_trigger_exit()
+        {
+            EventArgs myArgs = EventArgs.Empty;
+            
+            Station.StationExited += (sender, args) => { myArgs = args; };
+            _station.HandleOnTriggerExit();
+            
+            Assert.AreEqual(typeof(StationEventArgs), myArgs.GetType());
+
+            StationEventArgs args = (StationEventArgs) myArgs;
+            
+            Assert.AreEqual(_station, args.Station);
         }
     }
 }

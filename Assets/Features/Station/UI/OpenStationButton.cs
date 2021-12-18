@@ -20,8 +20,8 @@ namespace Features.Station.UI
             Station.StationEntered += StationEnteredBehaviour;
             Station.StationExited += StationExitedBehaviour;
             
-            Station.StationOpened += StationExitedBehaviour;
-            Station.StationClosed += StationEnteredBehaviour;
+            Station.StationOpened += StationOpenedBehaviour;
+            Station.StationClosed += StationClosedBehaviour;
         }
 
         private void OnDisable()
@@ -29,8 +29,8 @@ namespace Features.Station.UI
             Station.StationEntered -= StationEnteredBehaviour;
             Station.StationExited -= StationExitedBehaviour;
             
-            Station.StationOpened -= StationExitedBehaviour;
-            Station.StationClosed -= StationEnteredBehaviour;
+            Station.StationOpened -= StationOpenedBehaviour;
+            Station.StationClosed -= StationClosedBehaviour;
         }
 
         private void StationEnteredBehaviour(object sender, EventArgs args)
@@ -43,6 +43,16 @@ namespace Features.Station.UI
         {
             _buttonComponent.onClick.RemoveListener(((StationEventArgs) args).Station.Open);
             buttonObject.SetActive(false);
+        }
+        
+        private void StationOpenedBehaviour(object sender, EventArgs args)
+        {
+            buttonObject.SetActive(false);
+        }
+        
+        private void StationClosedBehaviour(object sender, EventArgs args)
+        {
+            buttonObject.SetActive(true);
         }
     }
 }
