@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: Dash
   m_EditorClassIdentifier: 
   Name: Dash
+  sprite: {fileID: 21300000, guid: bf7e191e581513f4a9532f02bb68a116, type: 3}

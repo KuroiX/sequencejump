@@ -12,6 +12,26 @@ namespace Features.Queue
         [SerializeField] private Image third;
         [SerializeField] private Image forth;
 
+        private ResettableQueue<ICharacterAction> _queue;
+
+        private void OnEnable()
+        {
+            _queue.ItemEnqueued += OnItemEnqueued;
+            _queue.ItemDequeued += OnItemDequeued;
+            
+            _queue.QueueReset += OnQueueReset;
+            _queue.QueueCleared += OnQueueCleared;
+        }
+
+        private void OnDisable()
+        {
+            _queue.ItemEnqueued -= OnItemEnqueued;
+            _queue.ItemDequeued -= OnItemDequeued;
+            
+            _queue.QueueReset -= OnQueueReset;
+            _queue.QueueCleared -= OnQueueCleared;
+        }
+
         private void OnItemEnqueued(object sender, EventArgs args)
         {
             
@@ -22,22 +42,26 @@ namespace Features.Queue
             first.sprite = second.sprite;
             second.sprite = third.sprite;
             third.sprite = forth.sprite;
-            
-            ResettableQueue<ICharacterAction> queue = ((QueueEventArgs<ICharacterAction>)args).Queue;
 
-            ICharacterAction action = queue.Peek(3);
+            ICharacterAction action = _queue.Peek(3);
 
             forth.sprite = action.Sprite;
         }
         
         private void OnQueueReset(object sender, EventArgs args)
         {
-            
+            first.sprite = null;
+            second.sprite = _queue.Peek()?.Sprite;
+            third.sprite = _queue.Peek(1)?.Sprite;
+            forth.sprite = _queue.Peek(2)?.Sprite;
         }
         
         private void OnQueueCleared(object sender, EventArgs args)
         {
-            
+            first.sprite = null;
+            second.sprite = null;
+            third.sprite = null;
+            forth.sprite = null;
         }
     }
 }
