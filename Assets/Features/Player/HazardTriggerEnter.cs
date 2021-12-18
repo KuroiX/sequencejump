@@ -5,6 +5,13 @@ namespace Features.Player
     public class HazardTriggerEnter : MonoBehaviour
     {
         [SerializeField] private LayerMask hazardLayerMask;
+
+        private Vector3 _position;
+
+        private void Awake()
+        {
+            _position = transform.position;
+        }
         
         private void OnTriggerEnter2D(Collider2D other)
         {
@@ -12,7 +19,7 @@ namespace Features.Player
 
             if (otherMask == hazardLayerMask)
             {
-                Debug.Log("You died!");
+                transform.position = _position;
             }
         }
     }
