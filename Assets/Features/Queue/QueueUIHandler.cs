@@ -14,6 +14,11 @@ namespace Features.Queue
 
         private ResettableQueue<ICharacterAction> _queue;
 
+        private void Awake()
+        {
+            _queue = FindObjectOfType<QueueHolder>().Queue;
+        }
+
         private void OnEnable()
         {
             _queue.ItemEnqueued += OnItemEnqueued;

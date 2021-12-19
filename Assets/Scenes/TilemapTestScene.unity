@@ -552,6 +552,23 @@ TilemapCollider2D:
   m_Offset: {x: 0, y: 0}
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0.00001
+--- !u!1 &211611929 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7570952696846952837, guid: 3528356ecdebd3549801506f2eef8a67, type: 3}
+  m_PrefabInstance: {fileID: 599156209}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &211611930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 211611929}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0abf6b8f6f7e3e64d9ad3d4b043943d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &216428877
 GameObject:
   m_ObjectHideFlags: 0
@@ -15171,8 +15188,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2020760095}
+  - component: {fileID: 2020760096}
   m_Layer: 5
-  m_Name: QueueHolder
+  m_Name: QueueUIHandler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15202,6 +15220,22 @@ RectTransform:
   m_AnchoredPosition: {x: 6.55, y: 176}
   m_SizeDelta: {x: 461.1, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2020760096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2020760094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9bb606fd67184a7c99ccf03e37930851, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  first: {fileID: 1831426599}
+  second: {fileID: 714360504}
+  third: {fileID: 1538405530}
+  forth: {fileID: 1008357898}
 --- !u!1 &2023645363
 GameObject:
   m_ObjectHideFlags: 0
