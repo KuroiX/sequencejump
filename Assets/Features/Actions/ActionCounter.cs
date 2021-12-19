@@ -7,7 +7,6 @@ namespace Features.Actions
     [Serializable]
     public struct ActionCounter
     {
-        [HideInInspector]
         public CharacterAction characterAction;
         public int count;
     }

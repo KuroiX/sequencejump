@@ -16,6 +16,7 @@ namespace Features.Queue
 
         private void Awake()
         {
+            // TODO: better injection? :(
             _queue = FindObjectOfType<QueueHolder>().Queue;
         }
 
@@ -39,7 +40,23 @@ namespace Features.Queue
 
         private void OnItemEnqueued(object sender, EventArgs args)
         {
-            
+            int currentPosition = _queue.Count - 1;
+
+            switch (currentPosition)
+            {
+                case 0:
+                    second.sprite = _queue.Peek().Sprite;
+                    break;
+                case 1:
+                    third.sprite = _queue.Peek(1).Sprite;
+                    break;
+                case 2:
+                    forth.sprite = _queue.Peek(2).Sprite;
+                    break;
+                default:
+                    Debug.Log("Out of range");
+                    break;
+            }
         }
         
         private void OnItemDequeued(object sender, EventArgs args)
@@ -50,7 +67,8 @@ namespace Features.Queue
 
             ICharacterAction action = _queue.Peek(3);
 
-            forth.sprite = action.Sprite;
+            forth.sprite = action?.Sprite;
+            Debug.Log("Dequeued");
         }
         
         private void OnQueueReset(object sender, EventArgs args)
@@ -59,6 +77,7 @@ namespace Features.Queue
             second.sprite = _queue.Peek()?.Sprite;
             third.sprite = _queue.Peek(1)?.Sprite;
             forth.sprite = _queue.Peek(2)?.Sprite;
+            Debug.Log("Reset");
         }
         
         private void OnQueueCleared(object sender, EventArgs args)
@@ -67,6 +86,7 @@ namespace Features.Queue
             second.sprite = null;
             third.sprite = null;
             forth.sprite = null;
+            Debug.Log("Cleared");
         }
     }
 }

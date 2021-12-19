@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 7570952696846952858}
   - component: {fileID: 7570952696846952859}
   - component: {fileID: 6321958809214769612}
+  - component: {fileID: 211611930}
   m_Layer: 6
   m_Name: pseudo_player
   m_TagString: Untagged
@@ -76,7 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: -1836951069
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 7f5751bc7dda1c5488184cb06c92deb9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 33542373bc39e1240b866f4dbbdc2e2b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -186,3 +187,15 @@ MonoBehaviour:
   hazardLayerMask:
     serializedVersion: 2
     m_Bits: 256
+--- !u!114 &211611930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7570952696846952837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0abf6b8f6f7e3e64d9ad3d4b043943d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -9,7 +9,9 @@ namespace Features.Actions
     {
         public static Dictionary<string, CharacterAction> CharacterActions { get; private set; }
 
-        public string Name;
+        [SerializeField]
+        private string actionName;
+        public string Name => name;
 
         [SerializeField]
         private Sprite sprite;
@@ -19,7 +21,7 @@ namespace Features.Actions
         {
             CharacterActions ??= new Dictionary<string, CharacterAction>();
 
-            CharacterActions[Name] = this;
+            CharacterActions[actionName] = this;
         }
     }
 }

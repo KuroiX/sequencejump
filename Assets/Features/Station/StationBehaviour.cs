@@ -11,9 +11,9 @@ namespace Features.Station
         
         private Station _station;
 
-        private void Start()
+        private void Awake()
         {
-            _station = new Station(new ResettableQueue<ICharacterAction>(), Create(), settings.maxAssignableActions);
+            _station = new Station(FindObjectOfType<QueueHolder>().Queue, Create(), settings.maxAssignableActions);
         }
 
         private void OnTriggerEnter2D(Collider2D other)

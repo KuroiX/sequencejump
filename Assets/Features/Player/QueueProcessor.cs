@@ -9,12 +9,14 @@ namespace Features.Player
     // TODO: whole queue functionality really
     public class QueueProcessor : MonoBehaviour, ICharacterInput
     {
-        private ResettableQueue<CharacterAction> _actionQueue = new ResettableQueue<CharacterAction>();
+        private ResettableQueue<ICharacterAction> _actionQueue;
         
         private InputManager _inputManager;
 
         private void Awake()
         {
+            _actionQueue = FindObjectOfType<QueueHolder>().Queue;
+            
             _inputManager = new InputManager();
             _inputManager.PlayerMovement.Enable();
         }
@@ -27,6 +29,7 @@ namespace Features.Player
         private void InitializeInput()
         {
             // TODO: "Action" input
+            _inputManager.PlayerMovement.Jump.performed += Action;
             
             _inputManager.PlayerMovement.Move.performed += Move;
             _inputManager.PlayerMovement.Move.canceled += Move;
@@ -40,6 +43,7 @@ namespace Features.Player
         private void TerminateInput()
         {
             // TODO: "Action" input
+            _inputManager.PlayerMovement.Jump.performed -= Action;
             
             _inputManager.PlayerMovement.Move.performed -= Move;
             _inputManager.PlayerMovement.Move.canceled -= Move;
@@ -53,21 +57,22 @@ namespace Features.Player
         private void Action(InputAction.CallbackContext ctx)
         {
             // TODO: save currentAction in case of jump for short-hop
+            if (_actionQueue.Count == 0) return;
             
-            CharacterAction currentAction = _actionQueue.Dequeue();
+            ICharacterAction currentAction = _actionQueue.Dequeue();
 
-            // switch (currentAction)
-            // {
-            //     case Player.Action.Jump:
-            //         Jump(ctx);
-            //         break;
-            //     case Player.Action.Dash:
-            //         Dash(ctx);
-            //         break;
-            //     default:
-            //         throw new NotImplementedException(
-            //             "An Action was dequeued that has not been implemented in QueueProcessor.cs");
-            // }
+            switch (currentAction.Name)
+            {
+                case "Jump":
+                    Jump(ctx);
+                    break;
+                case "Dash":
+                    Dash(ctx);
+                    break;
+                default:
+                    throw new NotImplementedException(
+                        "An Action was dequeued that has not been implemented in QueueProcessor.cs");
+            }
         }
         
         private void Jump(InputAction.CallbackContext ctx)
