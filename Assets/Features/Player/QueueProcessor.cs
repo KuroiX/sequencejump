@@ -15,7 +15,7 @@ namespace Features.Player
 
         private void Awake()
         {
-            _actionQueue = FindObjectOfType<QueueHolder>().Queue;
+            _actionQueue = GetComponent<QueueHolder>().Queue;
             
             _inputManager = new InputManager();
             _inputManager.PlayerMovement.Enable();
