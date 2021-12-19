@@ -18,11 +18,13 @@ namespace Features.Player
         
         [Header("Dash Settings")]
         [SerializeField] private float dashDistance;
-        [SerializeField] private float dashSpeed;
+        //[SerializeField] private float dashSpeed;
+        [SerializeField] private int iterations;
 
         [Header("Other Settings")]
         [SerializeField] private float maxFallSpeed;
         [SerializeField] private LayerMask environmentLayerMask;
+        [SerializeField] private bool useStandardInput;
         
         private bool _isGrounded;
 
@@ -36,13 +38,17 @@ namespace Features.Player
         {
             _rb = GetComponent<Rigidbody2D>();
             _collider = GetComponent<BoxCollider2D>();
-            _characterInput = GetComponent<ICharacterInput>();
+            int i = useStandardInput ? 0 : 1;
+            _characterInput = GetComponents<ICharacterInput>()[i];
 
             _initialGravityScale = _rb.gravityScale;
         }
 
         private void FixedUpdate()
         {
+            _dashTime -= Time.fixedDeltaTime;
+            if (_dashTime < 0 && _isDashing) DashEnd();
+            
             if (_isDashing) return;
             
             #region x
@@ -106,8 +112,8 @@ namespace Features.Player
 
             if (_characterInput.DashPerformed) Dash();
 
-            _dashTime -= Time.deltaTime;
-            if (_dashTime < 0 && _isDashing) DashEnd();
+            //_dashTime -= Time.deltaTime;
+            //if (_dashTime < 0 && _isDashing) DashEnd();
         }
 
         #endregion MonoBehaviour
@@ -223,11 +229,31 @@ namespace Features.Player
         private float _initialGravityScale;
         private bool _isDashing;
         private float _dashTime;
-    
+
         private void Dash()
         {
-            _dashTime = dashDistance / dashSpeed;
-            _rb.velocity = new Vector2(dashSpeed * _direction, 0);
+            //float maxDashSpeed = dashDistance / Time.fixedDeltaTime;
+            // float rest = _dashTime % Time.fixedDeltaTime;
+            //
+            // float actualTime = 0;
+            // if (rest < Time.fixedDeltaTime / 2)
+            // {
+            //     actualTime = _dashTime - rest;
+            // }
+            // else
+            // {
+            //     actualTime = _dashTime + (Time.fixedDeltaTime - rest);
+            // }
+            //
+            // float actualSpeed = dashDistance / actualTime;
+            
+            //_dashTime = dashDistance / dashSpeed;
+
+            _dashTime = iterations * Time.fixedDeltaTime;
+            float actualSpeed = dashDistance / _dashTime;
+            
+            Debug.Log(_dashTime);
+            _rb.velocity = new Vector2(actualSpeed * _direction, 0);
             _isDashing = true;
             _rb.gravityScale = 0;
         }
