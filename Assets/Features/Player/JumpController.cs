@@ -6,15 +6,13 @@ namespace Features.Player
     {
         private readonly Rigidbody2D _rb;
         private readonly float _jumpHeight;
-        private bool _shortHoppable;
         
         public bool IsJumping { get; private set; }
         
-        public JumpController(Rigidbody2D rb, float jumpHeight, ref bool shortHoppable)
+        public JumpController(Rigidbody2D rb, float jumpHeight)
         {
             _rb = rb;
             _jumpHeight = jumpHeight;
-            _shortHoppable = shortHoppable;
         }
         
         public void Jump()
@@ -23,11 +21,11 @@ namespace Features.Player
             IsJumping = true;
         }
 
-        public void JumpEnd()
+        public void JumpEnd(bool shortHop)
         {
             Vector2 velocity = _rb.velocity;
             
-            if (_shortHoppable && IsJumping && velocity.y > 0)
+            if (shortHop && IsJumping && velocity.y > 0)
             {
                 _rb.velocity = new Vector2(velocity.x, velocity.y * 0.5f);
             }
@@ -57,11 +55,6 @@ namespace Features.Player
             }
             
             return -velocity;
-        }
-
-        public void Tick()
-        {
-            Debug.Log(_shortHoppable);
         }
     }
 }

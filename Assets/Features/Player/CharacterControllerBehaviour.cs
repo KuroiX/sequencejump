@@ -40,7 +40,7 @@ namespace Features.Player
             int i = useStandardInput ? 0 : 1;
             _characterInput = GetComponents<ICharacterInput>()[i];
 
-            _jump = new JumpController(_rb, jumpHeight, ref shortHoppable);
+            _jump = new JumpController(_rb, jumpHeight);
             _dash = new DashController(_rb, iterations, dashDistance);
 
             _spriteRenderer = GetComponent<SpriteRenderer>();
@@ -110,7 +110,7 @@ namespace Features.Player
                 _jump.Jump();
             }
             
-            if (_characterInput.JumpCanceled) _jump.JumpEnd();
+            if (_characterInput.JumpCanceled) _jump.JumpEnd(shortHoppable);
 
             if (_characterInput.DashPerformed) _dash.Dash(_direction);
         }

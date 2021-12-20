@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Player
+namespace Features.Player
 {
     public class FollowCamera : MonoBehaviour
     {
@@ -17,7 +17,7 @@ namespace Player
         [SerializeField] 
         private float horizontalOffsetSpeed;
 
-        private void Update()
+        private void LateUpdate()
         {
             /*
             if (followRb.velocity.x > 0)
