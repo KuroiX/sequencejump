@@ -1,10 +1,8 @@
-using System.Collections;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Features.Player
 {
-    public class PlayerController : MonoBehaviour
+    public class CharacterControllerBehaviour : MonoBehaviour
     {
         private ICharacterInput _characterInput;
         private Rigidbody2D _rb;
@@ -18,7 +16,6 @@ namespace Features.Player
         
         [Header("Dash Settings")]
         [SerializeField] private float dashDistance;
-        //[SerializeField] private float dashSpeed;
         [SerializeField] private int iterations;
 
         [Header("Other Settings")]
@@ -28,9 +25,11 @@ namespace Features.Player
         
         private bool _isGrounded;
 
-        private bool _isJumping;
         private float _coyoteTimeStamp;
         private float _direction;
+
+        private JumpController _jump;
+        private DashController _dash;
 
         #region MonoBehaviour
         
@@ -41,15 +40,17 @@ namespace Features.Player
             int i = useStandardInput ? 0 : 1;
             _characterInput = GetComponents<ICharacterInput>()[i];
 
-            _initialGravityScale = _rb.gravityScale;
+            _jump = new JumpController(_rb, jumpHeight, ref shortHoppable);
+            _dash = new DashController(_rb, iterations, dashDistance);
+
+            _spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
         private void FixedUpdate()
         {
-            _dashTime -= Time.fixedDeltaTime;
-            if (_dashTime < 0 && _isDashing) DashEnd();
+            _dash.HandleFixedUpdate();
             
-            if (_isDashing) return;
+            if (_dash.IsDashing) return;
             
             #region x
             float acceleration = _isGrounded ? movementSettings.groundAcceleration : movementSettings.airAcceleration;
@@ -100,20 +101,18 @@ namespace Features.Player
         {
             CheckGroundedAndCoyote();
             CalculateDirection();
+            FlipDirection();
 
             if ((_characterInput.JumpPerformed || _characterInput.JumpBuffered) &&
                 IsAllowedToJump())
             {
-                DashEnd();
-                Jump();
+                _dash.DashEnd();
+                _jump.Jump();
             }
             
-            if (_characterInput.JumpCanceled) JumpEnd();
+            if (_characterInput.JumpCanceled) _jump.JumpEnd();
 
-            if (_characterInput.DashPerformed) Dash();
-
-            //_dashTime -= Time.deltaTime;
-            //if (_dashTime < 0 && _isDashing) DashEnd();
+            if (_characterInput.DashPerformed) _dash.Dash(_direction);
         }
 
         #endregion MonoBehaviour
@@ -125,7 +124,7 @@ namespace Features.Player
             bool wasGrounded = _isGrounded;
             _isGrounded = IsGrounded();
             
-            if (wasGrounded && !_isGrounded && !_isJumping)
+            if (wasGrounded && !_isGrounded && !_jump.IsJumping)
             {
                 _coyoteTimeStamp = Time.unscaledTime;
             }
@@ -167,102 +166,31 @@ namespace Features.Player
                 Vector2.down * (yMargin * 2), rayColor);
         }
 
+        private SpriteRenderer _spriteRenderer;
+
         private void CalculateDirection()
         {
             _direction = _characterInput.Horizontal != 0 ? _characterInput.Horizontal : _direction;
         }
 
-        #endregion
-        
-        #region Jump
-        
-        private float CalculateJumpVelocity(float jumpHeight)
+        private void FlipDirection()
         {
-            // TODO: Should be moved to Start() later when we decided on a jumpHeight
-            
-            // Basically explicit euler
-            float fixedTimeStep = Time.fixedDeltaTime;
-            float gravity = Physics2D.gravity.y * _rb.gravityScale;
-
-            float position = 0;
-            float velocity = 0;
-
-            while (true)
+            if (_direction < 0)
             {
-                position += velocity * fixedTimeStep;
-                velocity += gravity * fixedTimeStep;
-                
-                if (position < -jumpHeight)
-                {
-                    break;
-                }
+                _spriteRenderer.flipX = true;
+            } 
+            else if (_direction > 0)
+            {
+                _spriteRenderer.flipX = false;
             }
-            
-            return -velocity;
         }
-
+        
         private bool IsAllowedToJump()
         {
             bool canCoyoteJump = (Time.unscaledTime - _coyoteTimeStamp) < .1f;
             return _isGrounded || canCoyoteJump;
         }
-        
-        private void Jump()
-        {
-            _rb.velocity = new Vector2(_rb.velocity.x, CalculateJumpVelocity(jumpHeight));
-            _isJumping = true;
-        }
 
-        private void JumpEnd()
-        {
-            Vector2 velocity = _rb.velocity;
-            
-            if (shortHoppable && _isJumping && velocity.y > 0)
-            {
-                _rb.velocity = new Vector2(velocity.x, velocity.y * 0.5f);
-            }
-            _isJumping = false;
-        }
-        
         #endregion
-
-        private float _initialGravityScale;
-        private bool _isDashing;
-        private float _dashTime;
-
-        private void Dash()
-        {
-            //float maxDashSpeed = dashDistance / Time.fixedDeltaTime;
-            // float rest = _dashTime % Time.fixedDeltaTime;
-            //
-            // float actualTime = 0;
-            // if (rest < Time.fixedDeltaTime / 2)
-            // {
-            //     actualTime = _dashTime - rest;
-            // }
-            // else
-            // {
-            //     actualTime = _dashTime + (Time.fixedDeltaTime - rest);
-            // }
-            //
-            // float actualSpeed = dashDistance / actualTime;
-            
-            //_dashTime = dashDistance / dashSpeed;
-
-            _dashTime = iterations * Time.fixedDeltaTime;
-            float actualSpeed = dashDistance / _dashTime;
-            
-            Debug.Log(_dashTime);
-            _rb.velocity = new Vector2(actualSpeed * _direction, 0);
-            _isDashing = true;
-            _rb.gravityScale = 0;
-        }
-
-        private void DashEnd()
-        {
-            _rb.gravityScale = _initialGravityScale;
-            _rb.velocity = new Vector2(0, 0);
-            _isDashing = false;
-        }
     }
 }
