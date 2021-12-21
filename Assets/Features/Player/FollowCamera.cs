@@ -31,6 +31,7 @@ namespace Features.Player
             */
             
             transform.position = followTransform.position + Vector3.back + new Vector3(_horizontalOffset, 0, _zOffset);
+            
         }
     }
 }

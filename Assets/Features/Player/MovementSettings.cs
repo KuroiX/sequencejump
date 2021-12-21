@@ -3,7 +3,7 @@
 namespace Features.Player
 {
     [System.Serializable]
-    internal struct MovementSettings
+    internal class MovementSettings
     {
         [Header("Ground Settings")]
         public float groundSpeed;

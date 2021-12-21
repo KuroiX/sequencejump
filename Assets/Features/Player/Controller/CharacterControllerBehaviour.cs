@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Features.Player
+namespace Features.Player.Controller
 {
     public class CharacterControllerBehaviour : MonoBehaviour
     {
@@ -22,14 +22,12 @@ namespace Features.Player
         [SerializeField] private float maxFallSpeed;
         [SerializeField] private LayerMask environmentLayerMask;
         [SerializeField] private bool useStandardInput;
-        
-        private bool _isGrounded;
 
-        private float _coyoteTimeStamp;
         private float _direction;
 
         private JumpController _jump;
         private DashController _dash;
+        private GroundedController _grounded;
 
         #region MonoBehaviour
         
@@ -42,6 +40,7 @@ namespace Features.Player
 
             _jump = new JumpController(_rb, jumpHeight);
             _dash = new DashController(_rb, iterations, dashDistance);
+            _grounded = new GroundedController(_collider, environmentLayerMask);
 
             _spriteRenderer = GetComponent<SpriteRenderer>();
         }
@@ -53,8 +52,8 @@ namespace Features.Player
             if (_dash.IsDashing) return;
             
             #region x
-            float acceleration = _isGrounded ? movementSettings.groundAcceleration : movementSettings.airAcceleration;
-            float speed = _isGrounded ? movementSettings.groundSpeed : movementSettings.airSpeed;
+            float acceleration = _grounded.IsGrounded ? movementSettings.groundAcceleration : movementSettings.airAcceleration;
+            float speed = _grounded.IsGrounded ? movementSettings.groundSpeed : movementSettings.airSpeed;
 
             Vector2 velocity = _rb.velocity;
 
@@ -99,7 +98,7 @@ namespace Features.Player
         
         private void Update()
         {
-            CheckGroundedAndCoyote();
+            _grounded.HandleUpdate();
             CalculateDirection();
             FlipDirection();
 
@@ -117,54 +116,16 @@ namespace Features.Player
 
         #endregion MonoBehaviour
         
-        #region Gathering Information
+        #region Idk
         
-        private void CheckGroundedAndCoyote()
+        private bool IsAllowedToJump()
         {
-            bool wasGrounded = _isGrounded;
-            _isGrounded = IsGrounded();
-            
-            if (wasGrounded && !_isGrounded && !_jump.IsJumping)
-            {
-                _coyoteTimeStamp = Time.unscaledTime;
-            }
+            return _grounded.IsCoyoteGrounded && !_jump.IsJumping;
         }
         
-        private bool IsGrounded()
-        {
-            Bounds bounds = _collider.bounds;
-            float yMargin = 0.1f;
-            float xMargin = 0.05f;
+        #endregion
         
-            Collider2D col = Physics2D.OverlapBox(
-                (Vector2)bounds.center + Vector2.down * bounds.extents.y,
-                new Vector2(bounds.extents.x - xMargin, yMargin) * 2, 
-                0f, 
-                environmentLayerMask);
-        
-            bool result = col != null;
-            
-#if UNITY_EDITOR
-            DrawBoxDebug(result, bounds, xMargin, yMargin);
-#endif
-
-            return result;
-        }
-
-        private void DrawBoxDebug(bool result, Bounds bounds, float xMargin, float yMargin)
-        {
-            Color rayColor = result ? Color.green : Color.red;
-
-            // Top-left to right
-            Debug.DrawRay(bounds.min + Vector3.up * yMargin + Vector3.right * xMargin, Vector2.right * ((bounds.extents.x - xMargin) * 2), rayColor);
-            // Top-left to down
-            Debug.DrawRay(bounds.min + Vector3.up * yMargin + Vector3.right * xMargin, Vector2.down * (yMargin * 2), rayColor);
-            // Bottom-left to right
-            Debug.DrawRay(bounds.min + Vector3.down * yMargin + Vector3.right * xMargin, Vector2.right * ((bounds.extents.x - xMargin) * 2), rayColor);
-            // Top-right to down
-            Debug.DrawRay(bounds.min + Vector3.up * yMargin + Vector3.right * (bounds.extents.y * 2) - Vector3.right * xMargin, 
-                Vector2.down * (yMargin * 2), rayColor);
-        }
+        #region Move to another script?
 
         private SpriteRenderer _spriteRenderer;
 
@@ -178,17 +139,11 @@ namespace Features.Player
             if (_direction < 0)
             {
                 _spriteRenderer.flipX = true;
-            } 
+            }
             else if (_direction > 0)
             {
                 _spriteRenderer.flipX = false;
             }
-        }
-        
-        private bool IsAllowedToJump()
-        {
-            bool canCoyoteJump = (Time.unscaledTime - _coyoteTimeStamp) < .1f;
-            return _isGrounded || canCoyoteJump;
         }
 
         #endregion
