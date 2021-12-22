@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Features.Player.Controller
+namespace Features.Player.Controller.ControllerParts
 {
     public class GroundedController
     {
@@ -11,28 +11,22 @@ namespace Features.Player.Controller
 
         private float _coyoteTimeStamp;
         public float CoyoteTimeStamp => _coyoteTimeStamp;
-
-        public bool IsCoyoteGrounded
-        {
-            get
-            {
-                bool canCoyoteJump = (Time.unscaledTime - _coyoteTimeStamp) < .1f;
-                return _isGrounded || canCoyoteJump;
-            }
-        }
+        public bool IsCoyoteGrounded => _isGrounded || (Time.unscaledTime - _coyoteTimeStamp) < _coyoteTimeFrame;
 
         private readonly LayerMask _groundLayerMask;
+        private readonly float _coyoteTimeFrame;
         
-        public GroundedController(Collider2D collider, LayerMask groundLayerMask)
+        public GroundedController(Collider2D collider, LayerMask groundLayerMask, float coyoteTimeFrame)
         {
             _collider = collider;
             _groundLayerMask = groundLayerMask;
+            _coyoteTimeFrame = coyoteTimeFrame;
         }
 
         public void HandleUpdate()
         {
             bool wasGrounded = _isGrounded;
-            _isGrounded = SetGrounded();
+            SetGrounded();
             SetCoyote(wasGrounded, _isGrounded);
         }
         
@@ -44,7 +38,7 @@ namespace Features.Player.Controller
             }
         }
         
-        private bool SetGrounded()
+        private void SetGrounded()
         {
             Bounds bounds = _collider.bounds;
             float yMargin = 0.1f;
@@ -62,7 +56,7 @@ namespace Features.Player.Controller
             DrawBoxDebug(result, bounds, xMargin, yMargin);
 #endif
 
-            return result;
+            _isGrounded = result;
         }
 
 #if UNITY_EDITOR

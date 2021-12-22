@@ -1,5 +1,6 @@
 using System;
 using Features.Actions;
+using Features.Player.Controller;
 using Features.Queue;
 using UnityEngine;
 using UnityEngine.InputSystem;

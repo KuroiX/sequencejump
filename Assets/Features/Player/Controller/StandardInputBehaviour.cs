@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Features.Player
+namespace Features.Player.Controller
 {
-    public class StandardInput : MonoBehaviour, ICharacterInput
+    public class StandardInputBehaviour : MonoBehaviour, ICharacterInput
     {
         private InputManager _inputManager;
 

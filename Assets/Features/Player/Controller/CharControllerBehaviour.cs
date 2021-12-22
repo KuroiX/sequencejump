@@ -1,8 +1,9 @@
+using Features.Player.Controller.ControllerParts;
 using UnityEngine;
 
 namespace Features.Player.Controller
 {
-    public class CharacterControllerBehaviour : MonoBehaviour
+    public class CharControllerBehaviour : MonoBehaviour
     {
         private ICharacterInput _characterInput;
         private Rigidbody2D _rb;
@@ -28,6 +29,7 @@ namespace Features.Player.Controller
         private JumpController _jump;
         private DashController _dash;
         private GroundedController _grounded;
+        private MovementController _movement;
 
         #region MonoBehaviour
         
@@ -40,7 +42,8 @@ namespace Features.Player.Controller
 
             _jump = new JumpController(_rb, jumpHeight);
             _dash = new DashController(_rb, iterations, dashDistance);
-            _grounded = new GroundedController(_collider, environmentLayerMask);
+            _grounded = new GroundedController(_collider, environmentLayerMask, .1f);
+            _movement = new MovementController(_characterInput, _grounded, _rb, movementSettings, maxFallSpeed);
 
             _spriteRenderer = GetComponent<SpriteRenderer>();
         }
@@ -49,51 +52,7 @@ namespace Features.Player.Controller
         {
             _dash.HandleFixedUpdate();
             
-            if (_dash.IsDashing) return;
-            
-            #region x
-            float acceleration = _grounded.IsGrounded ? movementSettings.groundAcceleration : movementSettings.airAcceleration;
-            float speed = _grounded.IsGrounded ? movementSettings.groundSpeed : movementSettings.airSpeed;
-
-            Vector2 velocity = _rb.velocity;
-
-            float targetSpeed = _characterInput.Horizontal * speed;
-
-            float currentSpeed = velocity.x;
-
-            // Potentially multiplication of acceleration with Time.fixedDeltaTime missing,
-            // but shouldn't matter here since fixedDeltaTime should always be the same
-            float newSpeed = Mathf.Lerp(currentSpeed, targetSpeed, acceleration);
-            
-            #endregion
-
-            /*
-            if (!_isGrounded)
-            {
-                _actualVelocity += Physics2D.gravity.y * Time.fixedDeltaTime * 5;
-            }
-
-            //float newSpeedY = velocity.y + (velocity.y <= 1 ? fallSpeedMultiplyer * Physics2D.gravity.y * Time.fixedDeltaTime : 0);
-
-            float newSpeedY = newSpeedY < -maxFallSpeed ? -maxFallSpeed : newSpeedY;
-
-            float newSpeedY = 0;
-
-            if (_actualVelocity > 2)
-            {
-                newSpeedY = jumpForce;
-            }
-            else 
-            {
-                newSpeedY = _actualVelocity * .7f;
-            }
-            */
-
-            float newSpeedY = velocity.y;
-            newSpeedY = newSpeedY < -maxFallSpeed ? -maxFallSpeed : newSpeedY;
-            
-            _rb.velocity = new Vector2(newSpeed, newSpeedY);
-
+            if (!_dash.IsDashing) _movement.HandleFixedUpdate();
         }
         
         private void Update()
@@ -102,6 +61,21 @@ namespace Features.Player.Controller
             CalculateDirection();
             FlipDirection();
 
+            HandleJump();
+            HandleDash();
+        }
+
+        #endregion MonoBehaviour
+        
+        #region Methods
+        
+        private bool IsAllowedToJump()
+        {
+            return _grounded.IsCoyoteGrounded && !_jump.IsJumping;
+        }
+
+        private void HandleJump()
+        {
             if ((_characterInput.JumpPerformed || _characterInput.JumpBuffered) &&
                 IsAllowedToJump())
             {
@@ -110,17 +84,11 @@ namespace Features.Player.Controller
             }
             
             if (_characterInput.JumpCanceled) _jump.JumpEnd(shortHoppable);
-
-            if (_characterInput.DashPerformed) _dash.Dash(_direction);
         }
 
-        #endregion MonoBehaviour
-        
-        #region Idk
-        
-        private bool IsAllowedToJump()
+        private void HandleDash()
         {
-            return _grounded.IsCoyoteGrounded && !_jump.IsJumping;
+            if (_characterInput.DashPerformed) _dash.Dash(_direction);
         }
         
         #endregion

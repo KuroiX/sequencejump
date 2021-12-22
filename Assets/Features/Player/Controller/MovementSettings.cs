@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
-namespace Features.Player
+namespace Features.Player.Controller
 {
     [System.Serializable]
-    internal class MovementSettings
+    public class MovementSettings
     {
         [Header("Ground Settings")]
         public float groundSpeed;

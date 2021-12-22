@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Features.Player
+namespace Features.Player.Controller.ControllerParts
 {
     public class JumpController
     {
@@ -54,7 +54,7 @@ namespace Features.Player
                     break;
                 }
             }
-            
+
             return -velocity;
         }
     }
