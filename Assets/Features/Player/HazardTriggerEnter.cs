@@ -5,6 +5,7 @@ namespace Features.Player
     public class HazardTriggerEnter : MonoBehaviour
     {
         [SerializeField] private LayerMask hazardLayerMask;
+        [SerializeField] private LayerMask terminalLayerMask;
 
         private Vector3 _position;
 
@@ -20,6 +21,11 @@ namespace Features.Player
             if (otherMask == hazardLayerMask)
             {
                 transform.position = _position;
+            }
+
+            if (otherMask == terminalLayerMask)
+            {
+                _position = other.transform.position;
             }
         }
     }

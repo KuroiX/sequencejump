@@ -31,6 +31,8 @@ namespace Features.Player.Controller
         private GroundedController _grounded;
         private MovementController _movement;
 
+        private CharController _charController;
+
         #region MonoBehaviour
         
         private void Awake()
@@ -45,70 +47,35 @@ namespace Features.Player.Controller
             _grounded = new GroundedController(_collider, environmentLayerMask, .1f);
             _movement = new MovementController(_characterInput, _grounded, _rb, movementSettings, maxFallSpeed);
 
+            _charController = new CharController(_grounded, _jump, _dash, _movement, _characterInput);
+
             _spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
         private void FixedUpdate()
         {
-            _dash.HandleFixedUpdate();
-            
-            if (!_dash.IsDashing) _movement.HandleFixedUpdate();
+            _charController.HandleFixedUpdate();
         }
         
         private void Update()
         {
-            _grounded.HandleUpdate();
-            CalculateDirection();
+            _charController.HandleUpdate();
             FlipDirection();
-
-            HandleJump();
-            HandleDash();
         }
 
         #endregion MonoBehaviour
         
-        #region Methods
-        
-        private bool IsAllowedToJump()
-        {
-            return _grounded.IsCoyoteGrounded && !_jump.IsJumping;
-        }
-
-        private void HandleJump()
-        {
-            if ((_characterInput.JumpPerformed || _characterInput.JumpBuffered) &&
-                IsAllowedToJump())
-            {
-                _dash.DashEnd();
-                _jump.Jump();
-            }
-            
-            if (_characterInput.JumpCanceled) _jump.JumpEnd(shortHoppable);
-        }
-
-        private void HandleDash()
-        {
-            if (_characterInput.DashPerformed) _dash.Dash(_direction);
-        }
-        
-        #endregion
-        
-        #region Move to another script?
+        #region Move to another script
 
         private SpriteRenderer _spriteRenderer;
 
-        private void CalculateDirection()
-        {
-            _direction = _characterInput.Horizontal != 0 ? _characterInput.Horizontal : _direction;
-        }
-
         private void FlipDirection()
         {
-            if (_direction < 0)
+            if (_charController.Direction < 0)
             {
                 _spriteRenderer.flipX = true;
             }
-            else if (_direction > 0)
+            else if (_charController.Direction > 0)
             {
                 _spriteRenderer.flipX = false;
             }

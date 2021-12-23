@@ -31,6 +31,7 @@ namespace Features.Player
         {
             // TODO: "Action" input
             _inputManager.PlayerMovement.Jump.performed += Action;
+            _inputManager.PlayerMovement.Jump.canceled += JumpEnd;
             
             _inputManager.PlayerMovement.Move.performed += Move;
             _inputManager.PlayerMovement.Move.canceled += Move;
@@ -45,6 +46,7 @@ namespace Features.Player
         {
             // TODO: "Action" input
             _inputManager.PlayerMovement.Jump.performed -= Action;
+            _inputManager.PlayerMovement.Jump.canceled -= JumpEnd;
             
             _inputManager.PlayerMovement.Move.performed -= Move;
             _inputManager.PlayerMovement.Move.canceled -= Move;
@@ -75,15 +77,19 @@ namespace Features.Player
                         "An Action was dequeued that has not been implemented in QueueProcessor.cs");
             }
         }
-        
+
+        private bool _lastActionWasJump;
+
         private void Jump(InputAction.CallbackContext ctx)
         {
             JumpPerformed = true;
             JumpTimeStamp = Time.unscaledTime;
+            _lastActionWasJump = true;
         }
         
         private void JumpEnd(InputAction.CallbackContext ctx)
         {
+            if (!_lastActionWasJump) return;
             JumpCanceled = true;
             JumpEndTimeStamp = Time.unscaledTime;
         }

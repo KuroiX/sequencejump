@@ -15647,6 +15647,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: pseudo_player
       objectReference: {fileID: 0}
+    - target: {fileID: 7570952696846952838, guid: 3528356ecdebd3549801506f2eef8a67, type: 3}
+      propertyPath: m_Interpolate
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7570952696846952857, guid: 3528356ecdebd3549801506f2eef8a67, type: 3}
       propertyPath: m_RootOrder
       value: 1
