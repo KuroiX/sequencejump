@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Sc_testing_kuroi.unity
-    guid: 43cf4dacb0eb9b047a5c9c936ffa0ab6
+    path: Assets/Scenes/sc_couldntloa.unity
+    guid: ddddf49325adc014aaa66a6821b44c08
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: efcde8085a5602043a9840f6b32c04b4, type: 2}
