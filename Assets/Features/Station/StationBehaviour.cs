@@ -11,6 +11,8 @@ namespace Features.Station
         
         private Station _station;
 
+        public Station Station => _station;
+        
         private void Awake()
         {
             _station = new Station(FindObjectOfType<QueueHolder>().Queue, Create(), settings.maxAssignableActions);
