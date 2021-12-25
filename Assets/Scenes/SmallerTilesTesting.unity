@@ -123018,11 +123018,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7570952696846952857, guid: 3528356ecdebd3549801506f2eef8a67, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 116.59
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7570952696846952857, guid: 3528356ecdebd3549801506f2eef8a67, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.97
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7570952696846952857, guid: 3528356ecdebd3549801506f2eef8a67, type: 3}
       propertyPath: m_LocalPosition.z
@@ -123062,7 +123062,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7570952696846952858, guid: 3528356ecdebd3549801506f2eef8a67, type: 3}
       propertyPath: iterations
-      value: 32
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7570952696846952858, guid: 3528356ecdebd3549801506f2eef8a67, type: 3}
       propertyPath: dashDistance
@@ -123074,7 +123074,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7570952696846952858, guid: 3528356ecdebd3549801506f2eef8a67, type: 3}
       propertyPath: useStandardInput
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7570952696846952859, guid: 3528356ecdebd3549801506f2eef8a67, type: 3}
       propertyPath: m_Enabled
@@ -124242,6 +124242,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1209920872}
+  - component: {fileID: 1209920873}
   m_Layer: 5
   m_Name: Buttons
   m_TagString: Untagged
@@ -124271,6 +124272,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -270}
   m_SizeDelta: {x: 1920, y: 540}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1209920873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1209920871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1b3c13510e7c67448004441679c5eb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1236639122
 GameObject:
   m_ObjectHideFlags: 0

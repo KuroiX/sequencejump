@@ -1,11 +1,11 @@
 using System;
 using Features.Actions;
-using Features.Player.Controller;
 using Features.Queue;
+using Features.Station;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Features.Player
+namespace Features.Player.Controller
 {
     // TODO: whole queue functionality really
     public class QueueProcessor : MonoBehaviour, ICharacterInput
@@ -14,17 +14,30 @@ namespace Features.Player
         
         private InputManager _inputManager;
 
+        private void OnOpenStation(object sender, EventArgs args)
+        {
+            _inputManager.PlayerMovement.Disable();
+        }
+        
+        private void OnCloseStation(object sender, EventArgs args)
+        {
+            _inputManager.PlayerMovement.Enable();
+        }
+        
         private void Awake()
         {
             _actionQueue = GetComponent<QueueHolder>().Queue;
             
             _inputManager = new InputManager();
             _inputManager.PlayerMovement.Enable();
+
         }
         
         private void OnEnable()
         {
             InitializeInput();
+            Station.Station.StationOpened += OnOpenStation;
+            Station.Station.StationClosed += OnCloseStation;
         }
 
         private void InitializeInput()
@@ -40,6 +53,8 @@ namespace Features.Player
         private void OnDisable()
         {
             TerminateInput();
+            Station.Station.StationOpened -= OnOpenStation;
+            Station.Station.StationClosed -= OnCloseStation;
         }
 
         private void TerminateInput()
