@@ -14,12 +14,12 @@ namespace Features.Player.Controller
         
         private InputManager _inputManager;
 
-        private void OnOpenStation(object sender, EventArgs args)
+        private void DisableInput(object sender, EventArgs args)
         {
             _inputManager.PlayerMovement.Disable();
         }
         
-        private void OnCloseStation(object sender, EventArgs args)
+        private void EnableInput(object sender, EventArgs args)
         {
             _inputManager.PlayerMovement.Enable();
         }
@@ -36,8 +36,12 @@ namespace Features.Player.Controller
         private void OnEnable()
         {
             InitializeInput();
-            Station.Station.StationOpened += OnOpenStation;
-            Station.Station.StationClosed += OnCloseStation;
+            
+            Station.Station.StationOpened += DisableInput;
+            Station.Station.StationClosed += EnableInput;
+            
+            HazardTriggerEnter.DeathAnimationStart += DisableInput;
+            HazardTriggerEnter.DeathAnimationEnd += EnableInput;
         }
 
         private void InitializeInput()
@@ -53,8 +57,12 @@ namespace Features.Player.Controller
         private void OnDisable()
         {
             TerminateInput();
-            Station.Station.StationOpened -= OnOpenStation;
-            Station.Station.StationClosed -= OnCloseStation;
+            
+            Station.Station.StationOpened -= DisableInput;
+            Station.Station.StationClosed -= EnableInput;
+            
+            HazardTriggerEnter.DeathAnimationStart -= DisableInput;
+            HazardTriggerEnter.DeathAnimationEnd -= EnableInput;
         }
 
         private void TerminateInput()
