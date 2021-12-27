@@ -46,7 +46,7 @@ namespace Features.Player.Controller
 
         private void HandleJump()
         {
-            if ((_characterInput.JumpPerformed || _characterInput.JumpBuffered) &&
+            if ((_characterInput.JumpPerformed) &&
                 IsAllowedToJump())
             {
                 _dash.DashEnd();
