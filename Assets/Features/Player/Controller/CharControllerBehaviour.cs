@@ -44,7 +44,7 @@ namespace Features.Player.Controller
 #if UNITY_ANDROID && !UNITY_EDITOR
             i = 2;
 #endif
-            _characterInput = GetComponents<ICharacterInput>()[i];
+            _characterInput = GetComponents<ICharacterInput>()[2];
 
             _jump = new JumpController(_rb, jumpHeight);
             _dash = new DashController(_rb, iterations, dashDistance);

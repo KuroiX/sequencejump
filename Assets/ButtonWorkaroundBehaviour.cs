@@ -12,37 +12,16 @@ using UnityEngine.InputSystem;
 public class ButtonWorkaroundBehaviour : MonoBehaviour, ICharacterInput
 {
     private ResettableQueue<ICharacterAction> _actionQueue;
-    private InputManager _inputManager;
     public ButtonWorkaround buttonWorkaround;
 
-    private void DisableInput(object sender, EventArgs args)
-    {
-        _inputManager.PlayerMovement.Disable();
-    }
-        
-    private void EnableInput(object sender, EventArgs args)
-    {
-        _inputManager.PlayerMovement.Enable();
-    }
-    
     private void Awake()
     {
         _actionQueue = GetComponent<QueueHolder>().Queue;
-        
-        _inputManager = new InputManager();
-        _inputManager.PlayerMovement.Enable();
-
     }
     
     private void OnEnable()
     {
         InitializeInput();
-            
-        Station.StationOpened += DisableInput;
-        Station.StationClosed += EnableInput;
-            
-        HazardTriggerEnter.DeathAnimationStart += DisableInput;
-        HazardTriggerEnter.DeathAnimationEnd += EnableInput;
     }
 
     private void InitializeInput()
@@ -58,12 +37,6 @@ public class ButtonWorkaroundBehaviour : MonoBehaviour, ICharacterInput
     private void OnDisable()
     {
         TerminateInput();
-            
-        Station.StationOpened -= DisableInput;
-        Station.StationClosed -= EnableInput;
-            
-        HazardTriggerEnter.DeathAnimationStart -= DisableInput;
-        HazardTriggerEnter.DeathAnimationEnd -= EnableInput;
     }
 
     private void TerminateInput()
