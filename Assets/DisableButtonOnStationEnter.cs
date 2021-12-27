@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Features.Station;
 using UnityEngine;
 
-public class DisableShit : MonoBehaviour
+public class DisableButtonOnStationEnter : MonoBehaviour
 {
     private void OnEnable()
     {

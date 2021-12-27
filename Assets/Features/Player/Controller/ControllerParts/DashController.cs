@@ -25,6 +25,7 @@ namespace Features.Player
 
         public void Dash(float direction)
         {
+            Debug.Log("Dash in Controller");
             _dashTime = _iterations * Time.fixedDeltaTime;
             float actualSpeed = _dashDistance / _dashTime;
             
