@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Features.Actions;
+using Features.Player;
 using Features.Player.Controller;
 using Features.Queue;
 using Features.Station;
@@ -14,12 +15,12 @@ public class ButtonWorkaroundBehaviour : MonoBehaviour, ICharacterInput
     private InputManager _inputManager;
     public ButtonWorkaround buttonWorkaround;
 
-    private void OnOpenStation(object sender, EventArgs args)
+    private void DisableInput(object sender, EventArgs args)
     {
         _inputManager.PlayerMovement.Disable();
     }
-    
-    private void OnCloseStation(object sender, EventArgs args)
+        
+    private void EnableInput(object sender, EventArgs args)
     {
         _inputManager.PlayerMovement.Enable();
     }
@@ -36,8 +37,12 @@ public class ButtonWorkaroundBehaviour : MonoBehaviour, ICharacterInput
     private void OnEnable()
     {
         InitializeInput();
-        Station.StationOpened += OnOpenStation;
-        Station.StationClosed += OnCloseStation;
+            
+        Station.StationOpened += DisableInput;
+        Station.StationClosed += EnableInput;
+            
+        HazardTriggerEnter.DeathAnimationStart += DisableInput;
+        HazardTriggerEnter.DeathAnimationEnd += EnableInput;
     }
 
     private void InitializeInput()
@@ -53,8 +58,12 @@ public class ButtonWorkaroundBehaviour : MonoBehaviour, ICharacterInput
     private void OnDisable()
     {
         TerminateInput();
-        Station.StationOpened -= OnOpenStation;
-        Station.StationClosed -= OnCloseStation;
+            
+        Station.StationOpened -= DisableInput;
+        Station.StationClosed -= EnableInput;
+            
+        HazardTriggerEnter.DeathAnimationStart -= DisableInput;
+        HazardTriggerEnter.DeathAnimationEnd -= EnableInput;
     }
 
     private void TerminateInput()
