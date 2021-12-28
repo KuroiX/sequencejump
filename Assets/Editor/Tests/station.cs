@@ -1,4 +1,3 @@
-using System;
 using Features.Actions;
 using Features.Queue;
 using Features.Station;
@@ -75,18 +74,14 @@ namespace Editor.Tests
         }
         
         [Test]
-        public void sends_relevant_station_as_event_args_in_station_entered_on_trigger_enter()
+        public void is_sender_in_station_entered_on_trigger_enter()
         {
-            EventArgs myArgs = EventArgs.Empty;
+            object mySender = null;
             
-            Station.StationEntered += (sender, args) => { myArgs = args; };
+            Station.StationEntered += (sender, args) => { mySender = sender; };
             _station.HandleOnTriggerEnter();
             
-            Assert.AreEqual(typeof(StationEventArgs), myArgs.GetType());
-
-            StationEventArgs args = (StationEventArgs) myArgs;
-            
-            Assert.AreEqual(_station, args.Station);
+            Assert.AreEqual(mySender, _station);
         }
         
         [Test]
@@ -128,6 +123,17 @@ namespace Editor.Tests
         }
         
         [Test]
+        public void is_sender_in_station_opened()
+        {
+            object mySender = null;
+            
+            Station.StationOpened += (sender, args) => { mySender = sender; };
+            _station.Open();
+            
+            Assert.AreEqual(mySender, _station);
+        }
+        
+        [Test]
         public void sets_current_station_correctly_when_calling_open()
         {
             _station.Open();
@@ -163,6 +169,17 @@ namespace Editor.Tests
             _station.EnqueueAction(_action1);
             
             Assert.IsTrue(received);
+        }
+        
+        [Test]
+        public void is_sender_in_station_changed()
+        {
+            object mySender = null;
+            
+            Station.StationChanged += (sender, args) => { mySender = sender; };
+            _station.EnqueueAction(_action1);
+            
+            Assert.AreEqual(mySender, _station);
         }
 
         [Test]
@@ -322,6 +339,17 @@ namespace Editor.Tests
         }
         
         [Test]
+        public void is_sender_in_station_closed()
+        {
+            object mySender = null;
+            
+            Station.StationClosed += (sender, args) => { mySender = sender; };
+            _station.Close();
+            
+            Assert.AreEqual(mySender, _station);
+        }
+        
+        [Test]
         public void raises_station_exited_on_trigger_exit()
         {
             bool received = false;
@@ -334,18 +362,14 @@ namespace Editor.Tests
         }
         
         [Test]
-        public void sends_relevant_station_as_event_args_in_station_exited_on_trigger_exit()
+        public void is_sender_in_station_exited_on_trigger_exit()
         {
-            EventArgs myArgs = EventArgs.Empty;
+            object mySender = null;
             
-            Station.StationExited += (sender, args) => { myArgs = args; };
+            Station.StationExited += (sender, args) => { mySender = sender; };
             _station.HandleOnTriggerExit();
             
-            Assert.AreEqual(typeof(StationEventArgs), myArgs.GetType());
-
-            StationEventArgs args = (StationEventArgs) myArgs;
-            
-            Assert.AreEqual(_station, args.Station);
+            Assert.AreEqual(mySender, _station);
         }
     }
 }
