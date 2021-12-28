@@ -2,9 +2,9 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-namespace Features.Player
+namespace Features.Player.DeathLogic
 {
-    public class HazardTriggerEnter : MonoBehaviour
+    public class DeathLogicBehaviour : MonoBehaviour
     {
         public static event EventHandler DeathAnimationStart;
         public static event EventHandler DeathAnimationEnd;
@@ -17,15 +17,12 @@ namespace Features.Player
         [SerializeField] private float deathAnimationLength = 1f;
 
         private SpriteRenderer _sprite;
-        private Rigidbody2D _rb;
         private FollowCamera _camera;
 
         private void Awake()
         {
             _position = transform.position;
             _sprite = GetComponent<SpriteRenderer>();
-
-            _rb = GetComponent<Rigidbody2D>();
 
             _camera = Camera.main.GetComponent<FollowCamera>();
         }

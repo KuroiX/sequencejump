@@ -1,4 +1,5 @@
 using System;
+using Features.Player.DeathLogic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -50,14 +51,14 @@ namespace Features.Player.Controller
         
         private void OnDisable()
         {
-            HazardTriggerEnter.DeathAnimationStart -= DisableInput;
-            HazardTriggerEnter.DeathAnimationEnd -= EnableInput;
+            DeathLogicBehaviour.DeathAnimationStart -= DisableInput;
+            DeathLogicBehaviour.DeathAnimationEnd -= EnableInput;
         }
         
         private void OnEnable()
         {
-            HazardTriggerEnter.DeathAnimationStart += DisableInput;
-            HazardTriggerEnter.DeathAnimationEnd += EnableInput;
+            DeathLogicBehaviour.DeathAnimationStart += DisableInput;
+            DeathLogicBehaviour.DeathAnimationEnd += EnableInput;
         }
     }
 }

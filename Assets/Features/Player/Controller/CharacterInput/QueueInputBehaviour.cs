@@ -1,14 +1,14 @@
 using System;
 using Features.Actions;
+using Features.Player.DeathLogic;
 using Features.Queue;
-using Features.Station;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Features.Player.Controller
 {
     // TODO: whole queue functionality really
-    public class QueueProcessor : MonoBehaviour, ICharacterInput
+    public class QueueInputBehaviour : MonoBehaviour, ICharacterInput
     {
         private ResettableQueue<ICharacterAction> _actionQueue;
         
@@ -40,8 +40,8 @@ namespace Features.Player.Controller
             Station.Station.StationOpened += DisableInput;
             Station.Station.StationClosed += EnableInput;
             
-            HazardTriggerEnter.DeathAnimationStart += DisableInput;
-            HazardTriggerEnter.DeathAnimationEnd += EnableInput;
+            DeathLogicBehaviour.DeathAnimationStart += DisableInput;
+            DeathLogicBehaviour.DeathAnimationEnd += EnableInput;
         }
 
         private void InitializeInput()
@@ -61,8 +61,8 @@ namespace Features.Player.Controller
             Station.Station.StationOpened -= DisableInput;
             Station.Station.StationClosed -= EnableInput;
             
-            HazardTriggerEnter.DeathAnimationStart -= DisableInput;
-            HazardTriggerEnter.DeathAnimationEnd -= EnableInput;
+            DeathLogicBehaviour.DeathAnimationStart -= DisableInput;
+            DeathLogicBehaviour.DeathAnimationEnd -= EnableInput;
         }
 
         private void TerminateInput()

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Features.Player
+namespace Features.Player.DeathLogic
 {
     public class ActivateParticles : MonoBehaviour
     {
@@ -14,12 +14,12 @@ namespace Features.Player
 
         private void OnEnable()
         {
-            HazardTriggerEnter.DeathAnimationStart += PlayEffect;
+            DeathLogicBehaviour.DeathAnimationStart += PlayEffect;
         }
 
         private void OnDisable()
         {
-            HazardTriggerEnter.DeathAnimationStart -= PlayEffect;
+            DeathLogicBehaviour.DeathAnimationStart -= PlayEffect;
         }
 
         private void PlayEffect(object sender, EventArgs args)
