@@ -15,13 +15,13 @@ namespace Features.Player.Controller
 
         public void OnLeft(float value)
         {
-            if(_isDisabled) return;
+            if(_isDisabled && value != 0) return;
             LeftEvent?.Invoke(this, new WorkaroundEventArgs(value));
         }
 
         public void OnRight(float value)
         {
-            if(_isDisabled) return;
+            if(_isDisabled && value != 0) return;
             RightEvent?.Invoke(this, new WorkaroundEventArgs(value));
         }
 
