@@ -52,7 +52,7 @@ public class ButtonWorkaroundBehaviour : MonoBehaviour, ICharacterInput
 
     private void Move(object obj, EventArgs args)
     {
-        Horizontal = ((WorkaroundEventArgs) args).Value;
+        Horizontal = ((FloatEventArgs) args).Value;
     }
 
     private void ActionDown(object obj, EventArgs args)

@@ -16,13 +16,13 @@ namespace Features.Player.Controller
         public void OnLeft(float value)
         {
             if(_isDisabled && value != 0) return;
-            LeftEvent?.Invoke(this, new WorkaroundEventArgs(value));
+            LeftEvent?.Invoke(this, new FloatEventArgs(value));
         }
 
         public void OnRight(float value)
         {
             if(_isDisabled && value != 0) return;
-            RightEvent?.Invoke(this, new WorkaroundEventArgs(value));
+            RightEvent?.Invoke(this, new FloatEventArgs(value));
         }
 
         public void OnActionDown()
@@ -36,6 +36,7 @@ namespace Features.Player.Controller
             if(_isDisabled) return;
             ActionUpEvent?.Invoke(this, new EventArgs());
         }
+        
         private void DisableInput(object sender, EventArgs args)
         {
             _isDisabled = true;
@@ -46,11 +47,13 @@ namespace Features.Player.Controller
             Debug.Log("EnableInput");
             _isDisabled = false;
         }
+        
         private void OnDisable()
         {
             HazardTriggerEnter.DeathAnimationStart -= DisableInput;
             HazardTriggerEnter.DeathAnimationEnd -= EnableInput;
         }
+        
         private void OnEnable()
         {
             HazardTriggerEnter.DeathAnimationStart += DisableInput;
