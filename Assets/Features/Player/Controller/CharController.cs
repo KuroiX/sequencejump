@@ -1,4 +1,5 @@
-﻿using Features.Player.Controller.ControllerParts;
+﻿using Features.Player.Controller.CharacterInput;
+using Features.Player.Controller.ControllerParts;
 
 namespace Features.Player.Controller
 {

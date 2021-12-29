@@ -1,4 +1,4 @@
-﻿namespace Features.Player.Controller
+﻿namespace Features.Player.Controller.CharacterInput
 {
     public interface ICharacterInput : IMovementInput, IJumpInput, IDashInput
     {

@@ -3,16 +3,65 @@ using Features.Actions;
 using Features.Player.DeathLogic;
 using Features.Queue;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
-namespace Features.Player.Controller
+namespace Features.Player.Controller.CharacterInput
 {
-    // TODO: whole queue functionality really
     public class QueueInputBehaviour : MonoBehaviour, ICharacterInput
     {
+        public float Horizontal { get; set; }
+        public bool JumpPerformed { get; set; }
+        public bool JumpBuffered => Time.unscaledTime - JumpTimeStamp < 0.1f;
+
+        public bool JumpCanceled { get; set; }
+        public float JumpTimeStamp { get; set; }
+        public float JumpEndTimeStamp { get; private set; }
+        
+        public bool DashPerformed { get; set; }
+        
         private ResettableQueue<ICharacterAction> _actionQueue;
         
         private InputManager _inputManager;
+
+        private QueueInput _queueInput;
+        
+        private void Awake()
+        {
+            _actionQueue = GetComponent<QueueHolder>().Queue;
+            
+            _inputManager = new InputManager();
+            _inputManager.PlayerMovement.Enable();
+
+            QueueProcessor processor = new QueueProcessor(_actionQueue);
+
+            _queueInput = new QueueInput(processor, _inputManager, this);
+        }
+        
+        private void OnEnable()
+        {
+            _queueInput.HandleOnEnable();
+            
+            Station.Station.StationOpened += DisableInput;
+            Station.Station.StationClosed += EnableInput;
+            
+            DeathLogicBehaviour.DeathAnimationStart += DisableInput;
+            DeathLogicBehaviour.DeathAnimationEnd += EnableInput;
+        }
+
+        private void OnDisable()
+        {
+            _queueInput.HandleOnDisable();
+            
+            Station.Station.StationOpened -= DisableInput;
+            Station.Station.StationClosed -= EnableInput;
+            
+            DeathLogicBehaviour.DeathAnimationStart -= DisableInput;
+            DeathLogicBehaviour.DeathAnimationEnd -= EnableInput;
+        }
+
+        private void LateUpdate()
+        {
+            _queueInput.HandleLateUpdate();
+        }
 
         private void DisableInput(object sender, EventArgs args)
         {
@@ -23,120 +72,5 @@ namespace Features.Player.Controller
         {
             _inputManager.PlayerMovement.Enable();
         }
-        
-        private void Awake()
-        {
-            _actionQueue = GetComponent<QueueHolder>().Queue;
-            
-            _inputManager = new InputManager();
-            _inputManager.PlayerMovement.Enable();
-
-        }
-        
-        private void OnEnable()
-        {
-            InitializeInput();
-            
-            Station.Station.StationOpened += DisableInput;
-            Station.Station.StationClosed += EnableInput;
-            
-            DeathLogicBehaviour.DeathAnimationStart += DisableInput;
-            DeathLogicBehaviour.DeathAnimationEnd += EnableInput;
-        }
-
-        private void InitializeInput()
-        {
-            // TODO: "Action" input
-            _inputManager.PlayerMovement.Jump.performed += Action;
-            _inputManager.PlayerMovement.Jump.canceled += JumpEnd;
-            
-            _inputManager.PlayerMovement.Move.performed += Move;
-            _inputManager.PlayerMovement.Move.canceled += Move;
-        }
-
-        private void OnDisable()
-        {
-            TerminateInput();
-            
-            Station.Station.StationOpened -= DisableInput;
-            Station.Station.StationClosed -= EnableInput;
-            
-            DeathLogicBehaviour.DeathAnimationStart -= DisableInput;
-            DeathLogicBehaviour.DeathAnimationEnd -= EnableInput;
-        }
-
-        private void TerminateInput()
-        {
-            // TODO: "Action" input
-            _inputManager.PlayerMovement.Jump.performed -= Action;
-            _inputManager.PlayerMovement.Jump.canceled -= JumpEnd;
-            
-            _inputManager.PlayerMovement.Move.performed -= Move;
-            _inputManager.PlayerMovement.Move.canceled -= Move;
-        }
-
-        private void Move(InputAction.CallbackContext ctx)
-        {
-            Horizontal = ctx.ReadValue<float>();
-        }
-
-        private void Action(InputAction.CallbackContext ctx)
-        {
-            // TODO: save currentAction in case of jump for short-hop
-            if (_actionQueue.Count == 0) return;
-            
-            ICharacterAction currentAction = _actionQueue.Dequeue();
-
-            switch (currentAction.Name)
-            {
-                case "Jump":
-                    Jump(ctx);
-                    break;
-                case "Dash":
-                    Dash(ctx);
-                    break;
-                default:
-                    throw new NotImplementedException(
-                        "An Action was dequeued that has not been implemented in QueueProcessor.cs");
-            }
-        }
-
-        private bool _lastActionWasJump;
-
-        private void Jump(InputAction.CallbackContext ctx)
-        {
-            JumpPerformed = true;
-            JumpTimeStamp = Time.unscaledTime;
-            _lastActionWasJump = true;
-        }
-        
-        private void JumpEnd(InputAction.CallbackContext ctx)
-        {
-            if (!_lastActionWasJump) return;
-            JumpCanceled = true;
-            JumpEndTimeStamp = Time.unscaledTime;
-        }
-
-        private void Dash(InputAction.CallbackContext ctx)
-        {
-            DashPerformed = true;
-        }
-
-        private void LateUpdate()
-        {
-            JumpPerformed = false;
-            JumpCanceled = false;
-            DashPerformed = false;
-        }
-
-        public float Horizontal { get; private set; }
-        public bool JumpPerformed { get; private set; }
-        public bool JumpBuffered => Time.unscaledTime - JumpTimeStamp < 0.1f;
-
-        public bool JumpCanceled { get; private set; }
-        public float JumpTimeStamp { get; set; }
-        public float JumpEndTimeStamp { get; private set; }
-        
-        public bool DashPerformed { get; private set; }
     }
 }

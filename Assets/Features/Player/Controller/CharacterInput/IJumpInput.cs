@@ -1,10 +1,10 @@
-﻿namespace Features.Player.Controller
+﻿namespace Features.Player.Controller.CharacterInput
 {
     public interface IJumpInput
     {
-        bool JumpPerformed { get; }
-        
+        bool JumpPerformed { get; set; }
+
         bool JumpBuffered { get; }
-        bool JumpCanceled { get; }
+        bool JumpCanceled { get; set; }
     }
 }

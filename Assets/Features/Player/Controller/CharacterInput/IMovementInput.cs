@@ -1,7 +1,7 @@
-﻿namespace Features.Player.Controller
+﻿namespace Features.Player.Controller.CharacterInput
 {
     public interface IMovementInput
     {
-        float Horizontal { get; }
+        float Horizontal { get; set; }
     }
 }

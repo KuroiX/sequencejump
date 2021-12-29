@@ -2,6 +2,6 @@
 {
     public interface IDashInput
     {
-        bool DashPerformed { get; }
+        bool DashPerformed { get; set; }
     }
 }

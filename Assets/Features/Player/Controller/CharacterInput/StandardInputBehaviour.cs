@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Features.Player.Controller
+namespace Features.Player.Controller.CharacterInput
 {
     public class StandardInputBehaviour : MonoBehaviour, ICharacterInput
     {
@@ -72,14 +72,14 @@ namespace Features.Player.Controller
             DashPerformed = false;
         }
 
-        public float Horizontal { get; private set; }
-        public bool JumpPerformed { get; private set; }
+        public float Horizontal { get; set; }
+        public bool JumpPerformed { get; set; }
         public bool JumpBuffered => Time.unscaledTime - JumpTimeStamp < 0.1f;
 
-        public bool JumpCanceled { get; private set; }
+        public bool JumpCanceled { get; set; }
         public float JumpTimeStamp { get; set; }
         public float JumpEndTimeStamp { get; private set; }
         
-        public bool DashPerformed { get; private set; }
+        public bool DashPerformed { get; set; }
     }
 }

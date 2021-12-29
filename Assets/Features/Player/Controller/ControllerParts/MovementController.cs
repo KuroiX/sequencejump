@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Features.Player.Controller.CharacterInput;
+using UnityEngine;
 
 namespace Features.Player.Controller.ControllerParts
 {
