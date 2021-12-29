@@ -123157,6 +123157,10 @@ PrefabInstance:
       propertyPath: dashSpeed
       value: 100
       objectReference: {fileID: 0}
+    - target: {fileID: 7570952696846952858, guid: 3528356ecdebd3549801506f2eef8a67, type: 3}
+      propertyPath: useStandardInput
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7570952696846952859, guid: 3528356ecdebd3549801506f2eef8a67, type: 3}
       propertyPath: m_Enabled
       value: 1
