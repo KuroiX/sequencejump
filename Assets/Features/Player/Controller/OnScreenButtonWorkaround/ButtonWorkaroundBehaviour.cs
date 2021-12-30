@@ -6,7 +6,7 @@ using Features.Player.Controller.CharacterInput;
 
 namespace Features.Player.Controller.OnScreenButtonWorkaround
 {
-    public class ButtonWorkaroundBehaviour : MonoBehaviour, ICharacterInput
+    public class ButtonWorkaroundBehaviour : MonoBehaviour, IControllerInput
     {
         private ResettableQueue<ICharacterAction> _actionQueue;
         public ButtonWorkaround buttonWorkaround;

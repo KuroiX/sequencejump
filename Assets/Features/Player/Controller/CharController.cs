@@ -10,18 +10,18 @@ namespace Features.Player.Controller
         private readonly DashController _dash;
         private readonly MovementController _movement;
 
-        private readonly ICharacterInput _characterInput;
+        private readonly IControllerInput _controllerInput;
         private float _direction;
         
         public float Direction => _direction;
 
-        public CharController(GroundedController grounded, JumpController jump, DashController dash, MovementController movement, ICharacterInput characterInput)
+        public CharController(GroundedController grounded, JumpController jump, DashController dash, MovementController movement, IControllerInput controllerInput)
         {
             _grounded = grounded;
             _jump = jump;
             _dash = dash;
             _movement = movement;
-            _characterInput = characterInput;
+            _controllerInput = controllerInput;
         }
 
         public void HandleUpdate()
@@ -47,7 +47,7 @@ namespace Features.Player.Controller
 
         private void HandleJump()
         {
-            if ((_characterInput.JumpPerformed) &&
+            if ((_controllerInput.JumpPerformed) &&
                 IsAllowedToJump())
             {
                 _dash.DashEnd();
@@ -55,17 +55,17 @@ namespace Features.Player.Controller
             }
             
             //if (_characterInput.JumpCanceled) _jump.JumpEnd(shortHoppable);
-            if (_characterInput.JumpCanceled) _jump.JumpEnd(false);
+            if (_controllerInput.JumpCanceled) _jump.JumpEnd(false);
         }
 
         private void HandleDash()
         {
-            if (_characterInput.DashPerformed) _dash.Dash(_direction);
+            if (_controllerInput.DashPerformed) _dash.Dash(_direction);
         }
         
         private void CalculateDirection()
         {
-            _direction = _characterInput.Horizontal != 0 ? _characterInput.Horizontal : _direction;
+            _direction = _controllerInput.Horizontal != 0 ? _controllerInput.Horizontal : _direction;
         }
     }
 }

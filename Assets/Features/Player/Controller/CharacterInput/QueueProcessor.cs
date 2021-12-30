@@ -17,7 +17,7 @@ namespace Features.Player.Controller.CharacterInput
             _actionQueue = actionQueue;
         }
         
-        public void Action(ICharacterInput characterInput)
+        public void Action(IControllerInput controllerInput)
         {
             if (_actionQueue.Count == 0) return;
             
@@ -26,10 +26,10 @@ namespace Features.Player.Controller.CharacterInput
             switch (currentAction.Name)
             {
                 case "Jump":
-                    Jump(characterInput);
+                    Jump(controllerInput);
                     break;
                 case "Dash":
-                    Dash(characterInput);
+                    Dash(controllerInput);
                     break;
                 default:
                     throw new NotImplementedException(
@@ -37,23 +37,23 @@ namespace Features.Player.Controller.CharacterInput
             }
         }
 
-        private void Jump(ICharacterInput characterInput)
+        private void Jump(IControllerInput controllerInput)
         {
-            characterInput.JumpPerformed = true;
+            controllerInput.JumpPerformed = true;
             //characterInput.JumpTimeStamp = Time.unscaledTime;
             _lastActionWasJump = true;
         }
         
-        public void JumpEnd(ICharacterInput characterInput)
+        public void JumpEnd(IControllerInput controllerInput)
         {
             if (!_lastActionWasJump) return;
-            characterInput.JumpCanceled = true;
+            controllerInput.JumpCanceled = true;
             //characterInput.JumpEndTimeStamp = Time.unscaledTime;
         }
 
-        private void Dash(ICharacterInput characterInput)
+        private void Dash(IControllerInput controllerInput)
         {
-            characterInput.DashPerformed = true;
+            controllerInput.DashPerformed = true;
         }
     }
 }

@@ -5,55 +5,55 @@ namespace Features.Player.Controller.CharacterInput
     public class QueueInput
     {
         private readonly QueueProcessor _queueProcessor;
-        private readonly InputManager _inputManager;
-
         private readonly ICharacterInput _characterInput;
+
+        private readonly IControllerInput _controllerInput;
         
-        public QueueInput(QueueProcessor queueProcessor, InputManager inputManager, ICharacterInput characterInput)
+        public QueueInput(QueueProcessor queueProcessor, ICharacterInput inputManager, IControllerInput controllerInput)
         {
-            _inputManager = inputManager;
-            _characterInput = characterInput;
+            _characterInput = inputManager;
+            _controllerInput = controllerInput;
             _queueProcessor = queueProcessor;
         }
         
         public void HandleOnEnable()
         {
-            _inputManager.PlayerMovement.Jump.performed += Action;
-            _inputManager.PlayerMovement.Jump.canceled += ActionEnd;
+            _characterInput.ActionPerformed += Action;
+            _characterInput.ActionCanceled += ActionEnd;
             
-            _inputManager.PlayerMovement.Move.performed += Move;
-            _inputManager.PlayerMovement.Move.canceled += Move;
+            _characterInput.MovePerformed += Move;
+            _characterInput.MoveCanceled += Move;
         }
         
         public void HandleOnDisable()
         {
-            _inputManager.PlayerMovement.Jump.performed -= Action;
-            _inputManager.PlayerMovement.Jump.canceled -= ActionEnd;
+            _characterInput.ActionPerformed -= Action;
+            _characterInput.ActionCanceled -= ActionEnd;
             
-            _inputManager.PlayerMovement.Move.performed -= Move;
-            _inputManager.PlayerMovement.Move.canceled -= Move;
+            _characterInput.MovePerformed -= Move;
+            _characterInput.MoveCanceled -= Move;
         }
         
         private void Move(InputAction.CallbackContext ctx)
         {
-            _characterInput.Horizontal = ctx.ReadValue<float>();
+            _controllerInput.Horizontal = ctx.ReadValue<float>();
         }
 
         private void Action(InputAction.CallbackContext ctx)
         {
-            _queueProcessor.Action(_characterInput);
+            _queueProcessor.Action(_controllerInput);
         }
 
         private void ActionEnd(InputAction.CallbackContext ctx)
         {
-            _queueProcessor.JumpEnd(_characterInput);
+            _queueProcessor.JumpEnd(_controllerInput);
         }
 
         public void HandleLateUpdate()
         {
-            _characterInput.JumpPerformed = false;
-            _characterInput.JumpCanceled = false;
-            _characterInput.DashPerformed = false;
+            _controllerInput.JumpPerformed = false;
+            _controllerInput.JumpCanceled = false;
+            _controllerInput.DashPerformed = false;
         }
     }
 }

@@ -6,7 +6,7 @@ namespace Features.Player.Controller
 {
     public class CharControllerBehaviour : MonoBehaviour
     {
-        private ICharacterInput _characterInput;
+        private IControllerInput _controllerInput;
         private Rigidbody2D _rb;
         private BoxCollider2D _collider;
 
@@ -45,14 +45,14 @@ namespace Features.Player.Controller
 #if UNITY_ANDROID && !UNITY_EDITOR
             i = 2;
 #endif
-            _characterInput = GetComponents<ICharacterInput>()[i];
+            _controllerInput = GetComponents<IControllerInput>()[i];
 
             _jump = new JumpController(_rb, jumpHeight);
             _dash = new DashController(_rb, iterations, dashDistance);
             _grounded = new GroundedController(_collider, environmentLayerMask, .1f);
-            _movement = new MovementController(_characterInput, _grounded, _rb, movementSettings, maxFallSpeed);
+            _movement = new MovementController(_controllerInput, _grounded, _rb, movementSettings, maxFallSpeed);
 
-            _charController = new CharController(_grounded, _jump, _dash, _movement, _characterInput);
+            _charController = new CharController(_grounded, _jump, _dash, _movement, _controllerInput);
 
             _spriteRenderer = GetComponent<SpriteRenderer>();
         }

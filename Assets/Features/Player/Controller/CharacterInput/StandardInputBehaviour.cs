@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 namespace Features.Player.Controller.CharacterInput
 {
-    public class StandardInputBehaviour : MonoBehaviour, ICharacterInput
+    public class StandardInputBehaviour : MonoBehaviour, IControllerInput
     {
         private InputManager _inputManager;
 

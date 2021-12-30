@@ -7,7 +7,7 @@ using Features.StationLogic;
 
 namespace Features.Player.Controller.CharacterInput
 {
-    public class QueueInputBehaviour : MonoBehaviour, ICharacterInput
+    public class QueueInputBehaviour : MonoBehaviour, IControllerInput
     {
         public float Horizontal { get; set; }
         public bool JumpPerformed { get; set; }
@@ -34,7 +34,7 @@ namespace Features.Player.Controller.CharacterInput
 
             QueueProcessor processor = new QueueProcessor(_actionQueue);
 
-            _queueInput = new QueueInput(processor, _inputManager, this);
+            _queueInput = new QueueInput(processor, new InputManagerInput(_inputManager), this);
         }
         
         private void OnEnable()
