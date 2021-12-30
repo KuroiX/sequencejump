@@ -1,6 +1,4 @@
-﻿using UnityEngine.InputSystem;
-
-namespace Features.Player.Controller.CharacterInput
+﻿namespace Features.Player.Controller.CharacterInput
 {
     public class QueueInput
     {
@@ -34,17 +32,17 @@ namespace Features.Player.Controller.CharacterInput
             _characterInput.MoveCanceled -= Move;
         }
         
-        private void Move(InputAction.CallbackContext ctx)
+        private void Move(float value)
         {
-            _controllerInput.Horizontal = ctx.ReadValue<float>();
+            _controllerInput.Horizontal = value;
         }
 
-        private void Action(InputAction.CallbackContext ctx)
+        private void Action()
         {
             _queueProcessor.Action(_controllerInput);
         }
 
-        private void ActionEnd(InputAction.CallbackContext ctx)
+        private void ActionEnd()
         {
             _queueProcessor.JumpEnd(_controllerInput);
         }

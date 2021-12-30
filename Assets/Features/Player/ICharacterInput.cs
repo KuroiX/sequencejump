@@ -5,10 +5,10 @@ namespace Features.Player
 {
     public interface ICharacterInput
     {
-        event Action<InputAction.CallbackContext> ActionPerformed;
-        event Action<InputAction.CallbackContext> ActionCanceled;
+        event Action ActionPerformed;
+        event Action ActionCanceled;
         
-        event Action<InputAction.CallbackContext> MovePerformed;
-        event Action<InputAction.CallbackContext> MoveCanceled;
+        event Action<float> MovePerformed;
+        event Action<float> MoveCanceled;
     }
 }
