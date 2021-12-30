@@ -123101,8 +123101,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3138807142186251480, guid: 3528356ecdebd3549801506f2eef8a67, type: 3}
+      propertyPath: useButtons
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4106393046818995246, guid: 3528356ecdebd3549801506f2eef8a67, type: 3}
       propertyPath: buttonWorkaround
+      value: 
+      objectReference: {fileID: 1907792991}
+    - target: {fileID: 4106393046818995246, guid: 3528356ecdebd3549801506f2eef8a67, type: 3}
+      propertyPath: buttonWorkaroundInput
       value: 
       objectReference: {fileID: 1907792991}
     - target: {fileID: 7570952696846952837, guid: 3528356ecdebd3549801506f2eef8a67, type: 3}

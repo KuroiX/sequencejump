@@ -66,6 +66,7 @@ namespace Features.Player.Controller
         public void Enable()
         {
             _isDisabled = false;
+            MovePerformed?.Invoke(_leftValue + _rightValue);
         }
     }
 }

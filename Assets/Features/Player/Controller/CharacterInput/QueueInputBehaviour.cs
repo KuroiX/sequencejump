@@ -25,6 +25,8 @@ namespace Features.Player.Controller.CharacterInput
 
         private QueueInput _queueInput;
 
+        [SerializeField] private bool useButtons = false;
+
         private void Awake()
         {
             _actionQueue = GetComponent<QueueHolder>().Queue;
@@ -32,8 +34,16 @@ namespace Features.Player.Controller.CharacterInput
             _characterInput = new InputManagerInput(new InputManager());
 
 #if UNITY_ANDROID && !UNITY_EDITOR
-            _characterInput = FindObjectOfType<ButtonWorkaroundInput>();
+            useButton = true;
 #endif
+            if (useButtons)
+            {
+                _characterInput = FindObjectOfType<ButtonWorkaroundInput>();
+            }
+            else
+            {
+                _characterInput = new InputManagerInput(new InputManager());
+            }
             
             _characterInput.Enable();
 
