@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Security.Cryptography;
+﻿using Features.Queue;
 using NUnit.Framework;
-using UnityEngine.TestTools;
 
-namespace Tests
+namespace Editor.Tests
 {
+    [TestFixture]
     public class resettable_queue
     {
         private enum E
