@@ -1,6 +1,6 @@
 using System;
-using Features.Actions;
-using Features.Queue;
+using Foundations.Actions;
+using Foundations.Queue;
 
 namespace Features.StationLogic
 {

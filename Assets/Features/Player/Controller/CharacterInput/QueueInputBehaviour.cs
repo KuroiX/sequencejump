@@ -1,9 +1,9 @@
 using System;
-using Features.Actions;
-using Features.Player.DeathLogic;
-using Features.Queue;
-using Features.StationLogic;
 using UnityEngine;
+using Foundations.Queue;
+using Foundations.Actions;
+using Features.Player.DeathLogic;
+using Features.StationLogic;
 
 namespace Features.Player.Controller.CharacterInput
 {

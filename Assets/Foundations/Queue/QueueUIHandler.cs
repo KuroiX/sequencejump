@@ -1,9 +1,9 @@
 ﻿using System;
-using Features.Actions;
 using UnityEngine;
 using UnityEngine.UI;
+using Foundations.Actions;
 
-namespace Features.Queue
+namespace Foundations.Queue
 {
     public class QueueUIHandler : MonoBehaviour
     {

@@ -1,5 +1,5 @@
-﻿using Features.Queue;
-using NUnit.Framework;
+﻿using NUnit.Framework;
+using Foundations.Queue;
 
 namespace Editor.Tests
 {

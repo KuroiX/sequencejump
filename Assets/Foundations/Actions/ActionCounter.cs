@@ -1,8 +1,6 @@
 ﻿using System;
-using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace Features.Actions
+namespace Foundations.Actions
 {
     [Serializable]
     public struct ActionCounter

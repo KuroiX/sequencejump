@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Features.Queue
+namespace Foundations.Queue
 {
     /// <summary>
     /// Same functionality as a queue, but information is not lost so it can be reset.

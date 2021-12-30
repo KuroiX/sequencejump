@@ -1,7 +1,6 @@
-﻿using Features.Actions;
-using UnityEngine;
+﻿using Foundations.Actions;
 
-namespace Features.Queue
+namespace Foundations.Queue
 {
     public interface IQueueHolder
     {

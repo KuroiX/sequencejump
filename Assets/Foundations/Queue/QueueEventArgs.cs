@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Features.Queue
+namespace Foundations.Queue
 {
     public class QueueEventArgs<T> : EventArgs
     {

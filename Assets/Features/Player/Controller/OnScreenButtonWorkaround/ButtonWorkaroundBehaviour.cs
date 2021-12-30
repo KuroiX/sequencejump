@@ -1,8 +1,8 @@
 using System;
-using Features.Actions;
-using Features.Player.Controller.CharacterInput;
-using Features.Queue;
 using UnityEngine;
+using Foundations.Actions;
+using Foundations.Queue;
+using Features.Player.Controller.CharacterInput;
 
 namespace Features.Player.Controller.OnScreenButtonWorkaround
 {

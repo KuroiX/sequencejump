@@ -1,7 +1,8 @@
 ﻿using System;
-using Features.Actions;
-using Features.Queue;
 using UnityEngine;
+using Foundations.Actions;
+using Foundations.Queue;
+
 
 namespace Features.Player.Controller.CharacterInput
 {
