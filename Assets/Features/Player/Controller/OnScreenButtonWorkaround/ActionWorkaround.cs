@@ -5,21 +5,21 @@ namespace Features.Player.Controller
 {
     public class ActionWorkaround : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     { 
-        private ButtonWorkaround _buttonWorkaround;
+        private ButtonWorkaroundInput _buttonWorkaroundInput;
 
         private void Awake()
         {
-            _buttonWorkaround = gameObject.GetComponentInParent<ButtonWorkaround>();
+            _buttonWorkaroundInput = gameObject.GetComponentInParent<ButtonWorkaroundInput>();
         }
         
         public void OnPointerDown(PointerEventData eventData)
         {
-            _buttonWorkaround.OnActionDown();
+            _buttonWorkaroundInput.OnActionDown();
         }
 
         public void OnPointerUp(PointerEventData eventData)
         {
-            _buttonWorkaround.OnActionUp();
+            _buttonWorkaroundInput.OnActionUp();
         }
     }
 }

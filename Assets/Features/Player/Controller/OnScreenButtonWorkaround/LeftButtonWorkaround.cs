@@ -7,21 +7,21 @@ namespace Features.Player.Controller
 {
     public class LeftButtonWorkaround : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     {
-        private ButtonWorkaround _buttonWorkaround;
+        private ButtonWorkaroundInput _buttonWorkaroundInput;
 
         private void Awake()
         {
-            _buttonWorkaround = gameObject.GetComponentInParent<ButtonWorkaround>();
+            _buttonWorkaroundInput = gameObject.GetComponentInParent<ButtonWorkaroundInput>();
         }
         
         public void OnPointerDown(PointerEventData eventData)
         {
-            _buttonWorkaround.OnLeft(-1);
+            _buttonWorkaroundInput.OnLeft(-1);
         }
 
         public void OnPointerUp(PointerEventData eventData)
         {
-            _buttonWorkaround.OnLeft(0);
+            _buttonWorkaroundInput.OnLeft(0);
         }
     }
 }

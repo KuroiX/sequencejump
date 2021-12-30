@@ -10,5 +10,9 @@ namespace Features.Player
         
         event Action<float> MovePerformed;
         event Action<float> MoveCanceled;
+
+        void Enable();
+
+        void Disable();
     }
 }

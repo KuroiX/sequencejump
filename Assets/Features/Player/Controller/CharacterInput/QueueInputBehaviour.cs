@@ -20,21 +20,26 @@ namespace Features.Player.Controller.CharacterInput
         public bool DashPerformed { get; set; }
         
         private ResettableQueue<ICharacterAction> _actionQueue;
-        
-        private InputManager _inputManager;
+
+        private ICharacterInput _characterInput;
 
         private QueueInput _queueInput;
-        
+
         private void Awake()
         {
             _actionQueue = GetComponent<QueueHolder>().Queue;
+
+            _characterInput = new InputManagerInput(new InputManager());
+
+#if UNITY_ANDROID && !UNITY_EDITOR
+            _characterInput = FindObjectOfType<ButtonWorkaroundInput>();
+#endif
             
-            _inputManager = new InputManager();
-            _inputManager.PlayerMovement.Enable();
+            _characterInput.Enable();
 
             QueueProcessor processor = new QueueProcessor(_actionQueue);
 
-            _queueInput = new QueueInput(processor, new InputManagerInput(_inputManager), this);
+            _queueInput = new QueueInput(processor, _characterInput, this);
         }
         
         private void OnEnable()
@@ -66,12 +71,12 @@ namespace Features.Player.Controller.CharacterInput
 
         private void DisableInput(object sender, EventArgs args)
         {
-            _inputManager.PlayerMovement.Disable();
+            _characterInput.Disable();
         }
         
         private void EnableInput(object sender, EventArgs args)
         {
-            _inputManager.PlayerMovement.Enable();
+            _characterInput.Enable();
         }
     }
 }

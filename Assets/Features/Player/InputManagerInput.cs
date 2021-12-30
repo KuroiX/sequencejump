@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using NSubstitute.Core;
 using UnityEngine.InputSystem;
 
 namespace Features.Player
@@ -98,6 +97,16 @@ namespace Features.Player
         private void Move(Action<float> value, InputAction.CallbackContext ctx)
         {
             value(ctx.ReadValue<float>());
+        }
+
+        public void Enable()
+        {
+            _inputManager.PlayerMovement.Enable();
+        }
+
+        public void Disable()
+        {
+            _inputManager.PlayerMovement.Disable();
         }
     }
 }

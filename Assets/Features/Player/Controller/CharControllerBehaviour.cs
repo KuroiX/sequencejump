@@ -42,9 +42,7 @@ namespace Features.Player.Controller
             _collider = GetComponent<BoxCollider2D>();
             
             int i = useStandardInput ? 0 : 1;
-#if UNITY_ANDROID && !UNITY_EDITOR
-            i = 2;
-#endif
+
             _controllerInput = GetComponents<IControllerInput>()[i];
 
             _jump = new JumpController(_rb, jumpHeight);
