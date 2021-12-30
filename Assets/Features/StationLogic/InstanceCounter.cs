@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Features.Station
+namespace Features.StationLogic
 {
     public class InstanceCounter<T>
     {

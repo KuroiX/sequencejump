@@ -1,7 +1,7 @@
 using System;
 using Features.Actions;
 using Features.Queue;
-using Features.Station;
+using Features.StationLogic;
 using NUnit.Framework;
 using NSubstitute;
 

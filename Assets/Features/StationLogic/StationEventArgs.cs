@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Features.Station
+namespace Features.StationLogic
 {
     public class StationEventArgs : EventArgs
     {

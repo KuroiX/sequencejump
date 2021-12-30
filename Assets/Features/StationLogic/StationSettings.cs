@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace Features.Station
+namespace Features.StationLogic
 {
     [System.Serializable]
     public struct StationSettings

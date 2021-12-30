@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Features.Station
+namespace Features.StationLogic
 {
     public class StationCameraSwitch : MonoBehaviour
     {

@@ -3,7 +3,7 @@ using Features.Queue;
 using UnityEngine;
 using System.Linq;
 
-namespace Features.Station
+namespace Features.StationLogic
 {
     public class StationBehaviour : MonoBehaviour
     {

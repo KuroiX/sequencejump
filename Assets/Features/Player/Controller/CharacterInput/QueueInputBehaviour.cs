@@ -2,6 +2,7 @@ using System;
 using Features.Actions;
 using Features.Player.DeathLogic;
 using Features.Queue;
+using Features.StationLogic;
 using UnityEngine;
 
 namespace Features.Player.Controller.CharacterInput
@@ -40,8 +41,8 @@ namespace Features.Player.Controller.CharacterInput
         {
             _queueInput.HandleOnEnable();
             
-            Station.Station.StationOpened += DisableInput;
-            Station.Station.StationClosed += EnableInput;
+            Station.StationOpened += DisableInput;
+            Station.StationClosed += EnableInput;
             
             DeathLogicBehaviour.DeathAnimationStart += DisableInput;
             DeathLogicBehaviour.DeathAnimationEnd += EnableInput;
@@ -51,8 +52,8 @@ namespace Features.Player.Controller.CharacterInput
         {
             _queueInput.HandleOnDisable();
             
-            Station.Station.StationOpened -= DisableInput;
-            Station.Station.StationClosed -= EnableInput;
+            Station.StationOpened -= DisableInput;
+            Station.StationClosed -= EnableInput;
             
             DeathLogicBehaviour.DeathAnimationStart -= DisableInput;
             DeathLogicBehaviour.DeathAnimationEnd -= EnableInput;

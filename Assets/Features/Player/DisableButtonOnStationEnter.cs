@@ -1,7 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Features.Station;
+using Features.StationLogic;
 using UnityEngine;
 
 public class DisableButtonOnStationEnter : MonoBehaviour

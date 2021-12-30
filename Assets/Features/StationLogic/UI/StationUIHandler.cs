@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Features.Station.UI
+namespace Features.StationLogic.UI
 {
     public class StationUIHandler : MonoBehaviour
     {

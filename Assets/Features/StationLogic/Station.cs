@@ -2,7 +2,7 @@ using System;
 using Features.Actions;
 using Features.Queue;
 
-namespace Features.Station
+namespace Features.StationLogic
 {
     public class Station
     {

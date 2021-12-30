@@ -3,7 +3,7 @@ using Features.Actions;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Features.Station.UI
+namespace Features.StationLogic.UI
 {
     public class EnqueueButton : MonoBehaviour
     {
