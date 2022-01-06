@@ -118,6 +118,30 @@ namespace Editor.Tests
             Assert.AreEqual(default(E), defaultStruct.e);
             Assert.AreEqual(default(object), defaultStruct.o);
         }
+        
+        [Test]
+        public void returns_default_when_peeking_over_queue_size()
+        {
+            ResettableQueue<DefaultStruct> objectQueue = new ResettableQueue<DefaultStruct>();
+
+            DefaultStruct defaultStruct = objectQueue.Peek(1);
+            
+            Assert.AreEqual(default(int), defaultStruct.i);
+            Assert.AreEqual(default(float), defaultStruct.f);
+            Assert.AreEqual(default(bool), defaultStruct.b);
+            Assert.AreEqual(default(char), defaultStruct.c);
+            Assert.AreEqual(default(E), defaultStruct.e);
+            Assert.AreEqual(default(object), defaultStruct.o);
+            
+            defaultStruct = objectQueue.Dequeue();
+            
+            Assert.AreEqual(default(int), defaultStruct.i);
+            Assert.AreEqual(default(float), defaultStruct.f);
+            Assert.AreEqual(default(bool), defaultStruct.b);
+            Assert.AreEqual(default(char), defaultStruct.c);
+            Assert.AreEqual(default(E), defaultStruct.e);
+            Assert.AreEqual(default(object), defaultStruct.o);
+        }
 
         [Test]
         public void returns_next_item_upon_calling_peek()
@@ -135,6 +159,18 @@ namespace Editor.Tests
             _queue.Dequeue();
             
             Assert.AreEqual(2, _queue.Peek());
+        }
+        
+        [Test]
+        public void returns_item_at_index_upon_calling_peek_with_index()
+        {
+            _queue.Enqueue(1);
+            _queue.Enqueue(2);
+            _queue.Enqueue(3);
+            
+            Assert.AreEqual(1, _queue.Peek(0));
+            Assert.AreEqual(2, _queue.Peek(1));
+            Assert.AreEqual(3, _queue.Peek(2));
         }
 
         [Test]
