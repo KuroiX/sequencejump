@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Foundations.Actions
+namespace Core.Actions
 {
     [CreateAssetMenu(fileName = "Action", menuName = "ScriptableObjects/Action", order = 1)]
     public class CharacterAction : ScriptableObject, ICharacterAction

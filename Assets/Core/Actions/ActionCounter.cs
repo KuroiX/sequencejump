@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Foundations.Actions
+namespace Core.Actions
 {
     [Serializable]
     public struct ActionCounter

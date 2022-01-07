@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Foundations.Queue
+namespace Core.Queue
 {
     public class QueueEventArgs<T> : EventArgs
     {

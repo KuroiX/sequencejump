@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Foundations.Actions
+namespace Core.Actions
 {
     public interface ICharacterAction
     {

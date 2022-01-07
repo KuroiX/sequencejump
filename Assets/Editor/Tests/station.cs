@@ -1,9 +1,9 @@
 using System;
+using Core.Actions;
+using Core.Queue;
 using NUnit.Framework;
 using NSubstitute;
 using Features.StationLogic;
-using Foundations.Actions;
-using Foundations.Queue;
 
 namespace Editor.Tests
 {

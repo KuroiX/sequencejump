@@ -1,6 +1,6 @@
-﻿using Foundations.Actions;
+﻿using Core.Actions;
 
-namespace Foundations.Queue
+namespace Core.Queue
 {
     public interface IQueueHolder
     {

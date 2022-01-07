@@ -1,7 +1,7 @@
 using System;
+using Core.Actions;
+using Core.Queue;
 using UnityEngine;
-using Foundations.Queue;
-using Foundations.Actions;
 using Features.Player.DeathLogic;
 using Features.StationLogic;
 

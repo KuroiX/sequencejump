@@ -1,7 +1,7 @@
+using Core.Actions;
 using UnityEngine;
-using Foundations.Actions;
 
-namespace Foundations.Queue
+namespace Core.Queue
 {
     public class QueueHolder : MonoBehaviour, IQueueHolder
     {
