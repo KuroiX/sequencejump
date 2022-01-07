@@ -21,7 +21,7 @@ namespace Features.Player.Controller.CharacterInput
         
         private ResettableQueue<ICharacterAction> _actionQueue;
 
-        private ICharacterInput _characterInput;
+        private ICharacterInput[] _characterInput;
 
         private QueueInput _queueInput;
 
@@ -30,22 +30,24 @@ namespace Features.Player.Controller.CharacterInput
         private void Awake()
         {
             _actionQueue = GetComponent<QueueHolder>().Queue;
-
-            _characterInput = new InputManagerInput(new InputManager());
-
-#if UNITY_ANDROID && !UNITY_EDITOR
-            useButton = true;
-#endif
-            if (useButtons)
-            {
-                _characterInput = FindObjectOfType<ButtonWorkaroundInput>();
-            }
-            else
-            {
-                _characterInput = new InputManagerInput(new InputManager());
-            }
             
-            _characterInput.Enable();
+            ICharacterInput buttonInput = FindObjectOfType<ButtonWorkaroundInput>();
+
+            bool foundButtonInput = !ReferenceEquals(buttonInput, null);
+
+            _characterInput = new ICharacterInput[foundButtonInput ? 2 : 1];
+
+            _characterInput[0] = new InputManagerInput(new InputManager());
+
+            if (foundButtonInput)
+            {
+                _characterInput[1] = buttonInput;
+            }
+
+            foreach (var input in _characterInput)
+            {
+                input.Enable();
+            }
 
             QueueProcessor processor = new QueueProcessor(_actionQueue);
 
@@ -81,12 +83,18 @@ namespace Features.Player.Controller.CharacterInput
 
         private void DisableInput(object sender, EventArgs args)
         {
-            _characterInput.Disable();
+            foreach (var input in _characterInput)
+            {
+                input.Enable();
+            }
         }
         
         private void EnableInput(object sender, EventArgs args)
         {
-            _characterInput.Enable();
+            foreach (var input in _characterInput)
+            {
+                input.Enable();
+            }
         }
     }
 }

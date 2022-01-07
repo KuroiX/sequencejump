@@ -3,11 +3,11 @@
     public class QueueInput
     {
         private readonly QueueProcessor _queueProcessor;
-        private readonly ICharacterInput _characterInput;
+        private readonly ICharacterInput[] _characterInput;
 
         private readonly IControllerInput _controllerInput;
         
-        public QueueInput(QueueProcessor queueProcessor, ICharacterInput inputManager, IControllerInput controllerInput)
+        public QueueInput(QueueProcessor queueProcessor, ICharacterInput[] inputManager, IControllerInput controllerInput)
         {
             _characterInput = inputManager;
             _controllerInput = controllerInput;
@@ -16,20 +16,26 @@
         
         public void HandleOnEnable()
         {
-            _characterInput.ActionPerformed += Action;
-            _characterInput.ActionCanceled += ActionEnd;
+            foreach (ICharacterInput inputSource in _characterInput)
+            {
+                inputSource.ActionPerformed += Action;
+                inputSource.ActionCanceled += ActionEnd;
             
-            _characterInput.MovePerformed += Move;
-            _characterInput.MoveCanceled += Move;
+                inputSource.MovePerformed += Move;
+                inputSource.MoveCanceled += Move;
+            }
         }
         
         public void HandleOnDisable()
         {
-            _characterInput.ActionPerformed -= Action;
-            _characterInput.ActionCanceled -= ActionEnd;
+            foreach (ICharacterInput inputSource in _characterInput)
+            {
+                inputSource.ActionPerformed -= Action;
+                inputSource.ActionCanceled -= ActionEnd;
             
-            _characterInput.MovePerformed -= Move;
-            _characterInput.MoveCanceled -= Move;
+                inputSource.MovePerformed -= Move;
+                inputSource.MoveCanceled -= Move;
+            }
         }
         
         private void Move(float value)
