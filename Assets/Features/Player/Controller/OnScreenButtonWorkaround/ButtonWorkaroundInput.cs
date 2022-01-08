@@ -1,8 +1,5 @@
 using System;
-using Features.Player.DeathLogic;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
 
 namespace Features.Player.Controller
 {
@@ -59,6 +56,9 @@ namespace Features.Player.Controller
         public void Disable()
         {
             _isDisabled = true;
+            
+            gameObject.SetActive(false);
+            
             ActionCanceled?.Invoke();
             MoveCanceled?.Invoke(0);
         }
@@ -66,6 +66,8 @@ namespace Features.Player.Controller
         public void Enable()
         {
             _isDisabled = false;
+            
+            gameObject.SetActive(true);
             MovePerformed?.Invoke(_leftValue + _rightValue);
         }
     }

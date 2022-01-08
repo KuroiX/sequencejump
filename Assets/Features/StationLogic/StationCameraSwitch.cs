@@ -35,7 +35,7 @@ namespace Features.StationLogic
         private void Subscribe(object sender, EventArgs e)
         {
             if (_station != (sender)) return;
-            Debug.Log("Subscribe CameraSwitch");
+            //Debug.Log("Subscribe CameraSwitch");
             Station.StationOpened += CameraSwitchOnOpened;
             Station.StationClosed += CameraSwitchOnClosed;
         }
@@ -43,7 +43,7 @@ namespace Features.StationLogic
         private void Unsubscribe(object sender, EventArgs e)
         {
             if (_station != ((Station) sender)) return;
-            Debug.Log("Unsubscribe CameraSwitch");
+            //Debug.Log("Unsubscribe CameraSwitch");
             Station.StationOpened -= CameraSwitchOnOpened;
             Station.StationClosed -= CameraSwitchOnClosed;
         }

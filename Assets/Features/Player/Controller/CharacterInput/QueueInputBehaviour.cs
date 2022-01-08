@@ -25,8 +25,6 @@ namespace Features.Player.Controller.CharacterInput
 
         private QueueInput _queueInput;
 
-        [SerializeField] private bool useButtons = false;
-
         private void Awake()
         {
             _actionQueue = GetComponent<QueueHolder>().Queue;
@@ -83,9 +81,11 @@ namespace Features.Player.Controller.CharacterInput
 
         private void DisableInput(object sender, EventArgs args)
         {
+            //Debug.Log("disableInput");
             foreach (var input in _characterInput)
             {
-                input.Enable();
+                //Debug.Log("Disable this input: " + input);
+                input.Disable();
             }
         }
         

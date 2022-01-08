@@ -68,7 +68,7 @@ namespace Core.Queue
             ICharacterAction action = _queue.Peek(3);
 
             forth.sprite = action?.Sprite;
-            Debug.Log("Dequeued");
+            //Debug.Log("Dequeued");
         }
         
         private void OnQueueReset(object sender, EventArgs args)
@@ -77,7 +77,7 @@ namespace Core.Queue
             second.sprite = _queue.Peek()?.Sprite;
             third.sprite = _queue.Peek(1)?.Sprite;
             forth.sprite = _queue.Peek(2)?.Sprite;
-            Debug.Log("Reset");
+            //Debug.Log("Reset");
         }
         
         private void OnQueueCleared(object sender, EventArgs args)
@@ -86,7 +86,7 @@ namespace Core.Queue
             second.sprite = null;
             third.sprite = null;
             forth.sprite = null;
-            Debug.Log("Cleared");
+            //Debug.Log("Cleared");
         }
     }
 }

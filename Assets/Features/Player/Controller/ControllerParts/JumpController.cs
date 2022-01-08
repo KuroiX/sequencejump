@@ -17,7 +17,7 @@ namespace Features.Player.Controller.ControllerParts
         
         public void Jump()
         {
-            Debug.Log("Jump");
+            //Debug.Log("Jump");
             _rb.velocity = new Vector2(_rb.velocity.x, CalculateJumpVelocity(_jumpHeight));
             IsJumping = true;
         }

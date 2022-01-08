@@ -102,11 +102,13 @@ namespace Features.Player
         public void Enable()
         {
             _inputManager.PlayerMovement.Enable();
+            // TODO: enable on screen buttons here?
         }
 
         public void Disable()
         {
             _inputManager.PlayerMovement.Disable();
+            // TODO: disable on screen buttons here?
         }
     }
 }
