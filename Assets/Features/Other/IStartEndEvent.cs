@@ -1,6 +1,6 @@
 ﻿namespace Features.Other
 {
-    public interface IStartEndEvent: IActivatedEvent, IDeactivatedEvent
+    public interface IStartEndEvent: IStartedEvent, IEndedEvent
     {
         
     }

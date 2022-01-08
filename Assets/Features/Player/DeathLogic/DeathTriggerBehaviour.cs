@@ -5,22 +5,22 @@ using UnityEngine;
 
 namespace Features.Player.DeathLogic
 {
-    public class DeathTrigger : MonoBehaviour, IStartEndEvent
+    public class DeathTriggerBehaviour : MonoBehaviour, IStartEndEvent
     {
-        public event EventHandler Activated
+        public event EventHandler Started
         {
             add => DeathStart += value;
             remove => DeathStart -= value;
         }
         
-        public event EventHandler Deactivated
+        public event EventHandler Ended
         {
             add => DeathEnd += value;
             remove => DeathEnd -= value;
         }
         
-        public event EventHandler DeathStart;
-        public event EventHandler DeathEnd;
+        public static event EventHandler DeathStart;
+        public static event EventHandler DeathEnd;
 
         [SerializeField] private LayerMask hazardMask;
         [SerializeField] private float deathAnimationLength;
