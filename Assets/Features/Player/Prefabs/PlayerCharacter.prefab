@@ -16,7 +16,9 @@ GameObject:
   - component: {fileID: 7570952696846952858}
   - component: {fileID: 7570952696846952859}
   - component: {fileID: 3138807142186251480}
-  - component: {fileID: 6321958809214769612}
+  - component: {fileID: 8219934145229362466}
+  - component: {fileID: 2016303128}
+  - component: {fileID: 2016303135}
   m_Layer: 6
   m_Name: PlayerCharacter
   m_TagString: Untagged
@@ -199,7 +201,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a7609a14806acf4bb4e7ea8ce1d7126, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6321958809214769612
+--- !u!114 &8219934145229362466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7570952696846952837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02daa8ffd25242ff87cebf205ce3f788, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hazardMask:
+    serializedVersion: 2
+    m_Bits: 256
+  deathAnimationLength: 1
+--- !u!114 &2016303128
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -211,13 +229,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51313ba0ffd85dd43869a17acf58856a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hazardLayerMask:
-    serializedVersion: 2
-    m_Bits: 256
-  terminalLayerMask:
+  respawnSignal: {fileID: 8219934145229362466}
+  checkpointLayerMask:
     serializedVersion: 2
     m_Bits: 512
-  deathAnimationLength: 1
+--- !u!114 &2016303135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7570952696846952837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25a9ac9739c94d06b2e06edb825977e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  signals: {fileID: 8219934145229362466}
+  sprite: {fileID: 7570952696846952856}
 --- !u!1001 &1130309584271054528
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -273,10 +302,31 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2955323985274688952, guid: 3ee6e9fc8ed912d468066ee1dc5cac57, type: 3}
+      propertyPath: signal
+      value: 
+      objectReference: {fileID: 8219934145229362466}
+    - target: {fileID: 2955323985274688952, guid: 3ee6e9fc8ed912d468066ee1dc5cac57, type: 3}
+      propertyPath: particles
+      value: 
+      objectReference: {fileID: 2786814568508113787}
+    - target: {fileID: 2955323985274688952, guid: 3ee6e9fc8ed912d468066ee1dc5cac57, type: 3}
+      propertyPath: deathTrigger
+      value: 
+      objectReference: {fileID: 8219934145229362466}
+    - target: {fileID: 2955323985274688952, guid: 3ee6e9fc8ed912d468066ee1dc5cac57, type: 3}
+      propertyPath: deathParticles
+      value: 
+      objectReference: {fileID: 2786814568508113787}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3ee6e9fc8ed912d468066ee1dc5cac57, type: 3}
 --- !u!4 &2786814568508113765 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2955323985274688933, guid: 3ee6e9fc8ed912d468066ee1dc5cac57, type: 3}
+  m_PrefabInstance: {fileID: 1130309584271054528}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &2786814568508113787 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 2955323985274688955, guid: 3ee6e9fc8ed912d468066ee1dc5cac57, type: 3}
   m_PrefabInstance: {fileID: 1130309584271054528}
   m_PrefabAsset: {fileID: 0}

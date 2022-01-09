@@ -56,19 +56,23 @@ namespace Features.Player.Controller
         public void Disable()
         {
             _isDisabled = true;
-            
-            gameObject.SetActive(false);
+
+            _leftValue = 0;
+            _rightValue = 0;
             
             ActionCanceled?.Invoke();
             MoveCanceled?.Invoke(0);
+            
+            gameObject.SetActive(false);
         }
         
         public void Enable()
         {
             _isDisabled = false;
             
+            //MovePerformed?.Invoke(_leftValue + _rightValue);
+            
             gameObject.SetActive(true);
-            MovePerformed?.Invoke(_leftValue + _rightValue);
         }
     }
 }

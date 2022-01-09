@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Collections;
-using Features.Other;
 using UnityEngine;
 
 namespace Features.Player.DeathLogic
 {
-    public class DeathTriggerBehaviour : MonoBehaviour, IStartEndEvent
+    public class DeathTriggerBehaviour : MonoBehaviour, IStopStartSignal
     {
-        public event EventHandler Started
+        public event EventHandler Stop
         {
             add => DeathStart += value;
             remove => DeathStart -= value;
         }
         
-        public event EventHandler Ended
+        public event EventHandler Start
         {
             add => DeathEnd += value;
             remove => DeathEnd -= value;
@@ -23,7 +22,7 @@ namespace Features.Player.DeathLogic
         public static event EventHandler DeathEnd;
 
         [SerializeField] private LayerMask hazardMask;
-        [SerializeField] private float deathAnimationLength;
+        [SerializeField] private float deathAnimationLength = 1;
 
         private bool _isRunning;
         

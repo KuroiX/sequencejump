@@ -25,6 +25,10 @@ namespace Features.Player.Controller.CharacterInput
 
         private QueueInput _queueInput;
 
+        [SerializeField] private Component signals;
+
+        private IStopStartSignal _signals;
+
         private void Awake()
         {
             _actionQueue = GetComponent<QueueHolder>().Queue;
@@ -50,6 +54,8 @@ namespace Features.Player.Controller.CharacterInput
             QueueProcessor processor = new QueueProcessor(_actionQueue);
 
             _queueInput = new QueueInput(processor, _characterInput, this);
+
+            _signals = (IStopStartSignal) signals;
         }
         
         private void OnEnable()
@@ -59,8 +65,11 @@ namespace Features.Player.Controller.CharacterInput
             Station.StationOpened += DisableInput;
             Station.StationClosed += EnableInput;
             
-            DeathLogicBehaviour.DeathAnimationStart += DisableInput;
-            DeathLogicBehaviour.DeathAnimationEnd += EnableInput;
+            //DeathLogicBehaviour.DeathAnimationStart += DisableInput;
+            //DeathLogicBehaviour.DeathAnimationEnd += EnableInput;
+
+            _signals.Stop += DisableInput;
+            _signals.Start += EnableInput;
         }
 
         private void OnDisable()
@@ -70,8 +79,11 @@ namespace Features.Player.Controller.CharacterInput
             Station.StationOpened -= DisableInput;
             Station.StationClosed -= EnableInput;
             
-            DeathLogicBehaviour.DeathAnimationStart -= DisableInput;
-            DeathLogicBehaviour.DeathAnimationEnd -= EnableInput;
+            //DeathLogicBehaviour.DeathAnimationStart -= DisableInput;
+            //DeathLogicBehaviour.DeathAnimationEnd -= EnableInput;
+            
+            _signals.Stop -= DisableInput;
+            _signals.Start -= EnableInput;
         }
 
         private void LateUpdate()
