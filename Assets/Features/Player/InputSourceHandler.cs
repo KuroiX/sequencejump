@@ -16,7 +16,6 @@ namespace Features.Player
         
         public void HandleOnEnable()
         {
-
             foreach (var signal in _signals)
             {
                 signal.Stop += DisableInput;

@@ -7,12 +7,7 @@ namespace Features.Player.Controller.CharacterInput
     {
         public float Horizontal { get; set; }
         public bool JumpPerformed { get; set; }
-        public bool JumpBuffered => Time.unscaledTime - JumpTimeStamp < 0.1f;
-
         public bool JumpCanceled { get; set; }
-        public float JumpTimeStamp { get; set; }
-        public float JumpEndTimeStamp { get; private set; }
-        
         public bool DashPerformed { get; set; }
 
         [SerializeField] private Component[] signals;

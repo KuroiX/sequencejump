@@ -6,20 +6,8 @@ namespace Features.Player.DeathLogic
 {
     public class DeathTriggerBehaviour : MonoBehaviour, IStopStartSignal
     {
-        public event EventHandler Stop
-        {
-            add => DeathStart += value;
-            remove => DeathStart -= value;
-        }
-        
-        public event EventHandler Start
-        {
-            add => DeathEnd += value;
-            remove => DeathEnd -= value;
-        }
-        
-        public static event EventHandler DeathStart;
-        public static event EventHandler DeathEnd;
+        public event EventHandler Stop;
+        public event EventHandler Start;
 
         [SerializeField] private LayerMask hazardMask;
         [SerializeField] private float deathAnimationLength = 1;
@@ -28,12 +16,12 @@ namespace Features.Player.DeathLogic
         
         private void OnDeathAnimationStart()
         {
-            DeathStart?.Invoke(this, EventArgs.Empty);
+            Stop?.Invoke(this, EventArgs.Empty);
         }
 
         private void OnDeathAnimationEnd()
         {
-            DeathEnd?.Invoke(this, EventArgs.Empty);
+            Start?.Invoke(this, EventArgs.Empty);
         }
 
         private void OnTriggerEnter2D(Collider2D other)
