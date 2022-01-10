@@ -44,7 +44,7 @@ namespace Features.StationLogic
         
         private void OnStationEntered()
         {
-            StationEntered?.Invoke(this, new StationEventArgs(this));
+            StationEntered?.Invoke(this, EventArgs.Empty);
         }
         
         private void OnStationOpened()
@@ -64,7 +64,7 @@ namespace Features.StationLogic
         
         private void OnStationExited()
         {
-            StationExited?.Invoke(this, new StationEventArgs(this));
+            StationExited?.Invoke(this, EventArgs.Empty);
         }
         
         #endregion
