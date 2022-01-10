@@ -1,4 +1,4 @@
-﻿using Features.Queue;
+﻿using Core.Queue;
 using NUnit.Framework;
 
 namespace Editor.Tests

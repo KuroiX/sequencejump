@@ -1,5 +1,5 @@
 ﻿using System;
-using Features.Station;
+using Features.StationLogic;
 using NUnit.Framework;
 
 namespace Editor.Tests

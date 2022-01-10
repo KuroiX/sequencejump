@@ -2,7 +2,8 @@
     "name": "Features",
     "rootNamespace": "",
     "references": [
-        "GUID:75469ad4d38634e559750d17036d5f7c"
+        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:8b83cfda6838e084c979437e217973ba"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
