@@ -1,8 +1,5 @@
-using System;
-using Core.Actions;
 using Core.Queue;
 using UnityEngine;
-using Features.StationLogic;
 
 namespace Features.Player.Controller.CharacterInput
 {
@@ -18,10 +15,10 @@ namespace Features.Player.Controller.CharacterInput
         
         public bool DashPerformed { get; set; }
 
+        [SerializeField] private Component[] signals;
+
         private QueueInput _queueInput;
         private InputSourceHandler _inputSourceHandler;
-
-        [SerializeField] private Component[] signals;
 
         private void Awake()
         {
