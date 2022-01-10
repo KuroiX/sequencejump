@@ -2,7 +2,6 @@ using System;
 using Core.Actions;
 using Core.Queue;
 using UnityEngine;
-using Features.Player.DeathLogic;
 using Features.StationLogic;
 
 namespace Features.Player.Controller.CharacterInput
@@ -18,95 +17,77 @@ namespace Features.Player.Controller.CharacterInput
         public float JumpEndTimeStamp { get; private set; }
         
         public bool DashPerformed { get; set; }
-        
-        private ResettableQueue<ICharacterAction> _actionQueue;
-
-        private ICharacterInput[] _characterInput;
 
         private QueueInput _queueInput;
+        private InputSourceHandler _inputSourceHandler;
 
-        [SerializeField] private Component signals;
-
-        private IStopStartSignal _signals;
+        [SerializeField] private Component[] signals;
 
         private void Awake()
         {
-            _actionQueue = GetComponent<QueueHolder>().Queue;
-            
+            var actionQueue = GetComponent<QueueHolder>().Queue;
+
+            QueueProcessor processor = new QueueProcessor(actionQueue);
+
+            var charInputs = SetupCharacterInputs();
+            var iSignals = SetupStopStartSignals();
+
+            _queueInput = new QueueInput(processor, charInputs, this);
+            _inputSourceHandler = new InputSourceHandler(charInputs, iSignals);
+        }
+
+        private ICharacterInput[] SetupCharacterInputs()
+        {
             ICharacterInput buttonInput = FindObjectOfType<ButtonWorkaroundInput>();
 
             bool foundButtonInput = !ReferenceEquals(buttonInput, null);
 
-            _characterInput = new ICharacterInput[foundButtonInput ? 2 : 1];
+            ICharacterInput[] characterInputs = new ICharacterInput[foundButtonInput ? 2 : 1];
 
-            _characterInput[0] = new InputManagerInput(new InputManager());
+            characterInputs[0] = new InputManagerInput(new InputManager());
 
             if (foundButtonInput)
             {
-                _characterInput[1] = buttonInput;
+                characterInputs[1] = buttonInput;
             }
-
-            foreach (var input in _characterInput)
+            
+            foreach (var input in characterInputs)
             {
                 input.Enable();
             }
 
-            QueueProcessor processor = new QueueProcessor(_actionQueue);
+            return characterInputs;
+        }
 
-            _queueInput = new QueueInput(processor, _characterInput, this);
+        private IStopStartSignal[] SetupStopStartSignals()
+        {
+            IStopStartSignal[] iSignals = new IStopStartSignal[signals.Length + 1];
 
-            _signals = (IStopStartSignal) signals;
+            for (int i = 0; i < signals.Length; i++)
+            {
+                iSignals[i] = (IStopStartSignal) signals[i];
+            }
+
+            iSignals[signals.Length] = new StationInputWrapper();
+
+            return iSignals;
         }
         
         private void OnEnable()
         {
             _queueInput.HandleOnEnable();
-            
-            Station.StationOpened += DisableInput;
-            Station.StationClosed += EnableInput;
-            
-            //DeathLogicBehaviour.DeathAnimationStart += DisableInput;
-            //DeathLogicBehaviour.DeathAnimationEnd += EnableInput;
-
-            _signals.Stop += DisableInput;
-            _signals.Start += EnableInput;
+            _inputSourceHandler.HandleOnEnable();
         }
 
         private void OnDisable()
         {
             _queueInput.HandleOnDisable();
-            
-            Station.StationOpened -= DisableInput;
-            Station.StationClosed -= EnableInput;
-            
-            //DeathLogicBehaviour.DeathAnimationStart -= DisableInput;
-            //DeathLogicBehaviour.DeathAnimationEnd -= EnableInput;
-            
-            _signals.Stop -= DisableInput;
-            _signals.Start -= EnableInput;
+            _inputSourceHandler.HandleOnDisable();
         }
 
         private void LateUpdate()
         {
             _queueInput.HandleLateUpdate();
-        }
-
-        private void DisableInput(object sender, EventArgs args)
-        {
-            //Debug.Log("disableInput");
-            foreach (var input in _characterInput)
-            {
-                //Debug.Log("Disable this input: " + input);
-                input.Disable();
-            }
-        }
-        
-        private void EnableInput(object sender, EventArgs args)
-        {
-            foreach (var input in _characterInput)
-            {
-                input.Enable();
-            }
         }
     }
 }
