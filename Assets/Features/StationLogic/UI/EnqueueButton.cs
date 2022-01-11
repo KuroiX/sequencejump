@@ -7,28 +7,22 @@ namespace Features.StationLogic.UI
 {
     public class EnqueueButton : MonoBehaviour
     {
-        [SerializeField]
-        private CharacterAction action;
+        [SerializeField] private Button button;
+        [SerializeField] private Text text;
+        [SerializeField] private bool isLeft;
+        
+        [SerializeField] private CharacterAction action;
 
-        private Button _button;
-        private Text _text;
-        
-        private void Awake()
-        {
-            _button = GetComponent<Button>();
-            _text = GetComponentInChildren<Text>();
-        }
-        
         private void OnEnable()
         {
-            _button.onClick.AddListener(Enqueue);
+            button.onClick.AddListener(Enqueue);
             Station.StationChanged += SetText;
-            _text.text = action.Name + " x" + Station.CurrentStation.ActionCounter.CurrentCount[action];
+            SetText();
         }
 
         private void OnDisable()
         {
-            _button.onClick.RemoveListener(Enqueue);
+            button.onClick.RemoveListener(Enqueue);
             Station.StationChanged -= SetText;
         }
 
@@ -39,7 +33,20 @@ namespace Features.StationLogic.UI
 
         private void SetText(object sender, EventArgs args)
         {
-            _text.text = action.Name + " x" + Station.CurrentStation.ActionCounter.CurrentCount[action];
+            SetText();
+        }
+
+        private void SetText()
+        {
+            if (isLeft)
+            {
+                text.text = "x" + Station.CurrentStation.ActionCounter.CurrentCount[action];
+            }
+            else
+            {
+                text.text = Station.CurrentStation.ActionCounter.CurrentCount[action] + "x";
+            }
+            
         }
     }
 }
