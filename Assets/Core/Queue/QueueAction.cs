@@ -30,9 +30,9 @@ namespace Core.Queue
         {
             _transform = (RectTransform) transform;
             
-            _targetPositions ??= new Vector2[5];
-            _targetSizes ??= new Vector2[5];
-            _targetAlpha ??= new float[5];
+            _targetPositions ??= new Vector2[6];
+            _targetSizes ??= new Vector2[6];
+            _targetAlpha ??= new float[6];
             
             _targetPositions[index] = _transform.anchoredPosition;
             _targetSizes[index] = _transform.sizeDelta;
