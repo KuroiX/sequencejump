@@ -127090,11 +127090,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6862189843213298870, guid: e9d037ccaa75e2147ac804125b008677, type: 3}
       propertyPath: settings.actionCounts.Array.data[0].count
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6862189843213298870, guid: e9d037ccaa75e2147ac804125b008677, type: 3}
       propertyPath: settings.actionCounts.Array.data[1].count
-      value: 4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6862189843213298871, guid: e9d037ccaa75e2147ac804125b008677, type: 3}
       propertyPath: m_Name

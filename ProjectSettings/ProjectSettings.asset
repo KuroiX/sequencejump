@@ -154,6 +154,7 @@ PlayerSettings:
   androidSupportedAspectRatio: 0
   androidMaxAspectRatio: 2.1
   applicationIdentifier:
+    Android: com.InfinteHourglass.SequenceJump
     Standalone: com.DefaultCompany.SequenceJump
   buildNumber:
     Standalone: 0
