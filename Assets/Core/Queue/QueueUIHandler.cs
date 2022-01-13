@@ -1,23 +1,21 @@
 ﻿using System;
 using Core.Actions;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Core.Queue
 {
     public class QueueUIHandler : MonoBehaviour
     {
-        [SerializeField] private Image first;
-        [SerializeField] private Image second;
-        [SerializeField] private Image third;
-        [SerializeField] private Image forth;
+        [SerializeField] private QueueAction[] queueActions;
+
+        private int _index;
 
         private ResettableQueue<ICharacterAction> _queue;
 
         private void Awake()
         {
-            // TODO: better injection? :(
             _queue = FindObjectOfType<QueueHolder>().Queue;
+            _index = 0;
         }
 
         private void OnEnable()
@@ -40,53 +38,54 @@ namespace Core.Queue
 
         private void OnItemEnqueued(object sender, EventArgs args)
         {
-            int currentPosition = _queue.Count - 1;
+            int currentPosition = _queue.Count;
 
-            switch (currentPosition)
-            {
-                case 0:
-                    second.sprite = _queue.Peek().Sprite;
-                    break;
-                case 1:
-                    third.sprite = _queue.Peek(1).Sprite;
-                    break;
-                case 2:
-                    forth.sprite = _queue.Peek(2).Sprite;
-                    break;
-                default:
-                    Debug.Log("Out of range");
-                    break;
-            }
+            if (currentPosition >= queueActions.Length) return;
+            
+            queueActions[Index(currentPosition)].Sprite = _queue.Peek(currentPosition-1).Sprite;
         }
         
         private void OnItemDequeued(object sender, EventArgs args)
         {
-            first.sprite = second.sprite;
-            second.sprite = third.sprite;
-            third.sprite = forth.sprite;
+            for (int i = 0; i < queueActions.Length; i++)
+            {
+                queueActions[i].StartAnimation();
+            }
+            
+            ICharacterAction action = _queue.Peek(queueActions.Length);
 
-            ICharacterAction action = _queue.Peek(3);
+            queueActions[Index(queueActions.Length - 1)].Sprite = action?.Sprite;
 
-            forth.sprite = action?.Sprite;
+            _index = (_index + 1) % queueActions.Length;
+
             //Debug.Log("Dequeued");
         }
         
         private void OnQueueReset(object sender, EventArgs args)
         {
-            first.sprite = null;
-            second.sprite = _queue.Peek()?.Sprite;
-            third.sprite = _queue.Peek(1)?.Sprite;
-            forth.sprite = _queue.Peek(2)?.Sprite;
+            queueActions[Index(0)].Sprite = null;
+            
+            for (int i = 1; i < queueActions.Length; i++)
+            {
+                queueActions[Index(i)].Sprite = _queue.Peek(i-1)?.Sprite;
+            }
+
             //Debug.Log("Reset");
         }
         
         private void OnQueueCleared(object sender, EventArgs args)
         {
-            first.sprite = null;
-            second.sprite = null;
-            third.sprite = null;
-            forth.sprite = null;
+            for (int i = 0; i < queueActions.Length; i++)
+            {
+                queueActions[Index(i)].Sprite = null;
+            }
+            
             //Debug.Log("Cleared");
+        }
+
+        private int Index(int index)
+        {
+            return (_index + index) % queueActions.Length;
         }
     }
 }
