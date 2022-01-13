@@ -49,14 +49,15 @@ namespace Core.Queue
         {
             for (int i = 0; i < queueActions.Length; i++)
             {
-                queueActions[i].StartAnimation();
+                //Debug.Log(Index(i) + " " + Index(i-1));
+                queueActions[Index(i)].StartAnimation(i, Index(i-1 - _index));
             }
             
-            ICharacterAction action = _queue.Peek(queueActions.Length);
+            ICharacterAction action = _queue.Peek(queueActions.Length-1);
 
-            queueActions[Index(queueActions.Length - 1)].Sprite = action?.Sprite;
+            queueActions[Index(queueActions.Length)].Sprite = action?.Sprite;
 
-            _index = (_index + 1) % queueActions.Length;
+            Increment();
 
             //Debug.Log("Dequeued");
         }
@@ -85,7 +86,12 @@ namespace Core.Queue
 
         private int Index(int index)
         {
-            return (_index + index) % queueActions.Length;
+            return (_index + index + queueActions.Length) % queueActions.Length;
+        }
+
+        private void Increment()
+        {
+            _index = Index(1);
         }
     }
 }

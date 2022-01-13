@@ -9,14 +9,16 @@ namespace Core.Queue
     {
         public Sprite Sprite
         {
-            set => image.sprite = value;
+            set
+            {
+                image.sprite = value;
+                image.enabled = !ReferenceEquals(value, null);
+            }
         }
 
         [SerializeField] private Image image;
 
         [SerializeField] private int index;
-
-        private int _currentIndex;
 
         private static Vector2[] _targetPositions;
         private static Vector2[] _targetSizes;
@@ -35,25 +37,26 @@ namespace Core.Queue
             _targetPositions[index] = _transform.anchoredPosition;
             _targetSizes[index] = _transform.sizeDelta;
             _targetAlpha[index] = image.color.a;
-
-            _currentIndex = index;
         }
 
-        public void StartAnimation()
+        public void StartAnimation(int from, int to)
         {
             StopAllCoroutines();
-            StartCoroutine(AnimationRoutine(0.2f));
+            StartCoroutine(AnimationRoutine(from, to, 0.2f));
+        }
+
+        public void SetEmpty()
+        {
+            image.sprite = null;
+            image.enabled = false;
         }
         
-        private IEnumerator AnimationRoutine(float animationTime)
+        private IEnumerator AnimationRoutine(int from, int to, float animationTime)
         {
-            int oldIndex = _currentIndex;
-            _currentIndex = (_currentIndex - 1 + 5) % 5;
-            
-            Vector2 direction = _targetPositions[_currentIndex] - _targetPositions[oldIndex];
-            Vector2 growthDirection = _targetSizes[_currentIndex] - _targetSizes[oldIndex];
-            
-            float alpha = _targetAlpha[_currentIndex] - _targetAlpha[oldIndex];
+            //Debug.Log(index + " " + from + " " + to);
+            Vector2 direction = _targetPositions[to] - _targetPositions[from];
+            Vector2 growthDirection = _targetSizes[to] - _targetSizes[from];
+            float alpha = _targetAlpha[to] - _targetAlpha[from];
             
             float elapsedTime = 0f;
 
@@ -67,9 +70,9 @@ namespace Core.Queue
 
                 elapsedTime = reachedEnd ? animationTime : elapsedTime;
 
-                Vector2 newPosition = _targetPositions[oldIndex] + direction * elapsedTime / animationTime;
-                Vector2 newSize = _targetSizes[oldIndex] + growthDirection * elapsedTime / animationTime;
-                float newAlpha = _targetAlpha[oldIndex] + alpha * elapsedTime / animationTime;
+                Vector2 newPosition = _targetPositions[from] + direction * elapsedTime / animationTime;
+                Vector2 newSize = _targetSizes[from] + growthDirection * elapsedTime / animationTime;
+                float newAlpha = _targetAlpha[from] + alpha * elapsedTime / animationTime;
                 
                 //Debug.Log(result);
                 
