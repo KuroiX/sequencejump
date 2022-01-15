@@ -33,7 +33,7 @@ namespace Features
         private void OnWhatever(object sender, EventArgs e)
         {
             TearDownForthState();
-            SetupForthState();
+            //SetupForthState();
         }
 
         private void OnReset(object sender, EventArgs e)
