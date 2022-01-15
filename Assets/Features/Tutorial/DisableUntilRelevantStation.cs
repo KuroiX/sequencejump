@@ -29,8 +29,6 @@ namespace Features.Tutorial
 
         private void OnRelevantStationOpened(object sender, EventArgs e)
         {
-            Debug.Log(sender);
-            Debug.Log(_station);
             if (sender == _station)
             {
                 disableObject.SetActive(true);

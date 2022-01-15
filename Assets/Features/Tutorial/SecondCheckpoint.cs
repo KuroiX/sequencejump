@@ -2,91 +2,88 @@
 using Core.Actions;
 using Core.Queue;
 using Features.StationLogic;
-using Features.Tutorial;
 using UnityEngine;
 
-namespace Features
+namespace Features.Tutorial
 {
-    public class FirstCheckpoint : MonoBehaviour
+    public class SecondCheckpoint : MonoBehaviour
     {
         [SerializeField] private GameObject firstArrow;
         [SerializeField] private GameObject secondArrow;
         [SerializeField] private GameObject thirdArrow;
         [SerializeField] private GameObject forthArrow;
-
-        [SerializeField] private GameObject queueUi;
-        [SerializeField] private GameObject actionButton;
-
-        [SerializeField] private SecondCheckpoint secondCheckpoint;
+        
+        // [SerializeField] private GameObject queueUi;
+        // [SerializeField] private GameObject actionButton;
         
 
         private ResettableQueue<ICharacterAction> _queue;
 
-        private void Awake()
+        private void Start()
         {
-            SetupFirstState();
             _queue = FindObjectOfType<QueueHolder>().Queue;
-            queueUi.SetActive(false);
-            actionButton.SetActive(false);
+            SetupFirstState();
         }
         
         #region Forth state
-
+        
         private void SetupForthState()
         {
+            Debug.Log("Setup Forth");
             forthArrow.SetActive(true);
-            Station.StationClosed += OnWhatever;
-            _queue.QueueCleared += OnReset;
+            Station.StationOpened += OnWhatever;
         }
-
+        
         private void OnWhatever(object sender, EventArgs e)
         {
-            TearDownForthState();
-            secondCheckpoint.enabled = true;
-            this.enabled = false;
-        }
-
-        private void OnReset(object sender, EventArgs e)
-        {
-            Debug.Log("reset");
+            Debug.Log("on whatever");
             TearDownForthState();
             SetupThirdState();
         }
 
         private void TearDownForthState()
         {
+            Debug.Log("Teardown Forth");
             forthArrow.SetActive(false);
-            actionButton.SetActive(true);
-            Station.StationClosed -= OnWhatever;
-            _queue.QueueCleared -= OnReset;
+            Station.StationOpened -= OnWhatever;
         }
-
+        
         #endregion
 
         #region Third state
 
         private void SetupThirdState()
         {
+            Debug.Log("Setup third");
             thirdArrow.SetActive(true);
-            queueUi.SetActive(true);
             _queue.ItemEnqueued += OnItemEnqueued;
             Station.StationClosed += OnClosed;
         }
 
+        private int _count;
+
         private void OnItemEnqueued(object sender, EventArgs e)
         {
-            TearDownThirdState();
-            SetupForthState();
+            _count++;
         }
 
         private void OnClosed(object sender, EventArgs e)
         {
-            TearDownThirdState();
-            SetupSecondState();
+            Debug.Log("OnClosed: " + _count);
+            if (_count == 3)
+            {
+                TearDownThirdState();
+            }
+            else
+            {
+                TearDownThirdState();
+                SetupForthState();
+            }
         }
 
         private void TearDownThirdState()
         {
+            Debug.Log("Teardown third");
             thirdArrow.SetActive(false);
             _queue.ItemEnqueued -= OnItemEnqueued;
             Station.StationClosed -= OnClosed;
@@ -102,24 +99,15 @@ namespace Features
             SetupThirdState();
         }
 
-        private void OnStationExited(object sender, EventArgs args)
-        {
-            TearDownSecondState();
-            SetupFirstState();
-        }
-
         private void SetupSecondState()
         {
             secondArrow.SetActive(true);
-            queueUi.SetActive(false);
-            Station.StationExited += OnStationExited;
             Station.StationOpened += OnStationOpened;
         }
 
         private void TearDownSecondState()
         {
             secondArrow.SetActive(false);
-            Station.StationExited -= OnStationExited;
             Station.StationOpened -= OnStationOpened;
         }
         
@@ -130,16 +118,31 @@ namespace Features
         private void SetupFirstState()
         {
             firstArrow.SetActive(true);
-            Station.StationEntered += OnStationEntered;
+            _queue.ItemDequeued += OnItemDequeued;
+            Station.StationOpened += OnStationOpenedInFirstState;
         }
+
+        private void OnStationOpenedInFirstState(object sender, EventArgs e)
+        {
+            TearDownFirstState();
+            Station.StationClosed += OnStationClosedInNullState;
+        }
+
 
         private void TearDownFirstState()
         {
             firstArrow.SetActive(false);
-            Station.StationEntered -= OnStationEntered;
+            _queue.ItemDequeued -= OnItemDequeued;
+            Station.StationOpened -= OnStationOpenedInFirstState;
         }
-        
-        private void OnStationEntered(object sender, EventArgs args)
+
+        private void OnStationClosedInNullState(object sender, EventArgs e)
+        {
+            SetupFirstState();
+            Station.StationClosed -= OnStationClosedInNullState;
+        }
+
+        private void OnItemDequeued(object sender, EventArgs args)
         {
             TearDownFirstState();
             SetupSecondState();
