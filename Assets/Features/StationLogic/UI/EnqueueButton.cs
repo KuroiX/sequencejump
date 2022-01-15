@@ -7,6 +7,8 @@ namespace Features.StationLogic.UI
 {
     public class EnqueueButton : MonoBehaviour
     {
+        [SerializeField] private GameObject buttonHolder;
+        
         [SerializeField] private Button button;
         [SerializeField] private Text text;
         [SerializeField] private bool isLeft;
@@ -15,15 +17,28 @@ namespace Features.StationLogic.UI
 
         private void OnEnable()
         {
-            button.onClick.AddListener(Enqueue);
-            Station.StationChanged += SetText;
-            SetText();
+            int count = Station.CurrentStation.AvailableCount[action];
+            if (count > 0)
+            {
+                button.onClick.AddListener(Enqueue);
+                Station.StationChanged += SetText;
+                SetText();
+                buttonHolder.SetActive(true);
+            }
+            else
+            {
+                buttonHolder.SetActive(false);
+            }
         }
 
         private void OnDisable()
         {
-            button.onClick.RemoveListener(Enqueue);
-            Station.StationChanged -= SetText;
+            int count = Station.CurrentStation.AvailableCount[action];
+            if (count > 0)
+            {
+                button.onClick.RemoveListener(Enqueue);
+                Station.StationChanged -= SetText;
+            }
         }
 
         private void Enqueue()
@@ -40,11 +55,11 @@ namespace Features.StationLogic.UI
         {
             if (isLeft)
             {
-                text.text = "x" + Station.CurrentStation.ActionCounter.CurrentCount[action];
+                text.text = "x" + Station.CurrentStation.CurrentCount[action];
             }
             else
             {
-                text.text = Station.CurrentStation.ActionCounter.CurrentCount[action] + "x";
+                text.text = Station.CurrentStation.CurrentCount[action] + "x";
             }
             
         }
