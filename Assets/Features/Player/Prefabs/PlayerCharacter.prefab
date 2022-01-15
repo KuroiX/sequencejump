@@ -335,6 +335,18 @@ PrefabInstance:
       propertyPath: deathParticles
       value: 
       objectReference: {fileID: 2786814568508113787}
+    - target: {fileID: 2955323985274688955, guid: 3ee6e9fc8ed912d468066ee1dc5cac57, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2955323985274688955, guid: 3ee6e9fc8ed912d468066ee1dc5cac57, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2955323985274688955, guid: 3ee6e9fc8ed912d468066ee1dc5cac57, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3ee6e9fc8ed912d468066ee1dc5cac57, type: 3}
 --- !u!4 &2786814568508113765 stripped
