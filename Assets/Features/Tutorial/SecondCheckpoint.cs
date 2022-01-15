@@ -12,6 +12,7 @@ namespace Features.Tutorial
         [SerializeField] private GameObject secondArrow;
         [SerializeField] private GameObject thirdArrow;
         [SerializeField] private GameObject forthArrow;
+        [SerializeField] private GameObject fifthArrow;
         
         // [SerializeField] private GameObject queueUi;
         // [SerializeField] private GameObject actionButton;
@@ -24,26 +25,32 @@ namespace Features.Tutorial
             _queue = FindObjectOfType<QueueHolder>().Queue;
             SetupFirstState();
         }
+
+        #region Fifth state
+
+        private void SetupFifthState()
+        {
+            fifthArrow.SetActive(true);
+        }        
+
+        #endregion
         
         #region Forth state
         
         private void SetupForthState()
         {
-            Debug.Log("Setup Forth");
             forthArrow.SetActive(true);
             Station.StationOpened += OnWhatever;
         }
         
         private void OnWhatever(object sender, EventArgs e)
         {
-            Debug.Log("on whatever");
             TearDownForthState();
             SetupThirdState();
         }
 
         private void TearDownForthState()
         {
-            Debug.Log("Teardown Forth");
             forthArrow.SetActive(false);
             Station.StationOpened -= OnWhatever;
         }
@@ -54,7 +61,6 @@ namespace Features.Tutorial
 
         private void SetupThirdState()
         {
-            Debug.Log("Setup third");
             thirdArrow.SetActive(true);
             _queue.ItemEnqueued += OnItemEnqueued;
             Station.StationClosed += OnClosed;
@@ -69,10 +75,10 @@ namespace Features.Tutorial
 
         private void OnClosed(object sender, EventArgs e)
         {
-            Debug.Log("OnClosed: " + _count);
             if (_count == 3)
             {
                 TearDownThirdState();
+                SetupFifthState();
             }
             else
             {
@@ -83,7 +89,6 @@ namespace Features.Tutorial
 
         private void TearDownThirdState()
         {
-            Debug.Log("Teardown third");
             thirdArrow.SetActive(false);
             _queue.ItemEnqueued -= OnItemEnqueued;
             Station.StationClosed -= OnClosed;
