@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using NSubstitute;
+﻿using Core.Tools;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,40 +16,36 @@ namespace Core.Queue
         }
 
         [SerializeField] private Image image;
-        [SerializeField] private int index;
 
-        private static Vector2[] _targetPositions;
-        private static Vector2[] _targetSizes;
-        private static float[] _targetAlpha;
+        public static QueueActionUiElement[] QueueActions { get; set; }
 
         private RectTransform _transform;
+        private Vector2 _position;
+        private Vector2 _size;
+        private float _alpha;
 
-        private void Awake()
+        private void Start()
         {
             _transform = (RectTransform) transform;
-            
-            _targetPositions ??= new Vector2[6];
-            _targetSizes ??= new Vector2[6];
-            _targetAlpha ??= new float[6];
-            
-            _targetPositions[index] = _transform.anchoredPosition;
-            _targetSizes[index] = _transform.sizeDelta;
-            _targetAlpha[index] = image.color.a;
+
+            _position = _transform.anchoredPosition;
+            _size = _transform.sizeDelta;
+            _alpha = image.color.a;
         }
 
         public void AnimateDequeue(int from, int to)
         {
             StopAllCoroutines();
             StartCoroutine(
-                AnimationRoutines.LinearInterpolateRoutine(_targetPositions[from], _targetPositions[to], 
+                TweenRoutines.Linear(QueueActions[from]._position, QueueActions[to]._position, 
                     0.2f,
                     result => { _transform.anchoredPosition = result; }));
             StartCoroutine(
-                AnimationRoutines.LinearInterpolateRoutine(_targetSizes[from], _targetSizes[to], 
+                TweenRoutines.Linear(QueueActions[from]._size, QueueActions[to]._size, 
                     0.2f,
                     result => { _transform.sizeDelta = result; }));
             StartCoroutine(
-                AnimationRoutines.LinearInterpolateRoutine(_targetAlpha[from], _targetAlpha[to], 
+                TweenRoutines.Linear(QueueActions[from]._alpha, QueueActions[to]._alpha, 
                     0.2f,
                     result => { image.color = new Color(1, 1, 1, result); }));
         }
@@ -59,7 +53,7 @@ namespace Core.Queue
         public void AnimateEnqueue(int at, Sprite sprite)
         {
             Sprite = sprite;
-            StartCoroutine(AnimationRoutines.LinearInterpolateRoutine(Vector2.zero, _targetSizes[at], 
+            StartCoroutine(TweenRoutines.Linear(Vector2.zero, QueueActions[at]._size, 
                 0.1f,
                 result => { _transform.sizeDelta = result;}));
         }
@@ -68,9 +62,9 @@ namespace Core.Queue
         {
             StopAllCoroutines();
             StartCoroutine(
-                AnimationRoutines.LinearInterpolateRoutine(_targetSizes[at], Vector2.zero, 0.1f, 
+                TweenRoutines.Linear(QueueActions[at]._size, Vector2.zero, 0.1f, 
                 result => { _transform.sizeDelta = result;}, 
-                onFinishedCallback: () => {_transform.sizeDelta = _targetSizes[at];
+                onFinishedCallback: () => { _transform.sizeDelta = QueueActions[at]._size;
                     Sprite = null; }
                 )
             );

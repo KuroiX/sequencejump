@@ -17,6 +17,7 @@ namespace Core.Queue
         private void Awake()
         {
             _queue = FindObjectOfType<QueueHolder>().Queue;
+            QueueActionUiElement.QueueActions = queueActions;
             _index = 0;
         }
 

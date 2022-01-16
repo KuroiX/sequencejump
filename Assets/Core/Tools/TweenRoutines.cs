@@ -2,11 +2,11 @@
 using System.Collections;
 using UnityEngine;
 
-namespace Core.Queue
+namespace Core.Tools
 {
-    public static class AnimationRoutines
+    public static class TweenRoutines
     {
-        public static IEnumerator LinearInterpolateRoutine(Vector2 from, Vector2 to, float animationTime, Action<Vector2> onStepCallback, bool isLooping = false, Action onFinishedCallback = null)
+        public static IEnumerator Linear(Vector2 from, Vector2 to, float animationTime, Action<Vector2> onStepCallback, bool isLooping = false, Action onFinishedCallback = null)
         {
             var direction = Direction(@from, to);
             
@@ -56,7 +56,7 @@ namespace Core.Queue
             return to - @from;
         }
 
-        public static IEnumerator LinearInterpolateRoutine(float from, float to, float animationTime, Action<float> onStepCallback, bool isLooping = false, Action onFinishedCallback = null)
+        public static IEnumerator Linear(float from, float to, float animationTime, Action<float> onStepCallback, bool isLooping = false, Action onFinishedCallback = null)
         {
             var direction = Direction(@from, to);
             
