@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using Core.Tools;
 using UnityEngine;
 
 namespace Features.Tutorial
@@ -37,41 +36,9 @@ namespace Features.Tutorial
 
         private void OnEnable()
         {
-            StartCoroutine(AnimationRoutine(0.5f));
-        }
-
-        private IEnumerator AnimationRoutine(float animationTime)
-        {
-            //Debug.Log(index + " " + from + " " + to);
-            Vector2 direction = targetPosition - startPosition;
-            
-            float elapsedTime = 0f;
-
-            Vector2 position = startPosition;
-
-            bool isGoingForward = true;
-            
-            while (true)
-            {
-                yield return null;
-                elapsedTime += Time.deltaTime;
-
-                bool reachedEnd = elapsedTime >= animationTime;
-
-                elapsedTime = reachedEnd ? animationTime : elapsedTime;
-
-                Vector2 newPosition = position + direction * elapsedTime / animationTime;
-
-                Position = newPosition;
-
-                if (reachedEnd)
-                {
-                    elapsedTime = 0;
-                    isGoingForward = !isGoingForward;
-                    position = isGoingForward ? startPosition : targetPosition;
-                    direction *= -1;
-                }
-            }
+            StartCoroutine(TweenRoutines.Linear(startPosition, targetPosition, 0.5f, 
+                result => { Position = result; },
+                true));
         }
 
         [ContextMenu("SetStart")]
