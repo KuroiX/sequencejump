@@ -6,7 +6,7 @@ namespace Core.Queue
 {
     public class QueueUIHandler : MonoBehaviour
     {
-        [SerializeField] private QueueAction[] queueActions;
+        [SerializeField] private QueueActionUiElement[] queueActions;
 
         private int _index;
 
@@ -44,29 +44,35 @@ namespace Core.Queue
 
             if (currentPosition >= queueActions.Length) return;
             
-            queueActions[Index(currentPosition)].Sprite = _queue.Peek(currentPosition-1).Sprite;
-            queueActions[Index(currentPosition)].AnimateEnqueue(currentPosition);
+            queueActions[Index(currentPosition)].AnimateEnqueue(currentPosition, _queue.Peek(currentPosition-1).Sprite);
         }
         
         private void OnItemDequeued(object sender, EventArgs args)
         {
-            for (int i = 0; i < queueActions.Length; i++)
-            {
-                //Debug.Log(Index(i) + " " + Index(i-1));
-                queueActions[Index(i)].StartAnimation(i, Index(i-1 - _index));
-            }
+            AnimateAllDequeue();
             
-            ICharacterAction action = _queue.Peek(queueActions.Length-1);
-
-            queueActions[Index(queueActions.Length)].Sprite = action?.Sprite;
+            SetNextSprite();
 
             Increment();
 
             _isFresh = false;
-
-            //Debug.Log("Dequeued");
         }
-        
+
+        private void SetNextSprite()
+        {
+            ICharacterAction action = _queue.Peek(queueActions.Length - 1);
+
+            queueActions[Index(queueActions.Length)].Sprite = action?.Sprite;
+        }
+
+        private void AnimateAllDequeue()
+        {
+            for (int i = 0; i < queueActions.Length; i++)
+            {
+                queueActions[Index(i)].AnimateDequeue(i, Index(i - 1 - _index));
+            }
+        }
+
         private void OnQueueReset(object sender, EventArgs args)
         {
             if (_isFresh) return;
@@ -75,24 +81,18 @@ namespace Core.Queue
             
             for (int i = 1; i < queueActions.Length; i++)
             {
-                queueActions[Index(i)].Sprite = _queue.Peek(i-1)?.Sprite;
-                queueActions[Index(i)].AnimateEnqueue(i);
+                queueActions[Index(i)].AnimateEnqueue(i, _queue.Peek(i-1)?.Sprite);
             }
 
             _isFresh = true;
-
-            //Debug.Log("Reset");
         }
         
         private void OnQueueCleared(object sender, EventArgs args)
         {
             for (int i = 0; i < queueActions.Length; i++)
             {
-                //queueActions[Index(i)].Sprite = null;
-                queueActions[Index(i)].AnimateReset(i);
+                queueActions[Index(i)].AnimateClear(i);
             }
-            
-            //Debug.Log("Cleared");
         }
 
         private int Index(int index)
