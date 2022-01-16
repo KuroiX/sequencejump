@@ -82,7 +82,7 @@ SpriteRenderer:
   m_SortingLayerID: -1836951069
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 33542373bc39e1240b866f4dbbdc2e2b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 89968028c7bbe024d9ad9f88c71dec91, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -335,6 +335,18 @@ PrefabInstance:
       propertyPath: deathParticles
       value: 
       objectReference: {fileID: 2786814568508113787}
+    - target: {fileID: 2955323985274688955, guid: 3ee6e9fc8ed912d468066ee1dc5cac57, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2955323985274688955, guid: 3ee6e9fc8ed912d468066ee1dc5cac57, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2955323985274688955, guid: 3ee6e9fc8ed912d468066ee1dc5cac57, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3ee6e9fc8ed912d468066ee1dc5cac57, type: 3}
 --- !u!4 &2786814568508113765 stripped

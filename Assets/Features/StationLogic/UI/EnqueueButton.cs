@@ -7,29 +7,38 @@ namespace Features.StationLogic.UI
 {
     public class EnqueueButton : MonoBehaviour
     {
-        [SerializeField]
-        private CharacterAction action;
+        [SerializeField] private GameObject buttonHolder;
+        
+        [SerializeField] private Button button;
+        [SerializeField] private Text text;
+        [SerializeField] private bool isLeft;
+        
+        [SerializeField] private CharacterAction action;
 
-        private Button _button;
-        private Text _text;
-        
-        private void Awake()
-        {
-            _button = GetComponent<Button>();
-            _text = GetComponentInChildren<Text>();
-        }
-        
         private void OnEnable()
         {
-            _button.onClick.AddListener(Enqueue);
-            Station.StationChanged += SetText;
-            _text.text = action.Name + " x" + Station.CurrentStation.ActionCounter.CurrentCount[action];
+            int count = Station.CurrentStation.AvailableCount[action];
+            if (count > 0)
+            {
+                button.onClick.AddListener(Enqueue);
+                Station.StationChanged += SetText;
+                SetText();
+                buttonHolder.SetActive(true);
+            }
+            else
+            {
+                buttonHolder.SetActive(false);
+            }
         }
 
         private void OnDisable()
         {
-            _button.onClick.RemoveListener(Enqueue);
-            Station.StationChanged -= SetText;
+            int count = Station.CurrentStation.AvailableCount[action];
+            if (count > 0)
+            {
+                button.onClick.RemoveListener(Enqueue);
+                Station.StationChanged -= SetText;
+            }
         }
 
         private void Enqueue()
@@ -39,7 +48,20 @@ namespace Features.StationLogic.UI
 
         private void SetText(object sender, EventArgs args)
         {
-            _text.text = action.Name + " x" + Station.CurrentStation.ActionCounter.CurrentCount[action];
+            SetText();
+        }
+
+        private void SetText()
+        {
+            if (isLeft)
+            {
+                text.text = "x" + Station.CurrentStation.CurrentCount[action];
+            }
+            else
+            {
+                text.text = Station.CurrentStation.CurrentCount[action] + "x";
+            }
+            
         }
     }
 }

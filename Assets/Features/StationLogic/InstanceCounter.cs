@@ -5,13 +5,13 @@ namespace Features.StationLogic
 {
     public class InstanceCounter<T>
     {
-        private readonly Dictionary<T, int> _availableCount;
+        public Dictionary<T, int> AvailableCount { get; }
 
         public Dictionary<T, int> CurrentCount { get; }
 
         public InstanceCounter(T[] instance, int[] count)
         {
-            _availableCount = new Dictionary<T, int>();
+            AvailableCount = new Dictionary<T, int>();
             CurrentCount = new Dictionary<T, int>();
 
             if (count.Length != instance.Length)
@@ -26,16 +26,16 @@ namespace Features.StationLogic
                 {
                     throw new ArgumentException($"Instance count at index {i} is negative, but should only be positive.");
                 }
-                _availableCount[instance[i]] = count[i];
+                AvailableCount[instance[i]] = count[i];
                 CurrentCount[instance[i]] = count[i];
             }
         }
         
         public void Reset()
         {
-            foreach (var key in _availableCount.Keys)
+            foreach (var key in AvailableCount.Keys)
             {
-                int amount = _availableCount[key];
+                int amount = AvailableCount[key];
                 CurrentCount[key] = amount;
             }
         }

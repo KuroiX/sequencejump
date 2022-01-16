@@ -38,7 +38,8 @@ namespace Editor.Tests
         [Test]
         public void counter_is_set_correctly_after_instantiation()
         {
-            Assert.AreEqual(_counter, _station.ActionCounter);
+            Assert.AreEqual(_counter.CurrentCount, _station.CurrentCount);
+            Assert.AreEqual(_counter.AvailableCount, _station.AvailableCount);
         }
         
         [Test]

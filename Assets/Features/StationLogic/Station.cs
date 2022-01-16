@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Core.Actions;
 using Core.Queue;
 
@@ -15,7 +16,10 @@ namespace Features.StationLogic
         public static event EventHandler StationExited;
 
         
-        public InstanceCounter<ICharacterAction> ActionCounter { get; }
+        public Dictionary<ICharacterAction, int> AvailableCount => _actionCounter.AvailableCount;
+        public Dictionary<ICharacterAction, int> CurrentCount => _actionCounter.CurrentCount;
+        
+        private readonly InstanceCounter<ICharacterAction> _actionCounter;
 
         public bool HasAssignableCount => _maxAssignableCount > 0;
         public int AssignableCount { get; private set; }
@@ -34,7 +38,7 @@ namespace Features.StationLogic
             }
             
             _queue = queue;
-            ActionCounter = counter;
+            _actionCounter = counter;
             
             _maxAssignableCount = maxAssignableCount;
             AssignableCount = _maxAssignableCount;
@@ -92,7 +96,7 @@ namespace Features.StationLogic
         public void Reset()
         {
             _queue.Clear();
-            ActionCounter.Reset();
+            _actionCounter.Reset();
             AssignableCount = _maxAssignableCount;
             
             OnStationChanged();
@@ -100,7 +104,7 @@ namespace Features.StationLogic
 
         public void EnqueueAction(ICharacterAction characterAction)
         {
-            bool isAllowedToEnqueue = (!HasAssignableCount || AssignableCount > 0) && ActionCounter.Remove(characterAction);
+            bool isAllowedToEnqueue = (!HasAssignableCount || AssignableCount > 0) && _actionCounter.Remove(characterAction);
             
             if (!isAllowedToEnqueue) return;
             
