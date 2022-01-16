@@ -31,7 +31,7 @@ namespace Features.Tutorial
             _prevHandler?.Invoke(OnPrev, true);
         }
 
-        private void Teardown()
+        protected virtual void Teardown()
         {
             _onState?.Invoke(false);
             _nextHandler?.Invoke(OnNext, false);

@@ -1,5 +1,4 @@
-﻿using System;
-using Core.Actions;
+﻿using Core.Actions;
 using Core.Queue;
 using Features.StationLogic;
 using UnityEngine;
@@ -13,146 +12,141 @@ namespace Features.Tutorial
         [SerializeField] private GameObject thirdArrow;
         [SerializeField] private GameObject forthArrow;
         [SerializeField] private GameObject fifthArrow;
-        
-        // [SerializeField] private GameObject queueUi;
-        // [SerializeField] private GameObject actionButton;
-        
+
+        [SerializeField] private TutorialTriggerEntered upperTrigger;
+        [SerializeField] private TutorialTriggerEntered lowerTrigger;
 
         private ResettableQueue<ICharacterAction> _queue;
 
         private void Start()
         {
             _queue = FindObjectOfType<QueueHolder>().Queue;
-            SetupFirstState();
+            
+            HandleTutorialStates();
         }
 
-        #region Fifth state
-
-        private void SetupFifthState()
+        private void HandleTutorialStates()
         {
-            fifthArrow.SetActive(true);
-        }        
-
-        #endregion
-        
-        #region Forth state
-        
-        private void SetupForthState()
-        {
-            forthArrow.SetActive(true);
-            Station.StationOpened += OnWhatever;
-        }
-        
-        private void OnWhatever(object sender, EventArgs e)
-        {
-            TearDownForthState();
-            SetupThirdState();
-        }
-
-        private void TearDownForthState()
-        {
-            forthArrow.SetActive(false);
-            Station.StationOpened -= OnWhatever;
-        }
-        
-        #endregion
-
-        #region Third state
-
-        private void SetupThirdState()
-        {
-            thirdArrow.SetActive(true);
-            _queue.ItemEnqueued += OnItemEnqueued;
-            Station.StationClosed += OnClosed;
-        }
-
-        private int _count;
-
-        private void OnItemEnqueued(object sender, EventArgs e)
-        {
-            _count++;
-        }
-
-        private void OnClosed(object sender, EventArgs e)
-        {
-            if (_count == 3)
+            TutorialState zeroState = new TutorialState((handler, b) =>
             {
-                TearDownThirdState();
-                SetupFifthState();
-            }
-            else
+                if (b)
+                {
+                    Station.StationClosed += handler;
+                }
+                else
+                {
+                    Station.StationClosed -= handler;
+                }
+            },  null, 
+                b =>
             {
-                TearDownThirdState();
-                SetupForthState();
-            }
+                firstArrow.SetActive(!b);
+            });
+            
+            TutorialState firstState = new TutorialState((handler, b) =>
+            {
+                if (b)
+                {
+                    _queue.ItemDequeued += handler;
+                }
+                else
+                {
+                    _queue.ItemDequeued -= handler;
+                }
+            }, (handler, b) =>
+            {
+                if (b)
+                {
+                    Station.StationOpened += handler;
+                }
+                else
+                {
+                    Station.StationOpened -= handler;
+                }
+            }, b =>
+            {
+                firstArrow.SetActive(b);
+            });
+            
+            TutorialState secondState = new TutorialState((handler, b) =>
+            {
+                if (b)
+                {
+                    upperTrigger.TriggerEntered += handler;
+                }
+                else
+                {
+                    upperTrigger.TriggerEntered -= handler;
+                }
+            },  null, 
+                b =>
+            {
+                secondArrow.SetActive(b);
+            });
+            
+            TutorialState thirdState = new TutorialState((handler, b) =>
+            {
+                if (b)
+                {
+                    Station.StationOpened += handler;
+                }
+                else
+                {
+                    Station.StationOpened -= handler;
+                }
+            }, (handler, b) =>
+            {
+                if (b)
+                {
+                    lowerTrigger.TriggerEntered += handler;
+                }
+                else
+                {
+                    lowerTrigger.TriggerEntered -= handler;
+                }
+            }, b =>
+            {
+                forthArrow.SetActive(b);
+            });
+
+            CountEvent countEvent = new CountEvent(3, _queue);
+            
+            TutorialState forthState = new TutorialState((handler, b) =>
+            {
+                if (b)
+                {
+                    countEvent.ClosedAndFinished += handler;
+                }
+                else
+                {
+                    countEvent.ClosedAndFinished -= handler;
+                }
+            }, (handler, b) =>
+            {
+                if (b)
+                {
+                    countEvent.ClosedAndNotFinished += handler;
+                }
+                else
+                {
+                    countEvent.ClosedAndNotFinished -= handler;
+                }
+            }, b =>
+            {
+                thirdArrow.SetActive(b);
+            });
+            
+            TutorialState fifthState = new TutorialState(null, null, b =>
+            {
+                fifthArrow.SetActive(true);
+            });
+            
+            TutorialState.Connect(zeroState, firstState);
+            TutorialState.Connect(firstState, secondState);
+            TutorialState.Connect(secondState, thirdState);
+            TutorialState.Connect(thirdState, forthState);
+            TutorialState.Connect(forthState, fifthState);
+            firstState.Setup();
         }
-
-        private void TearDownThirdState()
-        {
-            thirdArrow.SetActive(false);
-            _queue.ItemEnqueued -= OnItemEnqueued;
-            Station.StationClosed -= OnClosed;
-        }
-
-        #endregion
-
-        #region Second state
-        
-        private void OnStationOpened(object sender, EventArgs args)
-        {
-            TearDownSecondState();
-            SetupThirdState();
-        }
-
-        private void SetupSecondState()
-        {
-            secondArrow.SetActive(true);
-            Station.StationOpened += OnStationOpened;
-        }
-
-        private void TearDownSecondState()
-        {
-            secondArrow.SetActive(false);
-            Station.StationOpened -= OnStationOpened;
-        }
-        
-        #endregion
-        
-        #region First state
-
-        private void SetupFirstState()
-        {
-            firstArrow.SetActive(true);
-            _queue.ItemDequeued += OnItemDequeued;
-            Station.StationOpened += OnStationOpenedInFirstState;
-        }
-
-        private void OnStationOpenedInFirstState(object sender, EventArgs e)
-        {
-            TearDownFirstState();
-            Station.StationClosed += OnStationClosedInNullState;
-        }
-
-
-        private void TearDownFirstState()
-        {
-            firstArrow.SetActive(false);
-            _queue.ItemDequeued -= OnItemDequeued;
-            Station.StationOpened -= OnStationOpenedInFirstState;
-        }
-
-        private void OnStationClosedInNullState(object sender, EventArgs e)
-        {
-            SetupFirstState();
-            Station.StationClosed -= OnStationClosedInNullState;
-        }
-
-        private void OnItemDequeued(object sender, EventArgs args)
-        {
-            TearDownFirstState();
-            SetupSecondState();
-        }
-        
-        #endregion
     }
 }
