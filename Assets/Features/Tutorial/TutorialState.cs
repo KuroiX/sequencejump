@@ -1,47 +1,53 @@
-﻿using UnityEngine;
+﻿using System;
 
 namespace Features.Tutorial
 {
-    public abstract class TutorialState
+    public class TutorialState
     {
-        public TutorialState PrevState { get; set; }
-        public TutorialState NextState { get; set; }
-        
-        private readonly GameObject[] _gameObjects;
-        
-
-        protected TutorialState(GameObject[] gameObjects)
+        public static void Connect(TutorialState prev, TutorialState next)
         {
-            _gameObjects = gameObjects;
+            prev._next = next;
+            next._prev = prev;
         }
         
-        protected TutorialState(GameObject[] gameObjects, TutorialState prevState, TutorialState nextState)
-        {
-            _gameObjects = gameObjects;
-            PrevState = prevState;
-            NextState = nextState;
-        }
+        private readonly Action<EventHandler, bool> _nextHandler;
+        private readonly Action<EventHandler, bool> _prevHandler;
+        private readonly Action<bool> _onState;
 
-        protected virtual void GoNext()
+        private TutorialState _next;
+        private TutorialState _prev;
+
+        public TutorialState(Action<EventHandler, bool> nextHandler, Action<EventHandler, bool> prevHandler, Action<bool> onState)
         {
-            TearDown();
-            
+            _nextHandler = nextHandler;
+            _prevHandler = prevHandler;
+            _onState = onState;
         }
 
-        public virtual void Setup()
+        public void Setup()
         {
-            foreach (var gameObject in _gameObjects)
-            {
-                gameObject.SetActive(true);
-            }
+            _onState?.Invoke(true);
+            _nextHandler?.Invoke(OnNext, true);
+            _prevHandler?.Invoke(OnPrev, true);
+        }
+
+        private void Teardown()
+        {
+            _onState?.Invoke(false);
+            _nextHandler?.Invoke(OnNext, false);
+            _prevHandler?.Invoke(OnPrev, false);
         }
         
-        public virtual void TearDown()
+        private void OnNext(object sender, EventArgs args)
         {
-            foreach (var gameObject in _gameObjects)
-            {
-                gameObject.SetActive(false);
-            }
+            Teardown();
+            _next?.Setup();
+        }
+        
+        private void OnPrev(object sender, EventArgs args)
+        {
+            Teardown();
+            _prev?.Setup();
         }
     }
 }
