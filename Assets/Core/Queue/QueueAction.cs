@@ -45,6 +45,16 @@ namespace Core.Queue
             StartCoroutine(AnimationRoutine(from, to, 0.2f));
         }
 
+        public void AnimateEnqueue(int at)
+        {
+            StartCoroutine(EnqueueRoutine(at,0.1f));
+        }
+
+        public void AnimateReset(int at)
+        {
+            StartCoroutine(ResetRoutine(at,0.1f));
+        }
+
         public void SetEmpty()
         {
             image.sprite = null;
@@ -82,6 +92,63 @@ namespace Core.Queue
 
                 if (reachedEnd) break;
             }
+        }
+        
+        private IEnumerator EnqueueRoutine(int at, float animationTime)
+        {
+            Vector2 growthDirection = _targetSizes[at] - Vector2.zero;
+            
+            float elapsedTime = 0f;
+
+            while (true)
+            {
+                elapsedTime += Time.deltaTime;
+                //Debug.Log(elapsedTime);
+
+                bool reachedEnd = elapsedTime >= animationTime;
+
+                elapsedTime = reachedEnd ? animationTime : elapsedTime;
+
+                Vector2 newSize = Vector2.zero + growthDirection * elapsedTime / animationTime;
+                
+                //Debug.Log(result);
+                
+                _transform.sizeDelta = newSize;
+
+                if (reachedEnd) break;
+                
+                yield return null;
+            }
+        }
+        
+        private IEnumerator ResetRoutine(int at, float animationTime)
+        {
+            Vector2 growthDirection = Vector2.zero - _targetSizes[at];
+            
+            float elapsedTime = 0f;
+
+            while (true)
+            {
+                elapsedTime += Time.deltaTime;
+                //Debug.Log(elapsedTime);
+
+                bool reachedEnd = elapsedTime >= animationTime;
+
+                elapsedTime = reachedEnd ? animationTime : elapsedTime;
+
+                Vector2 newSize = _targetSizes[at] + growthDirection * elapsedTime / animationTime;
+                
+                //Debug.Log(result);
+                
+                _transform.sizeDelta = newSize;
+
+                if (reachedEnd) break;
+                
+                yield return null;
+            }
+
+            _transform.sizeDelta = _targetSizes[at];
+            Sprite = null;
         }
     }
 }

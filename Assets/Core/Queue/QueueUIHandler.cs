@@ -10,6 +10,8 @@ namespace Core.Queue
 
         private int _index;
 
+        private bool _isFresh;
+
         private ResettableQueue<ICharacterAction> _queue;
 
         private void Awake()
@@ -43,6 +45,7 @@ namespace Core.Queue
             if (currentPosition >= queueActions.Length) return;
             
             queueActions[Index(currentPosition)].Sprite = _queue.Peek(currentPosition-1).Sprite;
+            queueActions[Index(currentPosition)].AnimateEnqueue(currentPosition);
         }
         
         private void OnItemDequeued(object sender, EventArgs args)
@@ -59,17 +62,24 @@ namespace Core.Queue
 
             Increment();
 
+            _isFresh = false;
+
             //Debug.Log("Dequeued");
         }
         
         private void OnQueueReset(object sender, EventArgs args)
         {
+            if (_isFresh) return;
+            
             queueActions[Index(0)].Sprite = null;
             
             for (int i = 1; i < queueActions.Length; i++)
             {
                 queueActions[Index(i)].Sprite = _queue.Peek(i-1)?.Sprite;
+                queueActions[Index(i)].AnimateEnqueue(i);
             }
+
+            _isFresh = true;
 
             //Debug.Log("Reset");
         }
@@ -78,7 +88,8 @@ namespace Core.Queue
         {
             for (int i = 0; i < queueActions.Length; i++)
             {
-                queueActions[Index(i)].Sprite = null;
+                //queueActions[Index(i)].Sprite = null;
+                queueActions[Index(i)].AnimateReset(i);
             }
             
             //Debug.Log("Cleared");
