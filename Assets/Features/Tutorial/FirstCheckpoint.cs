@@ -31,227 +31,65 @@ namespace Features.Tutorial
         private void HandleTutorialStates()
         {
             TutorialState firstState = new TutorialState(
-                (handler, b) =>
-            {
-                if (b)
+                handler => Station.StationEntered += handler,
+                handler => Station.StationEntered -= handler,
+                null, null,
+                () =>
                 {
-                    Station.StationEntered += handler;
-                } 
-                else
+                    firstArrow.SetActive(true);
+                },
+                () =>
                 {
-                    Station.StationEntered -= handler;
-                }
-            }, 
-                null, 
-                b =>
-            {
-                firstArrow.SetActive(b);
-            });
+                    firstArrow.SetActive(false);
+                });
             
-            TutorialState secondState = new TutorialState((handler, b) =>
-            {
-                if (b)
-                {
-                    Station.StationOpened += handler;
-                }
-                else
-                {
-                    Station.StationOpened -= handler;
-                }
-            }, (handler, b) =>
-            {
-                if (b)
-                {
-                    Station.StationExited += handler;
-                }
-                else
-                {
-                    Station.StationExited -= handler;
-                }
-            }, b =>
-            {
-                if (b)
-                {
+            TutorialState secondState = new TutorialState(
+                handler => Station.StationOpened += handler,
+                handler => Station.StationOpened -= handler,
+                handler => Station.StationExited += handler,
+                handler => Station.StationExited -= handler,
+                () => {
                     secondArrow.SetActive(true);
                     queueUi.SetActive(false);
-                }
-                else
+                },
+                () =>
                 {
                     secondArrow.SetActive(false);
-                }
-            });
+                });
             
-            TutorialState thirdState = new TutorialState((handler, b) =>
-            {
-                if (b)
-                {
-                    _queue.ItemEnqueued += handler;
-                }
-                else
-                {
-                    _queue.ItemEnqueued -= handler;
-                }
-            }, (handler, b) =>
-            {
-                if (b)
-                {
-                    Station.StationClosed += handler;
-                }
-                else
-                {
-                    Station.StationClosed -= handler;
-                }
-            }, b =>
-            {
-                if (b)
-                {
+            TutorialState thirdState = new TutorialState(
+                handler => _queue.ItemEnqueued += handler,
+                handler => _queue.ItemEnqueued -= handler,
+                handler => Station.StationClosed += handler,
+                handler => Station.StationClosed -= handler,
+                () => {
                     thirdArrow.SetActive(true);
                     queueUi.SetActive(true);
-                }
-                else
+                },
+                () =>
                 {
                     thirdArrow.SetActive(false);
-                }
-            });
+                });
             
-            TutorialState forthState = new TutorialState((handler, b) =>
-            {
-                if (b)
-                {
-                    Station.StationClosed += handler;
-                }
-                else
-                {
-                    Station.StationClosed -= handler;
-                }
-            },  null, 
-                b =>
-            {
-                if (b)
-                {
+            TutorialState forthState = new TutorialState(
+                handler => Station.StationClosed += handler,
+                handler => Station.StationClosed -= handler,
+                null, null,
+                () => {
                     forthArrow.SetActive(true);
-                }
-                else
+                },
+                () =>
                 {
                     forthArrow.SetActive(false);
                     actionButton.SetActive(true);
                     secondCheckpoint.enabled = true;
                     this.enabled = false;
-                }
-            });
-            
+                });
+
             TutorialState.Connect(firstState, secondState);
             TutorialState.Connect(secondState, thirdState);
             TutorialState.Connect(thirdState, forthState);
             firstState.Setup();
         }
-        
-        // #region Forth state
-        //
-        // private void SetupForthState()
-        // {
-        //     forthArrow.SetActive(true);
-        //     Station.StationClosed += OnWhatever;
-        // }
-        //
-        // private void OnWhatever(object sender, EventArgs e)
-        // {
-        //     TearDownForthState();
-        //     secondCheckpoint.enabled = true;
-        //     this.enabled = false;
-        // }
-        //
-        // private void TearDownForthState()
-        // {
-        //     forthArrow.SetActive(false);
-        //     actionButton.SetActive(true);
-        //     Station.StationClosed -= OnWhatever;
-        // }
-        //
-        // #endregion
-        //
-        // #region Third state
-        //
-        // private void SetupThirdState()
-        // {
-        //     thirdArrow.SetActive(true);
-        //     queueUi.SetActive(true);
-        //     _queue.ItemEnqueued += OnItemEnqueued;
-        //     Station.StationClosed += OnClosed;
-        // }
-        //
-        // private void OnItemEnqueued(object sender, EventArgs e)
-        // {
-        //     TearDownThirdState();
-        //     SetupForthState();
-        // }
-        //
-        // private void OnClosed(object sender, EventArgs e)
-        // {
-        //     TearDownThirdState();
-        //     SetupSecondState();
-        // }
-        //
-        // private void TearDownThirdState()
-        // {
-        //     thirdArrow.SetActive(false);
-        //     _queue.ItemEnqueued -= OnItemEnqueued;
-        //     Station.StationClosed -= OnClosed;
-        // }
-        //
-        // #endregion
-        //
-        // #region Second state
-        //
-        // private void OnStationOpened(object sender, EventArgs args)
-        // {
-        //     TearDownSecondState();
-        //     SetupThirdState();
-        // }
-        //
-        // private void OnStationExited(object sender, EventArgs args)
-        // {
-        //     TearDownSecondState();
-        //     SetupFirstState();
-        // }
-        //
-        // private void SetupSecondState()
-        // {
-        //     secondArrow.SetActive(true);
-        //     queueUi.SetActive(false);
-        //     Station.StationExited += OnStationExited;
-        //     Station.StationOpened += OnStationOpened;
-        // }
-        //
-        // private void TearDownSecondState()
-        // {
-        //     secondArrow.SetActive(false);
-        //     Station.StationExited -= OnStationExited;
-        //     Station.StationOpened -= OnStationOpened;
-        // }
-        //
-        // #endregion
-        //
-        // #region First state
-        //
-        // private void SetupFirstState()
-        // {
-        //     firstArrow.SetActive(true);
-        //     Station.StationEntered += OnStationEntered;
-        // }
-        //
-        // private void TearDownFirstState()
-        // {
-        //     firstArrow.SetActive(false);
-        //     Station.StationEntered -= OnStationEntered;
-        // }
-        //
-        // private void OnStationEntered(object sender, EventArgs args)
-        // {
-        //     TearDownFirstState();
-        //     SetupSecondState();
-        // }
-        //
-        // #endregion
     }
 }

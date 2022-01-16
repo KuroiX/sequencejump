@@ -10,32 +10,41 @@ namespace Features.Tutorial
             next._prev = prev;
         }
         
-        private readonly Action<EventHandler, bool> _nextHandler;
-        private readonly Action<EventHandler, bool> _prevHandler;
-        private readonly Action<bool> _onState;
+        private readonly Action<EventHandler> _nextSubHandler;
+        private readonly Action<EventHandler> _nextUnsubHandler;
+        private readonly Action<EventHandler> _prevSubHandler;
+        private readonly Action<EventHandler> _prevUnsubHandler;
+        private readonly Action _onStateEnter;
+        private readonly Action _onStateExit;
 
         private TutorialState _next;
         private TutorialState _prev;
 
-        public TutorialState(Action<EventHandler, bool> nextHandler, Action<EventHandler, bool> prevHandler, Action<bool> onState)
+        public TutorialState(
+            Action<EventHandler> nextSubHandler, Action<EventHandler> nextUnsubHandler, 
+            Action<EventHandler> prevSubHandler, Action<EventHandler> prevUnsubHandler, 
+            Action onStateEnter, Action onStateExit)
         {
-            _nextHandler = nextHandler;
-            _prevHandler = prevHandler;
-            _onState = onState;
+            _nextSubHandler = nextSubHandler;
+            _nextUnsubHandler = nextUnsubHandler;
+            _prevSubHandler = prevSubHandler;
+            _prevUnsubHandler = prevUnsubHandler;
+            _onStateEnter = onStateEnter;
+            _onStateExit = onStateExit;
         }
 
         public void Setup()
         {
-            _onState?.Invoke(true);
-            _nextHandler?.Invoke(OnNext, true);
-            _prevHandler?.Invoke(OnPrev, true);
+            _onStateEnter?.Invoke();
+            _nextSubHandler?.Invoke(OnNext);
+            _prevSubHandler?.Invoke(OnPrev);
         }
 
         protected virtual void Teardown()
         {
-            _onState?.Invoke(false);
-            _nextHandler?.Invoke(OnNext, false);
-            _prevHandler?.Invoke(OnPrev, false);
+            _onStateExit?.Invoke();
+            _nextUnsubHandler?.Invoke(OnNext);
+            _prevUnsubHandler?.Invoke(OnPrev);
         }
         
         private void OnNext(object sender, EventArgs args)

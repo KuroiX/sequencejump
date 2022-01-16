@@ -27,125 +27,84 @@ namespace Features.Tutorial
 
         private void HandleTutorialStates()
         {
-            TutorialState zeroState = new TutorialState((handler, b) =>
-            {
-                if (b)
+            TutorialState zeroState = new TutorialState(
+                handler => Station.StationClosed += handler,
+                handler => Station.StationClosed -= handler,
+                null, null,
+                () =>
                 {
-                    Station.StationClosed += handler;
-                }
-                else
+                    firstArrow.SetActive(false);
+                },
+                () =>
                 {
-                    Station.StationClosed -= handler;
-                }
-            },  null, 
-                b =>
-            {
-                firstArrow.SetActive(!b);
-            });
+                    firstArrow.SetActive(true);
+                });
             
-            TutorialState firstState = new TutorialState((handler, b) =>
-            {
-                if (b)
+            TutorialState firstState = new TutorialState(
+                handler => _queue.ItemDequeued += handler,
+                handler => _queue.ItemDequeued -= handler,
+                handler => Station.StationOpened += handler,
+                handler => Station.StationOpened -= handler,
+                () => {
+                    firstArrow.SetActive(true);
+                },
+                () =>
                 {
-                    _queue.ItemDequeued += handler;
-                }
-                else
-                {
-                    _queue.ItemDequeued -= handler;
-                }
-            }, (handler, b) =>
-            {
-                if (b)
-                {
-                    Station.StationOpened += handler;
-                }
-                else
-                {
-                    Station.StationOpened -= handler;
-                }
-            }, b =>
-            {
-                firstArrow.SetActive(b);
-            });
+                    firstArrow.SetActive(false);
+                });
             
-            TutorialState secondState = new TutorialState((handler, b) =>
-            {
-                if (b)
+            TutorialState secondState = new TutorialState(
+                handler => upperTrigger.TriggerEntered += handler,
+                handler => upperTrigger.TriggerEntered -= handler,
+                null, null,
+                () => {
+                    secondArrow.SetActive(true);
+                },
+                () =>
                 {
-                    upperTrigger.TriggerEntered += handler;
-                }
-                else
-                {
-                    upperTrigger.TriggerEntered -= handler;
-                }
-            },  null, 
-                b =>
-            {
-                secondArrow.SetActive(b);
-            });
+                    secondArrow.SetActive(false);
+                });
             
-            TutorialState thirdState = new TutorialState((handler, b) =>
-            {
-                if (b)
+            TutorialState thirdState = new TutorialState(
+                handler => Station.StationOpened += handler,
+                handler => Station.StationOpened -= handler,
+                handler => lowerTrigger.TriggerEntered += handler,
+                handler => lowerTrigger.TriggerEntered -= handler,
+                () => {
+                    forthArrow.SetActive(true);
+                },
+                () =>
                 {
-                    Station.StationOpened += handler;
-                }
-                else
-                {
-                    Station.StationOpened -= handler;
-                }
-            }, (handler, b) =>
-            {
-                if (b)
-                {
-                    lowerTrigger.TriggerEntered += handler;
-                }
-                else
-                {
-                    lowerTrigger.TriggerEntered -= handler;
-                }
-            }, b =>
-            {
-                forthArrow.SetActive(b);
-            });
+                    forthArrow.SetActive(false);
+                });
 
             CountEvent countEvent = new CountEvent(3, _queue);
             
-            TutorialState forthState = new TutorialState((handler, b) =>
-            {
-                if (b)
+            TutorialState forthState = new TutorialState(
+                handler => countEvent.ClosedAndFinished += handler,
+                handler => countEvent.ClosedAndFinished -= handler,
+                handler => countEvent.ClosedAndNotFinished += handler,
+                handler => countEvent.ClosedAndNotFinished -= handler,
+                () => {
+                    thirdArrow.SetActive(true);
+                },
+                () =>
                 {
-                    countEvent.ClosedAndFinished += handler;
-                }
-                else
-                {
-                    countEvent.ClosedAndFinished -= handler;
-                }
-            }, (handler, b) =>
-            {
-                if (b)
-                {
-                    countEvent.ClosedAndNotFinished += handler;
-                }
-                else
-                {
-                    countEvent.ClosedAndNotFinished -= handler;
-                }
-            }, b =>
-            {
-                thirdArrow.SetActive(b);
-            });
+                    thirdArrow.SetActive(false);
+                });
             
-            TutorialState fifthState = new TutorialState(null, null, b =>
-            {
-                fifthArrow.SetActive(true);
-            });
+            TutorialState fifthState = new TutorialState(
+                null,null, null, null,
+                () => {
+                    fifthArrow.SetActive(true);
+                }, null);
             
             TutorialState.Connect(zeroState, firstState);
             TutorialState.Connect(firstState, secondState);
             TutorialState.Connect(secondState, thirdState);
             TutorialState.Connect(thirdState, forthState);
             TutorialState.Connect(forthState, fifthState);
+            
             firstState.Setup();
         }
     }
