@@ -7,11 +7,12 @@ namespace Features.Tutorial
 {
     public class SecondCheckpoint : MonoBehaviour
     {
-        [SerializeField] private GameObject firstArrow;
-        [SerializeField] private GameObject secondArrow;
-        [SerializeField] private GameObject thirdArrow;
-        [SerializeField] private GameObject forthArrow;
-        [SerializeField] private GameObject fifthArrow;
+        [Header("Tutorial References")]
+        [SerializeField] private GameObject actionButtonPointer;
+        [SerializeField] private GameObject numberPointingArrow;
+        [SerializeField] private GameObject stationHintingArrow;
+        [SerializeField] private GameObject stationPointingArrow;
+        [SerializeField] private GameObject levelPointingArrow;
 
         [SerializeField] private TutorialTriggerEntered upperTrigger;
         [SerializeField] private TutorialTriggerEntered lowerTrigger;
@@ -33,11 +34,11 @@ namespace Features.Tutorial
                 null, null,
                 () =>
                 {
-                    firstArrow.SetActive(false);
+                    actionButtonPointer.SetActive(false);
                 },
                 () =>
                 {
-                    firstArrow.SetActive(true);
+                    actionButtonPointer.SetActive(true);
                 });
             
             TutorialState firstState = new TutorialState(
@@ -46,11 +47,11 @@ namespace Features.Tutorial
                 handler => Station.StationOpened += handler,
                 handler => Station.StationOpened -= handler,
                 () => {
-                    firstArrow.SetActive(true);
+                    actionButtonPointer.SetActive(true);
                 },
                 () =>
                 {
-                    firstArrow.SetActive(false);
+                    actionButtonPointer.SetActive(false);
                 });
             
             TutorialState secondState = new TutorialState(
@@ -58,11 +59,11 @@ namespace Features.Tutorial
                 handler => upperTrigger.TriggerEntered -= handler,
                 null, null,
                 () => {
-                    secondArrow.SetActive(true);
+                    stationHintingArrow.SetActive(true);
                 },
                 () =>
                 {
-                    secondArrow.SetActive(false);
+                    stationHintingArrow.SetActive(false);
                 });
             
             TutorialState thirdState = new TutorialState(
@@ -71,11 +72,11 @@ namespace Features.Tutorial
                 handler => lowerTrigger.TriggerEntered += handler,
                 handler => lowerTrigger.TriggerEntered -= handler,
                 () => {
-                    forthArrow.SetActive(true);
+                    stationPointingArrow.SetActive(true);
                 },
                 () =>
                 {
-                    forthArrow.SetActive(false);
+                    stationPointingArrow.SetActive(false);
                 });
 
             CountEvent countEvent = new CountEvent(3, _queue);
@@ -86,17 +87,17 @@ namespace Features.Tutorial
                 handler => countEvent.ClosedAndNotFinished += handler,
                 handler => countEvent.ClosedAndNotFinished -= handler,
                 () => {
-                    thirdArrow.SetActive(true);
+                    numberPointingArrow.SetActive(true);
                 },
                 () =>
                 {
-                    thirdArrow.SetActive(false);
+                    numberPointingArrow.SetActive(false);
                 });
             
             TutorialState fifthState = new TutorialState(
                 null,null, null, null,
                 () => {
-                    fifthArrow.SetActive(true);
+                    levelPointingArrow.SetActive(true);
                 }, null);
             
             TutorialState.Connect(zeroState, firstState);

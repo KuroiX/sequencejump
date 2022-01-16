@@ -7,16 +7,18 @@ namespace Features.Tutorial
 {
     public class FirstCheckpoint : MonoBehaviour
     {
-        [SerializeField] private GameObject firstArrow;
-        [SerializeField] private GameObject secondArrow;
-        [SerializeField] private GameObject thirdArrow;
-        [SerializeField] private GameObject forthArrow;
-
+        [Header("Tutorial References")]
+        [SerializeField] private GameObject stationPointingArrow;
+        [SerializeField] private GameObject openStationPointer;
+        [SerializeField] private GameObject enqueueJumpPointer;
+        [SerializeField] private GameObject closeStationPointer;
+        
+        [SerializeField] private SecondCheckpoint secondCheckpoint;
+        
+        [Header("Scene References")]
         [SerializeField] private GameObject queueUi;
         [SerializeField] private GameObject actionButton;
 
-        [SerializeField] private SecondCheckpoint secondCheckpoint;
-        
         private ResettableQueue<ICharacterAction> _queue;
 
         private void Awake()
@@ -36,11 +38,11 @@ namespace Features.Tutorial
                 null, null,
                 () =>
                 {
-                    firstArrow.SetActive(true);
+                    stationPointingArrow.SetActive(true);
                 },
                 () =>
                 {
-                    firstArrow.SetActive(false);
+                    stationPointingArrow.SetActive(false);
                 });
             
             TutorialState secondState = new TutorialState(
@@ -49,12 +51,12 @@ namespace Features.Tutorial
                 handler => Station.StationExited += handler,
                 handler => Station.StationExited -= handler,
                 () => {
-                    secondArrow.SetActive(true);
+                    openStationPointer.SetActive(true);
                     queueUi.SetActive(false);
                 },
                 () =>
                 {
-                    secondArrow.SetActive(false);
+                    openStationPointer.SetActive(false);
                 });
             
             TutorialState thirdState = new TutorialState(
@@ -63,12 +65,12 @@ namespace Features.Tutorial
                 handler => Station.StationClosed += handler,
                 handler => Station.StationClosed -= handler,
                 () => {
-                    thirdArrow.SetActive(true);
+                    enqueueJumpPointer.SetActive(true);
                     queueUi.SetActive(true);
                 },
                 () =>
                 {
-                    thirdArrow.SetActive(false);
+                    enqueueJumpPointer.SetActive(false);
                 });
             
             TutorialState forthState = new TutorialState(
@@ -76,11 +78,11 @@ namespace Features.Tutorial
                 handler => Station.StationClosed -= handler,
                 null, null,
                 () => {
-                    forthArrow.SetActive(true);
+                    closeStationPointer.SetActive(true);
                 },
                 () =>
                 {
-                    forthArrow.SetActive(false);
+                    closeStationPointer.SetActive(false);
                     actionButton.SetActive(true);
                     secondCheckpoint.enabled = true;
                     this.enabled = false;
