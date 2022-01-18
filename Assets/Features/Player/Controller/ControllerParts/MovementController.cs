@@ -9,14 +9,16 @@ namespace Features.Player.Controller.ControllerParts
         private readonly GroundedController _grounded;
         private readonly Rigidbody2D _rb;
         private readonly MovementSettings _movementSettings;
+        private float _scale;
 
-        private readonly float _maxFallSpeed;
+        private readonly Ref<float> _maxFallSpeed;
 
-        public MovementController(IMovementInput movementInput, GroundedController grounded, Rigidbody2D rb, MovementSettings movementSettings, float maxFallSpeed)
+        public MovementController(IMovementInput movementInput, GroundedController grounded, Rigidbody2D rb, MovementSettings movementSettings, Ref<float> maxFallSpeed)
         {
             _movementInput = movementInput;
             _grounded = grounded;
             _rb = rb;
+            _scale = _rb.gravityScale;
             _movementSettings = movementSettings;
             _maxFallSpeed = maxFallSpeed;
         }
@@ -59,7 +61,21 @@ namespace Features.Player.Controller.ControllerParts
             */
 
             float newSpeedY = velocity.y;
-            newSpeedY = newSpeedY < -_maxFallSpeed ? -_maxFallSpeed : newSpeedY;
+            float progress = 1;
+
+            if (newSpeedY < -1)
+            {
+                progress = 1 - (newSpeedY / -_maxFallSpeed.Value);
+            }
+
+            _rb.gravityScale =  _scale * progress;
+            
+            if (newSpeedY < -_maxFallSpeed.Value)
+            {
+                Debug.Log("reached max fall speed");
+                //Debug.Break();
+            }
+            newSpeedY = newSpeedY < -_maxFallSpeed.Value ? -_maxFallSpeed.Value : newSpeedY;
             
             _rb.velocity = new Vector2(newSpeed, newSpeedY);
         }

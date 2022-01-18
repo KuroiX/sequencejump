@@ -48,7 +48,8 @@ namespace Features.Player.Controller
             _jump = new JumpController(_rb, jumpHeight);
             _dash = new DashController(_rb, iterations, dashDistance);
             _grounded = new GroundedController(_collider, environmentLayerMask, .1f);
-            _movement = new MovementController(_controllerInput, _grounded, _rb, movementSettings, maxFallSpeed);
+            _movement = new MovementController(_controllerInput, _grounded, _rb, movementSettings, 
+                new Ref<float>(() => maxFallSpeed, value => maxFallSpeed = value));
 
             _charController = new CharController(_grounded, _jump, _dash, _movement, _controllerInput);
 
