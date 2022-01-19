@@ -30,7 +30,7 @@ namespace Features.Player.Controller
         private float _direction;
 
         private JumpController _jump;
-        private DashController _dash;
+        private DynamicDashController _dash;
         private GroundedController _grounded;
         private MovementController _movement;
 
@@ -48,7 +48,7 @@ namespace Features.Player.Controller
             _controllerInput = GetComponents<IControllerInput>()[i];
 
             _jump = new JumpController(_rb, jumpHeight);
-            _dash = new DashController(_rb, 
+            _dash = new DynamicDashController(_rb, 
                 new Ref<int>(() => iterations, value => iterations=value), 
                 new Ref<float>(() => dashDistance, value => dashDistance = value), 
                 new Ref<float>(() => dashDistance * breakPoint, value => {}));

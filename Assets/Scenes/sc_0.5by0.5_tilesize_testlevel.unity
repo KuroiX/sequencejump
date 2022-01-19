@@ -140793,6 +140793,10 @@ PrefabInstance:
       value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 7570952696846952858, guid: 3528356ecdebd3549801506f2eef8a67, type: 3}
+      propertyPath: maxFallSpeed
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7570952696846952858, guid: 3528356ecdebd3549801506f2eef8a67, type: 3}
       propertyPath: useStandardInput
       value: 1
       objectReference: {fileID: 0}

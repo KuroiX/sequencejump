@@ -1,9 +1,8 @@
-﻿using Features.Player.Controller;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Features.Player
+namespace Features.Player.Controller
 {
-    public class DashController
+    public class DynamicDashController : IDashController
     {
         private readonly float _initialGravityScale;
         private float _dashTime;
@@ -31,7 +30,7 @@ namespace Features.Player
         
         public bool IsDashing { get; private set; }
 
-        public DashController(Rigidbody2D rb, Ref<int> iterations, Ref<float> dashDistance, Ref<float> breakPoint)
+        public DynamicDashController(Rigidbody2D rb, Ref<int> iterations, Ref<float> dashDistance, Ref<float> breakPoint)
         {
             _rb = rb;
             _initialGravityScale = rb.gravityScale;

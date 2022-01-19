@@ -65,7 +65,7 @@ namespace Features.Player.Controller.ControllerParts
 
             if (newSpeedY < -1)
             {
-                progress = 1 - (newSpeedY / -_maxFallSpeed.Value);
+                progress -= newSpeedY / -(_maxFallSpeed.Value*2);
             }
 
             _rb.gravityScale =  _scale * progress;
