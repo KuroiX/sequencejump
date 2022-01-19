@@ -52,6 +52,8 @@ namespace Features.Player
 
             _speed = actualSpeed * direction;
             _direction = direction;
+
+            CalculateDistance();
             
             _rb.velocity = new Vector2(_speed, 0);
             IsDashing = true;
@@ -75,15 +77,16 @@ namespace Features.Player
             {
                 DashEnd();
             } 
-            if (_activeTime > TimeBreakPoint + Time.fixedDeltaTime)
+            else if (_activeTime > TimeBreakPoint + Time.deltaTime)
             {
-                //Debug.Log("hallo");
-                // float value = _activeTime / (_dashTime / 3);
-                // _rb.velocity = new Vector2(_speed * value, 0);
-                //float velocity = (_dashDistance.Value / 2) * (-4.5f * (1/(_dashTime*_dashTime)) * _activeTime + 4.5f * 1/_dashTime + 0.5f);
-                //Debug.Log(CalculateA() * 2 * (_activeTime - _dashTime));
                 float velocity = CalculateA() * 2 * (_activeTime - _dashTime) * _direction;
-                Debug.Log(velocity);
+                _rb.velocity = new Vector2(velocity, 0);
+            }
+            else if (_activeTime > TimeBreakPoint)
+            {
+                float velocity = CalculateA() * 2 * (_activeTime - _dashTime);
+                velocity += CalculateDistance();
+                velocity *= _direction;
                 _rb.velocity = new Vector2(velocity, 0);
             }
         }
@@ -94,6 +97,35 @@ namespace Features.Player
             
             float boi = TimeBreakPoint - _dashTime;
             return (_breakPoint.Value - _dashDistance.Value)/ (boi * boi);
+        }
+
+        private float CalculateDistance()
+        {
+            float s = 0;
+            float timePassed = 0;
+            
+            for (int i = 0; i < _iterations.Value; i++)
+            {
+                timePassed += Time.fixedDeltaTime;
+                
+                if (timePassed < TimeBreakPoint)
+                {
+                    s += TimeBreakPoint == 0 ? CalculateA() * 2 * (-_dashTime) : _breakPoint.Value / TimeBreakPoint * Time.fixedDeltaTime;
+                }
+                else if (timePassed >= TimeBreakPoint)
+                {
+                    float velocity = CalculateA() * 2 * (timePassed - _dashTime);
+                    // if (velocity <= 0)
+                    // {
+                    //     Debug.Log("Velocity hit 0: " + velocity);
+                    // }
+                    s += velocity * Time.fixedDeltaTime;
+                }
+
+                
+            }
+
+            return (_dashDistance.Value - s) / Time.fixedDeltaTime;
         }
     }
 }
