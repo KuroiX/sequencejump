@@ -103,26 +103,18 @@ namespace Features.Player
         {
             float s = 0;
             float timePassed = 0;
+
+            float linearVelocity = TimeBreakPoint == 0
+                ? CalculateA() * 2 * (-_dashTime)
+                : _breakPoint.Value / TimeBreakPoint;
             
             for (int i = 0; i < _iterations.Value; i++)
             {
                 timePassed += Time.fixedDeltaTime;
                 
-                if (timePassed < TimeBreakPoint)
-                {
-                    s += TimeBreakPoint == 0 ? CalculateA() * 2 * (-_dashTime) : _breakPoint.Value / TimeBreakPoint * Time.fixedDeltaTime;
-                }
-                else if (timePassed >= TimeBreakPoint)
-                {
-                    float velocity = CalculateA() * 2 * (timePassed - _dashTime);
-                    // if (velocity <= 0)
-                    // {
-                    //     Debug.Log("Velocity hit 0: " + velocity);
-                    // }
-                    s += velocity * Time.fixedDeltaTime;
-                }
+                float velocity = timePassed < TimeBreakPoint ? linearVelocity : CalculateA() * 2 * (timePassed - _dashTime);
 
-                
+                s += velocity * Time.fixedDeltaTime;
             }
 
             return (_dashDistance.Value - s) / Time.fixedDeltaTime;
