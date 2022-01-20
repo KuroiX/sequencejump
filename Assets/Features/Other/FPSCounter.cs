@@ -15,7 +15,7 @@ namespace Features
         private void Start()
         {
             device.text = "" + Screen.currentResolution.refreshRate;
-            Application.targetFrameRate = Screen.currentResolution.refreshRate;
+            //Application.targetFrameRate = Screen.currentResolution.refreshRate;
         }
 
         private void Update()
