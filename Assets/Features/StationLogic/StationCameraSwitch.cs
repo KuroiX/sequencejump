@@ -1,4 +1,5 @@
 using System;
+using Cinemachine;
 using UnityEngine;
 
 namespace Features.StationLogic
@@ -8,6 +9,9 @@ namespace Features.StationLogic
         private Camera _mainCamera;
         private Camera _stationCamera;
         private Station _station;
+
+        [SerializeField] private CinemachineVirtualCamera mainCamera;
+        [SerializeField] private CinemachineVirtualCamera stationCamera;
 
         private void Awake()
         {
@@ -59,8 +63,10 @@ namespace Features.StationLogic
 
         private void CameraSwitch(bool enteredStation)
         {
-            _mainCamera.enabled = !enteredStation;
-            _stationCamera.enabled = enteredStation;
+            //_mainCamera.enabled = !enteredStation;
+            //_stationCamera.enabled = enteredStation;
+            stationCamera.Priority = mainCamera.Priority + (enteredStation ? 1 : -1);
+
         }
         
     }
