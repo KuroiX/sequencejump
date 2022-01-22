@@ -1,19 +1,15 @@
 using System;
+using Cinemachine;
 using UnityEngine;
 
 namespace Features.StationLogic
 {
     public class StationCameraSwitch : MonoBehaviour
     {
-        private Camera _mainCamera;
-        private Camera _stationCamera;
         private Station _station;
 
-        private void Awake()
-        {
-            _mainCamera = Camera.main;
-            _stationCamera = GetComponentInChildren<Camera>();
-        }
+        [SerializeField] private CinemachineVirtualCamera mainCamera;
+        [SerializeField] private CinemachineVirtualCamera stationCamera;
 
         private void Start()
         {
@@ -59,8 +55,7 @@ namespace Features.StationLogic
 
         private void CameraSwitch(bool enteredStation)
         {
-            _mainCamera.enabled = !enteredStation;
-            _stationCamera.enabled = enteredStation;
+            stationCamera.Priority = mainCamera.Priority + (enteredStation ? 1 : -1);
         }
         
     }

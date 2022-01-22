@@ -18,6 +18,8 @@ namespace Features.Player.Controller
         
         [Header("Dash Settings")]
         [SerializeField] private float dashDistance;
+        [Range(0, 1)]
+        [SerializeField] private float breakPoint;
         [SerializeField] private int iterations;
 
         [Header("Other Settings")]
@@ -28,7 +30,7 @@ namespace Features.Player.Controller
         private float _direction;
 
         private JumpController _jump;
-        private DashController _dash;
+        private DynamicDashController _dash;
         private GroundedController _grounded;
         private MovementController _movement;
 
@@ -46,9 +48,13 @@ namespace Features.Player.Controller
             _controllerInput = GetComponents<IControllerInput>()[i];
 
             _jump = new JumpController(_rb, jumpHeight);
-            _dash = new DashController(_rb, iterations, dashDistance);
+            _dash = new DynamicDashController(_rb, 
+                new Ref<int>(() => iterations, value => iterations=value), 
+                new Ref<float>(() => dashDistance, value => dashDistance = value), 
+                new Ref<float>(() => dashDistance * breakPoint, value => {}));
             _grounded = new GroundedController(_collider, environmentLayerMask, .1f);
-            _movement = new MovementController(_controllerInput, _grounded, _rb, movementSettings, maxFallSpeed);
+            _movement = new MovementController(_controllerInput, _grounded, _rb, movementSettings, 
+                new Ref<float>(() => maxFallSpeed, value => maxFallSpeed = value));
 
             _charController = new CharController(_grounded, _jump, _dash, _movement, _controllerInput);
 

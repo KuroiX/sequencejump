@@ -7,7 +7,7 @@ namespace Features.Player.Controller
     {
         private readonly GroundedController _grounded;
         private readonly JumpController _jump;
-        private readonly DashController _dash;
+        private readonly IDashController _dash;
         private readonly MovementController _movement;
 
         private readonly IControllerInput _controllerInput;
@@ -15,7 +15,7 @@ namespace Features.Player.Controller
         
         public float Direction => _direction;
 
-        public CharController(GroundedController grounded, JumpController jump, DashController dash, MovementController movement, IControllerInput controllerInput)
+        public CharController(GroundedController grounded, JumpController jump, IDashController dash, MovementController movement, IControllerInput controllerInput)
         {
             _grounded = grounded;
             _jump = jump;
