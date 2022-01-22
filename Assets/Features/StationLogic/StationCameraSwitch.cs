@@ -1,0 +1,62 @@
+using System;
+using Cinemachine;
+using UnityEngine;
+
+namespace Features.StationLogic
+{
+    public class StationCameraSwitch : MonoBehaviour
+    {
+        private Station _station;
+
+        [SerializeField] private CinemachineVirtualCamera mainCamera;
+        [SerializeField] private CinemachineVirtualCamera stationCamera;
+
+        private void Start()
+        {
+            _station = GetComponent<StationBehaviour>().Station;
+        }
+
+        private void OnEnable()
+        {
+            Station.StationEntered += Subscribe;
+            Station.StationExited += Unsubscribe;
+        }
+
+        private void OnDisable()
+        {
+            Station.StationEntered -= Subscribe;
+            Station.StationExited -= Unsubscribe;
+        }
+
+        private void Subscribe(object sender, EventArgs e)
+        {
+            if (_station != (sender)) return;
+            //Debug.Log("Subscribe CameraSwitch");
+            Station.StationOpened += CameraSwitchOnOpened;
+            Station.StationClosed += CameraSwitchOnClosed;
+        }
+
+        private void Unsubscribe(object sender, EventArgs e)
+        {
+            if (_station != ((Station) sender)) return;
+            //Debug.Log("Unsubscribe CameraSwitch");
+            Station.StationOpened -= CameraSwitchOnOpened;
+            Station.StationClosed -= CameraSwitchOnClosed;
+        }
+
+        private void CameraSwitchOnOpened(object sender, EventArgs e)
+        {
+            CameraSwitch(true);
+        }
+        private void CameraSwitchOnClosed(object sender, EventArgs e)
+        {
+            CameraSwitch(false);
+        }
+
+        private void CameraSwitch(bool enteredStation)
+        {
+            stationCamera.Priority = mainCamera.Priority + (enteredStation ? 1 : -1);
+        }
+        
+    }
+}
