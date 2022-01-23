@@ -6,5 +6,6 @@ namespace Core.Actions
     {
         Sprite Sprite { get; }
         string Name { get; }
+        ActionType Type { get; }
     }
 }

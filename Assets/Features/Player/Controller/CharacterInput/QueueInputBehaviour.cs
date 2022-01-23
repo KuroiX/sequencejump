@@ -3,17 +3,15 @@ using UnityEngine;
 
 namespace Features.Player.Controller.CharacterInput
 {
-    public class QueueInputBehaviour : MonoBehaviour, IControllerInput
+    public class QueueInputBehaviour : MonoBehaviour, IInputHolder
     {
-        public float Horizontal { get; set; }
-        public bool JumpPerformed { get; set; }
-        public bool JumpCanceled { get; set; }
-        public bool DashPerformed { get; set; }
+        public IControllerInput Input => _inputSetter;
 
         [SerializeField] private Component[] signals;
 
         private QueueInput _queueInput;
         private InputSourceHandler _inputSourceHandler;
+        private readonly ControllerInputSetter _inputSetter = new ControllerInputSetter();
 
         private void Awake()
         {
@@ -24,7 +22,7 @@ namespace Features.Player.Controller.CharacterInput
             var charInputs = SetupCharacterInputs();
             var iSignals = SetupStopStartSignals();
 
-            _queueInput = new QueueInput(processor, charInputs, this);
+            _queueInput = new QueueInput(processor, charInputs, _inputSetter);
             _inputSourceHandler = new InputSourceHandler(charInputs, iSignals);
         }
 

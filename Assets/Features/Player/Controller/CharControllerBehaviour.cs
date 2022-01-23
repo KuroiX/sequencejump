@@ -27,8 +27,6 @@ namespace Features.Player.Controller
         [SerializeField] private LayerMask environmentLayerMask;
         [SerializeField] private bool useStandardInput;
 
-        private float _direction;
-
         private JumpController _jump;
         private DynamicDashController _dash;
         private GroundedController _grounded;
@@ -45,7 +43,7 @@ namespace Features.Player.Controller
             
             int i = useStandardInput ? 0 : 1;
 
-            _controllerInput = GetComponents<IControllerInput>()[i];
+            _controllerInput = GetComponents<IInputHolder>()[i].Input;
 
             _jump = new JumpController(_rb, jumpHeight);
             _dash = new DynamicDashController(_rb, 

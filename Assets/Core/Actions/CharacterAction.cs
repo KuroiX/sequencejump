@@ -8,12 +8,13 @@ namespace Core.Actions
     {
         public static Dictionary<string, CharacterAction> CharacterActions { get; private set; }
 
-        [SerializeField]
-        private string actionName;
+        [SerializeField] private string actionName;
         public string Name => name;
 
-        [SerializeField]
-        private Sprite sprite;
+        [SerializeField] private ActionType type;
+        public ActionType Type => type;
+
+        [SerializeField] private Sprite sprite;
         public Sprite Sprite => sprite;
 
         private void OnEnable()

@@ -2,7 +2,7 @@
 {
     public interface IJumpInput
     {
-        bool JumpPerformed { get; set; }
-        bool JumpCanceled { get; set; }
+        bool JumpPerformed { get; }
+        bool JumpCanceled { get; }
     }
 }

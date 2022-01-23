@@ -1,7 +1,5 @@
-﻿using System;
-using Core.Actions;
+﻿using Core.Actions;
 using Core.Queue;
-using UnityEngine;
 
 
 namespace Features.Player.Controller.CharacterInput
@@ -9,51 +7,27 @@ namespace Features.Player.Controller.CharacterInput
     public class QueueProcessor
     {
         private readonly ResettableQueue<ICharacterAction> _actionQueue;
-        
-        private bool _lastActionWasJump;
+
+        private ICharacterAction _lastAction;
 
         public QueueProcessor(ResettableQueue<ICharacterAction> actionQueue)
         {
             _actionQueue = actionQueue;
         }
         
-        public void Action(IControllerInput controllerInput)
+        public void PerformAction(IInputSetter controllerInput)
         {
             if (_actionQueue.Count == 0) return;
             
-            ICharacterAction currentAction = _actionQueue.Dequeue();
-
-            switch (currentAction.Name)
-            {
-                case "Jump":
-                    Jump(controllerInput);
-                    break;
-                case "Dash":
-                    Dash(controllerInput);
-                    break;
-                default:
-                    throw new NotImplementedException(
-                        "An Action was dequeued that has not been implemented in QueueProcessor.cs");
-            }
+            _lastAction = _actionQueue.Dequeue();
+            
+            controllerInput.PerformInput(_lastAction);
         }
 
-        private void Jump(IControllerInput controllerInput)
+        public void CancelAction(IInputSetter controllerInput)
         {
-            controllerInput.JumpPerformed = true;
-            //characterInput.JumpTimeStamp = Time.unscaledTime;
-            _lastActionWasJump = true;
-        }
-        
-        public void JumpEnd(IControllerInput controllerInput)
-        {
-            if (!_lastActionWasJump) return;
-            controllerInput.JumpCanceled = true;
-            //characterInput.JumpEndTimeStamp = Time.unscaledTime;
-        }
-
-        private void Dash(IControllerInput controllerInput)
-        {
-            controllerInput.DashPerformed = true;
+            if (ReferenceEquals(_lastAction, null)) return;
+            controllerInput.CancelInput(_lastAction);
         }
     }
 }
