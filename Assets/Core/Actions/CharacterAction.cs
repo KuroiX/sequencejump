@@ -6,10 +6,7 @@ namespace Core.Actions
     [CreateAssetMenu(fileName = "Action", menuName = "ScriptableObjects/Action", order = 1)]
     public class CharacterAction : ScriptableObject, ICharacterAction
     {
-        public static Dictionary<string, CharacterAction> CharacterActions { get; private set; }
-
-        [SerializeField] private string actionName;
-        public string Name => name;
+        public static Dictionary<ActionType, CharacterAction> CharacterActions { get; private set; }
 
         [SerializeField] private ActionType type;
         public ActionType Type => type;
@@ -19,9 +16,9 @@ namespace Core.Actions
 
         private void OnEnable()
         {
-            CharacterActions ??= new Dictionary<string, CharacterAction>();
+            CharacterActions ??= new Dictionary<ActionType, CharacterAction>();
 
-            CharacterActions[actionName] = this;
+            CharacterActions[type] = this;
         }
     }
 }

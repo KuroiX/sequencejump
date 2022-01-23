@@ -2,7 +2,8 @@
 {
     public enum ActionType
     {
-        Jump = 0,
-        Dash = 1,
+        None = 0,
+        Jump = 1,
+        Dash = 2,
     }
 }
