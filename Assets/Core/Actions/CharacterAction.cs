@@ -7,6 +7,20 @@ namespace Core.Actions
     public class CharacterAction : ScriptableObject, ICharacterAction
     {
         public static Dictionary<ActionType, CharacterAction> CharacterActions { get; private set; }
+        public static ActionType[] OrderedTypes { get; } = {ActionType.Jump, ActionType.Dash};
+        public static ICharacterAction[] OrderedActions {
+            get
+            {
+                ICharacterAction[] actions = new ICharacterAction[OrderedTypes.Length];
+
+                for (int i = 0; i < OrderedTypes.Length; i++)
+                {
+                    actions[i] = CharacterActions[OrderedTypes[i]];
+                }
+
+                return actions;
+            }
+        }
 
         [SerializeField] private ActionType type;
         public ActionType Type => type;
