@@ -1,4 +1,5 @@
 ﻿using System;
+using Features.StationLogic;
 using UnityEngine;
 
 namespace Features.LevelEditor
@@ -6,12 +7,24 @@ namespace Features.LevelEditor
     [Serializable]
     public class StationInfo
     {
-        public Vector3 Position { get; set; }
-        public int MaxAssignableCounts { get; set; }
-        public string[] ActionNames { get; set; }
-        public int[] ActionCounts { get; set; }
+        public Vector3 Position { get; }
+        public int MaxAssignableCount { get; }
+        public int[] ActionCounts { get; }
         
-        public Vector3 CameraPosition { get; set; }
-        public int CameraSize { get; set; }
+        public Vector3 CameraPosition { get; }
+        public float CameraSize { get; }
+
+        public StationInfo(StationBehaviour station)
+        {
+            Position = station.transform.position;
+            MaxAssignableCount = station.MaxAssignableCount;
+            
+            int length = station.ActionCounts.Length;
+            ActionCounts = new int[length];
+            Array.Copy(station.ActionCounts, ActionCounts, length);
+
+            CameraPosition = station.StationCamera.transform.position;
+            CameraSize = station.StationCamera.m_Lens.OrthographicSize;
+        }
     }
 }
