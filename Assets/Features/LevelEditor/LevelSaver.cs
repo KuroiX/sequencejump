@@ -1,6 +1,4 @@
-﻿using System;
-using Features.StationLogic;
-using UnityEditor;
+﻿using Features.StationLogic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -20,11 +18,11 @@ namespace Features.LevelEditor
             SaveTilemaps(level);
             SaveStations(level);
             
-            AssetDatabase.CreateAsset(level, "Assets/Features/LevelEditor/Levels/newLevel.asset");
-            AssetDatabase.SaveAssets();
-            
-            EditorUtility.FocusProjectWindow();
-            Selection.activeObject = level;
+            // AssetDatabase.CreateAsset(level, "Assets/Features/LevelEditor/Levels/newLevel.asset");
+            // AssetDatabase.SaveAssets();
+            //
+            // EditorUtility.FocusProjectWindow();
+            // Selection.activeObject = level;
         }
 
         private void SaveTilemaps(LevelData level)

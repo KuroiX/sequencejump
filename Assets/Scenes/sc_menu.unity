@@ -272,7 +272,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: Play
 --- !u!222 &273878868
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -626,12 +626,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 960, y: 640}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -788,7 +788,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1566673390
 RectTransform:
   m_ObjectHideFlags: 0
@@ -915,6 +915,7 @@ GameObject:
   - component: {fileID: 1572994263}
   - component: {fileID: 1572994262}
   - component: {fileID: 1572994261}
+  - component: {fileID: 1572994264}
   m_Layer: 5
   m_Name: Next
   m_TagString: Untagged
@@ -986,13 +987,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1480076048}
-        m_TargetAssemblyTypeName: Features.MainMenu.MenuScreen, Features
-        m_MethodName: Load
-        m_Mode: 2
+      - m_Target: {fileID: 1572994264}
+        m_TargetAssemblyTypeName: LoadNextLevel, Features
+        m_MethodName: LoadNext
+        m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 939898673}
-          m_ObjectArgumentAssemblyTypeName: Features.MainMenu.MenuScreen, Features
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -1036,6 +1037,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1572994259}
   m_CullTransparentMesh: 1
+--- !u!114 &1572994264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1572994259}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43de5d78293b7a44b82a85a96e3e0855, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1725390123
 GameObject:
   m_ObjectHideFlags: 0

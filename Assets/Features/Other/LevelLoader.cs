@@ -1,13 +1,21 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class LoadNextLevel : MonoBehaviour
+public class LevelLoader : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D other)
     {
+        LoadNext();
+    }
+
+    public void LoadNext()
+    {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
+
+    public void LoadFirst()
+    {
+        SceneManager.LoadScene(0);
+    }
+    
 }
