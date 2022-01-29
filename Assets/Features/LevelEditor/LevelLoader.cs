@@ -9,7 +9,7 @@ namespace Features.LevelEditor
     {
         [SerializeField] private Tilemap[] tilemaps;
 
-        [SerializeField] private LevelObject levelToLoad;
+        [SerializeField] private LevelData levelToLoad;
         [SerializeField] private GameObject stationPrefab;
 
         [Header("Injecting")] 
@@ -19,7 +19,7 @@ namespace Features.LevelEditor
         [ContextMenu("Load Level")]
         public void LoadLevel()
         {
-            //Debug.Log("Load Level");
+            Debug.Log("Load Level");
             
             LoadTilemaps(levelToLoad.TilemapInfos);
             LoadStations(levelToLoad.StationInfos);

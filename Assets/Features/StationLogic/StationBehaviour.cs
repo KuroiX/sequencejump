@@ -25,10 +25,9 @@ namespace Features.StationLogic
         {
             get
             {
-                _actionCounts ??= new[] {jump, dash};
+                _actionCounts = _actionCounts.Length != 2 ? new[] {jump, dash} : _actionCounts;
                 return _actionCounts;
             }
-            set => _actionCounts = value;
         }
 
         private int[] _actionCounts;

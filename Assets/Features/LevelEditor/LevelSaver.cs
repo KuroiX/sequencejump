@@ -1,4 +1,5 @@
-﻿using Features.StationLogic;
+﻿using System;
+using Features.StationLogic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -14,7 +15,7 @@ namespace Features.LevelEditor
         {
             //Debug.Log("Save Level");
             
-            LevelObject level = ScriptableObject.CreateInstance<LevelObject>();
+            LevelData level = ScriptableObject.CreateInstance<LevelData>();
             
             SaveTilemaps(level);
             SaveStations(level);
@@ -26,7 +27,7 @@ namespace Features.LevelEditor
             Selection.activeObject = level;
         }
 
-        private void SaveTilemaps(LevelObject level)
+        private void SaveTilemaps(LevelData level)
         {
             level.TilemapInfos = new TilemapInfo[tilemaps.Length];
             
@@ -50,7 +51,7 @@ namespace Features.LevelEditor
             return info;
         }
 
-        private void SaveStations(LevelObject level)
+        private void SaveStations(LevelData level)
         {
             var stations = FindObjectsOfType<StationBehaviour>();
 

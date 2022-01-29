@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Features.LevelEditor
 {
     [Serializable]
-    public class StationInfo
+    public struct StationInfo
     {
         public Vector3 Position { get; }
         public int MaxAssignableCount { get; }
@@ -20,6 +20,7 @@ namespace Features.LevelEditor
             MaxAssignableCount = station.MaxAssignableCount;
             
             int length = station.ActionCounts.Length;
+            Debug.Log(length);
             ActionCounts = new int[length];
             Array.Copy(station.ActionCounts, ActionCounts, length);
 
