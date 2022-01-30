@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class LevelLoader : MonoBehaviour
+public class SceneLoader : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D other)
     {
