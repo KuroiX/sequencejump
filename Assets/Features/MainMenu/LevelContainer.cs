@@ -2,7 +2,7 @@
 
 namespace Features.MainMenu
 {
-    [CreateAssetMenu(fileName = "level", menuName = "ScriptableObject/Level", order = 0)]
+    [CreateAssetMenu(fileName = "level", menuName = "ScriptableObjects/LevelContainer", order = 0)]
     public class LevelContainer : ScriptableObject
     {
         public LevelContainer prevLevel;

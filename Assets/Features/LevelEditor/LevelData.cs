@@ -2,7 +2,7 @@
 
 namespace Features.LevelEditor
 {
-    [CreateAssetMenu(fileName = "level", menuName = "ScriptableObjects/Level", order = 0)]
+    //[CreateAssetMenu(fileName = "level", menuName = "ScriptableObjects/Level", order = 0)]
     public class LevelData : ScriptableObject
     {
         [SerializeField] private TilemapInfo[] tilemapInfos;
