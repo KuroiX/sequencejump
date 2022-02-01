@@ -14,6 +14,8 @@ namespace Features.MainMenu
 
         private void Awake()
         {
+            if (ReferenceEquals(level, null)) return;
+            
             if (level.isUnlocked)
             {
                 EnableSelection();
@@ -26,7 +28,7 @@ namespace Features.MainMenu
 
         private void OnLevelSelected()
         {
-            LevelSelected?.Invoke(this, EventArgs.Empty);
+            LevelSelected?.Invoke(this, new LevelEventArgs(level));
         }
 
         private void EnableSelection()
@@ -36,7 +38,7 @@ namespace Features.MainMenu
         
         private void DisableSelection()
         {
-            selectionDisabled.SetActive(false);
+            selectionDisabled.SetActive(true);
         }
 
         public void SelectLevel()
