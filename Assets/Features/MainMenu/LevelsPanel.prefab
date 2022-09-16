@@ -92,6 +92,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4670950231495643992}
     m_Modifications:
+    - target: {fileID: 3952919964762419847, guid: 28355240db8e3b34fbfecf29efa63947, type: 3}
+      propertyPath: m_Text
+      value: Level 7
+      objectReference: {fileID: 0}
     - target: {fileID: 3952919965593480320, guid: 28355240db8e3b34fbfecf29efa63947, type: 3}
       propertyPath: m_Name
       value: B_LevelHolder7
@@ -202,6 +206,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4670950231495643992}
     m_Modifications:
+    - target: {fileID: 3952919964762419847, guid: 28355240db8e3b34fbfecf29efa63947, type: 3}
+      propertyPath: m_Text
+      value: Level 6
+      objectReference: {fileID: 0}
     - target: {fileID: 3952919965593480320, guid: 28355240db8e3b34fbfecf29efa63947, type: 3}
       propertyPath: m_Name
       value: B_LevelHolder6
@@ -308,6 +316,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4670950231495643992}
     m_Modifications:
+    - target: {fileID: 3952919964762419847, guid: 28355240db8e3b34fbfecf29efa63947, type: 3}
+      propertyPath: m_Text
+      value: Level 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3952919965593480320, guid: 28355240db8e3b34fbfecf29efa63947, type: 3}
       propertyPath: m_Name
       value: B_LevelHolder2
@@ -418,6 +430,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4670950231495643992}
     m_Modifications:
+    - target: {fileID: 3952919964762419847, guid: 28355240db8e3b34fbfecf29efa63947, type: 3}
+      propertyPath: m_Text
+      value: Level 8
+      objectReference: {fileID: 0}
     - target: {fileID: 3952919965118852834, guid: 28355240db8e3b34fbfecf29efa63947, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0
@@ -536,6 +552,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4670950231495643992}
     m_Modifications:
+    - target: {fileID: 3952919964762419847, guid: 28355240db8e3b34fbfecf29efa63947, type: 3}
+      propertyPath: m_Text
+      value: Level 5
+      objectReference: {fileID: 0}
     - target: {fileID: 3952919965593480320, guid: 28355240db8e3b34fbfecf29efa63947, type: 3}
       propertyPath: m_Name
       value: B_LevelHolder5
@@ -646,6 +666,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4670950231495643992}
     m_Modifications:
+    - target: {fileID: 3952919964762419847, guid: 28355240db8e3b34fbfecf29efa63947, type: 3}
+      propertyPath: m_Text
+      value: Level 10
+      objectReference: {fileID: 0}
     - target: {fileID: 3952919965593480320, guid: 28355240db8e3b34fbfecf29efa63947, type: 3}
       propertyPath: m_Name
       value: B_LevelHolder10
@@ -756,6 +780,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4670950231495643992}
     m_Modifications:
+    - target: {fileID: 3952919964762419847, guid: 28355240db8e3b34fbfecf29efa63947, type: 3}
+      propertyPath: m_Text
+      value: Level 4
+      objectReference: {fileID: 0}
     - target: {fileID: 3952919965593480320, guid: 28355240db8e3b34fbfecf29efa63947, type: 3}
       propertyPath: m_Name
       value: B_LevelHolder4
@@ -866,6 +894,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4670950231495643992}
     m_Modifications:
+    - target: {fileID: 3952919964762419847, guid: 28355240db8e3b34fbfecf29efa63947, type: 3}
+      propertyPath: m_Text
+      value: Level 9
+      objectReference: {fileID: 0}
     - target: {fileID: 3952919965593480320, guid: 28355240db8e3b34fbfecf29efa63947, type: 3}
       propertyPath: m_Name
       value: B_LevelHolder9
@@ -976,6 +1008,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4670950231495643992}
     m_Modifications:
+    - target: {fileID: 3952919964762419847, guid: 28355240db8e3b34fbfecf29efa63947, type: 3}
+      propertyPath: m_Text
+      value: Level 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3952919965118852834, guid: 28355240db8e3b34fbfecf29efa63947, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0
@@ -1094,6 +1130,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4670950231495643992}
     m_Modifications:
+    - target: {fileID: 3952919964762419847, guid: 28355240db8e3b34fbfecf29efa63947, type: 3}
+      propertyPath: m_Text
+      value: Level 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3952919965593480320, guid: 28355240db8e3b34fbfecf29efa63947, type: 3}
       propertyPath: m_Name
       value: B_LevelHolder1

@@ -5747,8 +5747,8 @@ Tilemap:
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 0.9607844, g: 0.5176471, b: 0.4784314, a: 1}
-  m_Origin: {x: -47, y: -66, z: 0}
-  m_Size: {x: 410, y: 88, z: 1}
+  m_Origin: {x: -47, y: -53, z: 0}
+  m_Size: {x: 254, y: 73, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
   m_TileOrientation: 0
   m_TileOrientationMatrix:
@@ -115950,13 +115950,11 @@ Tilemap:
   m_TileColorArray:
   - m_RefCount: 10893
     m_Data: {r: 1, g: 1, b: 1, a: 1}
-  - m_RefCount: 0
-    m_Data: {r: NaN, g: NaN, b: NaN, a: NaN}
   m_TileObjectToInstantiateArray: []
   m_AnimationFrameRate: 1
   m_Color: {r: 0.3137255, g: 0.47058827, b: 0.6509804, a: 1}
-  m_Origin: {x: -70, y: -75, z: 0}
-  m_Size: {x: 462, y: 110, z: 1}
+  m_Origin: {x: -55, y: -70, z: 0}
+  m_Size: {x: 291, y: 88, z: 1}
   m_TileAnchor: {x: 0.5, y: 0.5, z: 0}
   m_TileOrientation: 0
   m_TileOrientationMatrix:
@@ -123963,22 +123961,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7570952696846952857, guid: 3528356ecdebd3549801506f2eef8a67, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7570952696846952858, guid: 3528356ecdebd3549801506f2eef8a67, type: 3}
-      propertyPath: breakPoint
-      value: 0.7
-      objectReference: {fileID: 0}
-    - target: {fileID: 7570952696846952858, guid: 3528356ecdebd3549801506f2eef8a67, type: 3}
-      propertyPath: iterations
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 7570952696846952858, guid: 3528356ecdebd3549801506f2eef8a67, type: 3}
-      propertyPath: maxFallSpeed
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 7570952696846952858, guid: 3528356ecdebd3549801506f2eef8a67, type: 3}
-      propertyPath: useStandardInput
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

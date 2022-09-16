@@ -18,3 +18,5 @@ MonoBehaviour:
   isCleared: 0
   levelName: More Stuff
   levelSceneName: sc_0-2
+  collectedCoins: 0
+  availableCoins: 2

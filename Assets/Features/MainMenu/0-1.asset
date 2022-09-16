@@ -18,3 +18,5 @@ MonoBehaviour:
   isCleared: 0
   levelName: Quick Start
   levelSceneName: sc_0-1
+  collectedCoins: 0
+  availableCoins: 0

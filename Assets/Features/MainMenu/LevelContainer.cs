@@ -12,5 +12,8 @@ namespace Features.MainMenu
         public bool isCleared;
         public string levelName;
         public string levelSceneName;
+
+        public int collectedCoins;
+        public int availableCoins;
     }
 }

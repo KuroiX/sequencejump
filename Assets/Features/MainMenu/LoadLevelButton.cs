@@ -8,13 +8,16 @@ namespace Features.MainMenu
     public class LoadLevelButton : MonoBehaviour
     {
         private LevelContainer _level;
+
+        private Button _button;
         
         private void Awake()
         {
-            //GetComponent<Button>().enabled = false;
+            _button = GetComponent<Button>();
+            _button.interactable = false;
         }
 
-        public void OnButtonClick()
+        public void LoadScene()
         {
             if (ReferenceEquals(_level, null)) return;
             
@@ -34,6 +37,7 @@ namespace Features.MainMenu
         private void OnLevelSelected(object sender, EventArgs args)
         {
             _level = ((LevelEventArgs) args).Level;
+            _button.interactable = true;
         }
     }
 }
