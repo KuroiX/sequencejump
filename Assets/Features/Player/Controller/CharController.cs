@@ -7,6 +7,7 @@ namespace Features.Player.Controller
     {
         private readonly GroundedController _grounded;
         private readonly JumpController _jump;
+        private readonly JumpController _airJump;
         private readonly IDashController _dash;
         private readonly MovementController _movement;
 
@@ -15,10 +16,11 @@ namespace Features.Player.Controller
         
         public float Direction => _direction;
 
-        public CharController(GroundedController grounded, JumpController jump, IDashController dash, MovementController movement, IControllerInput controllerInput)
+        public CharController(GroundedController grounded, JumpController jump, JumpController airJump, IDashController dash, MovementController movement, IControllerInput controllerInput)
         {
             _grounded = grounded;
             _jump = jump;
+            _airJump = airJump;
             _dash = dash;
             _movement = movement;
             _controllerInput = controllerInput;
@@ -31,6 +33,7 @@ namespace Features.Player.Controller
 
             HandleJump();
             HandleDash();
+            HandleAirJump();
         }
 
         public void HandleFixedUpdate()
@@ -56,6 +59,19 @@ namespace Features.Player.Controller
             
             //if (_characterInput.JumpCanceled) _jump.JumpEnd(shortHoppable);
             if (_controllerInput.JumpCanceled) _jump.JumpEnd(false);
+        }
+
+        private void HandleAirJump()
+        {
+            if (_controllerInput.AirJumpPerformed)
+            {
+                _dash.DashEnd();
+                _airJump.Jump();
+            } 
+            else if (_controllerInput.AirJumpCanceled)
+            {
+                _airJump.JumpEnd(false);
+            }
         }
 
         private void HandleDash()

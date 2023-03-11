@@ -5,5 +5,6 @@
         None = 0,
         Jump = 1,
         Dash = 2,
+        AirJump = 3,
     }
 }
