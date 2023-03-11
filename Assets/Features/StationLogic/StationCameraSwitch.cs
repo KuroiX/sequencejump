@@ -1,28 +1,29 @@
 using System;
 using Cinemachine;
-using UnityEngine;
 
 namespace Features.StationLogic
 {
-    public class StationCameraSwitch : MonoBehaviour
+    public class StationCameraSwitch
     {
-        private Station _station;
+        private readonly Station _station;
 
-        [SerializeField] private CinemachineVirtualCamera mainCamera;
-        [SerializeField] private CinemachineVirtualCamera stationCamera;
+        private readonly CinemachineVirtualCamera _mainCamera;
+        private readonly CinemachineVirtualCamera _stationCamera;
 
-        private void Start()
+        public StationCameraSwitch(Station station, CinemachineVirtualCamera mainCamera, CinemachineVirtualCamera stationCamera)
         {
-            _station = GetComponent<StationBehaviour>().Station;
+            _station = station;
+            _mainCamera = mainCamera;
+            _stationCamera = stationCamera;
         }
 
-        private void OnEnable()
+        public void HandleOnEnable()
         {
             Station.StationEntered += Subscribe;
             Station.StationExited += Unsubscribe;
         }
 
-        private void OnDisable()
+        public void HandleOnDisable()
         {
             Station.StationEntered -= Subscribe;
             Station.StationExited -= Unsubscribe;
@@ -55,7 +56,7 @@ namespace Features.StationLogic
 
         private void CameraSwitch(bool enteredStation)
         {
-            stationCamera.Priority = mainCamera.Priority + (enteredStation ? 1 : -1);
+            _stationCamera.Priority = _mainCamera.Priority + (enteredStation ? 1 : -1);
         }
         
     }
