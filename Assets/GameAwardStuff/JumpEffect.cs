@@ -9,6 +9,7 @@ public class JumpEffect : MonoBehaviour
 {
     public ParticleSystem ps;
     private ResettableQueue<ICharacterAction> _queue;
+    private bool _performPs;
 
     // Start is called before the first frame update
     void Start()
@@ -19,9 +20,16 @@ public class JumpEffect : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!_queue.IsEmpty() && Keyboard.current[Key.Space].wasPressedThisFrame)
+        if (!_queue.IsEmpty())
+        {
+            _performPs = true;
+        }
+        
+        
+        if (_performPs && Keyboard.current[Key.Space].wasPressedThisFrame)
         {
             ps.Play();
+            _performPs = false;
         }
     }
 }
