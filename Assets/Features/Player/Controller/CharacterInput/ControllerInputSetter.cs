@@ -13,6 +13,9 @@ namespace Features.Player.Controller.CharacterInput
 
         public bool DashPerformed => _inputs[ActionType.Dash].Performed;
 
+        public bool AirJumpPerformed => _inputs[ActionType.AirJump].Performed;
+        public bool AirJumpCanceled => _inputs[ActionType.AirJump].Canceled;
+
         private readonly Dictionary<ActionType, ActionInput> _inputs;
 
         public ControllerInputSetter()

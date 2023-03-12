@@ -83,5 +83,7 @@ namespace Features.Player.Controller.CharacterInput
         public float JumpEndTimeStamp { get; private set; }
         
         public bool DashPerformed { get; set; }
+        public bool AirJumpPerformed { get; }
+        public bool AirJumpCanceled { get; }
     }
 }

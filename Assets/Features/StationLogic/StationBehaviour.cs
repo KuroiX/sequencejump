@@ -12,6 +12,7 @@ namespace Features.StationLogic
 
         [SerializeField] private int jump;
         [SerializeField] private int dash;
+        [SerializeField] private int airJump;
 
         [Header("References")] 
         [SerializeField] private CinemachineVirtualCamera stationCamera;
@@ -25,8 +26,8 @@ namespace Features.StationLogic
         {
             get
             {
-                _actionCounts ??= new[] {jump, dash};
-                _actionCounts = _actionCounts.Length != 2 ? new[] {jump, dash} : _actionCounts;
+                _actionCounts ??= new[] {jump, dash, airJump};
+                _actionCounts = _actionCounts.Length != 3 ? new[] {jump, dash, airJump} : _actionCounts;
                 return _actionCounts;
             }
         }
