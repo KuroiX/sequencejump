@@ -36,12 +36,16 @@ namespace Features.Tutorial
                 () =>
                 {
                     actionButtonPointer.SetActive(false);
+#if !UNITY_ANDROID
                     spaceButton.SetActive(false);
+#endif
                 },
                 () =>
                 {
                     actionButtonPointer.SetActive(true);
+#if !UNITY_ANDROID
                     spaceButton.SetActive(true);
+#endif
                 });
             
             TutorialState firstState = new TutorialState(
@@ -51,12 +55,16 @@ namespace Features.Tutorial
                 handler => Station.StationOpened -= handler,
                 () => {
                     actionButtonPointer.SetActive(true);
+#if !UNITY_ANDROID
                     spaceButton.SetActive(true);
+#endif
                 },
                 () =>
                 {
                     actionButtonPointer.SetActive(false);
+#if !UNITY_ANDROID
                     spaceButton.SetActive(false);
+#endif
                 });
             
             TutorialState secondState = new TutorialState(
