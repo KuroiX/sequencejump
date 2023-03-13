@@ -54,7 +54,7 @@ namespace Features.Player.Controller
 
             CalculateDistance();
             
-            _rb.velocity = new Vector2(_speed, 0);
+            _rb.velocity = new Vector2(0, _speed);
             IsDashing = true;
             _rb.gravityScale = 0;
         }
@@ -79,14 +79,14 @@ namespace Features.Player.Controller
             else if (_activeTime > TimeBreakPoint + Time.deltaTime)
             {
                 float velocity = CalculateA() * 2 * (_activeTime - _dashTime) * _direction;
-                _rb.velocity = new Vector2(velocity, 0);
+                _rb.velocity = new Vector2(0, velocity);
             }
             else if (_activeTime > TimeBreakPoint)
             {
                 float velocity = CalculateA() * 2 * (_activeTime - _dashTime);
                 velocity += CalculateDistance();
                 velocity *= _direction;
-                _rb.velocity = new Vector2(velocity, 0);
+                _rb.velocity = new Vector2(0, velocity);
             }
         }
 
