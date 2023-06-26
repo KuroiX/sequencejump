@@ -9,6 +9,7 @@ namespace Features.Tutorial
     {
         [Header("Tutorial References")]
         [SerializeField] private GameObject actionButtonPointer;
+        [SerializeField] private GameObject spaceButton;
         [SerializeField] private GameObject numberPointingArrow;
         [SerializeField] private GameObject stationHintingArrow;
         [SerializeField] private GameObject stationPointingArrow;
@@ -35,10 +36,16 @@ namespace Features.Tutorial
                 () =>
                 {
                     actionButtonPointer.SetActive(false);
+#if !UNITY_ANDROID
+                    spaceButton.SetActive(false);
+#endif
                 },
                 () =>
                 {
                     actionButtonPointer.SetActive(true);
+#if !UNITY_ANDROID
+                    spaceButton.SetActive(true);
+#endif
                 });
             
             TutorialState firstState = new TutorialState(
@@ -48,10 +55,16 @@ namespace Features.Tutorial
                 handler => Station.StationOpened -= handler,
                 () => {
                     actionButtonPointer.SetActive(true);
+#if !UNITY_ANDROID
+                    spaceButton.SetActive(true);
+#endif
                 },
                 () =>
                 {
                     actionButtonPointer.SetActive(false);
+#if !UNITY_ANDROID
+                    spaceButton.SetActive(false);
+#endif
                 });
             
             TutorialState secondState = new TutorialState(

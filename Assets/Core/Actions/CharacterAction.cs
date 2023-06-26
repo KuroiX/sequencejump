@@ -6,21 +6,33 @@ namespace Core.Actions
     [CreateAssetMenu(fileName = "Action", menuName = "ScriptableObjects/Action", order = 1)]
     public class CharacterAction : ScriptableObject, ICharacterAction
     {
-        public static Dictionary<string, CharacterAction> CharacterActions { get; private set; }
+        public static Dictionary<ActionType, CharacterAction> CharacterActions { get; private set; }
+        public static ActionType[] OrderedTypes { get; } = {ActionType.Jump, ActionType.Dash, ActionType.AirJump};
+        public static ICharacterAction[] OrderedActions {
+            get
+            {
+                ICharacterAction[] actions = new ICharacterAction[OrderedTypes.Length];
 
-        [SerializeField]
-        private string actionName;
-        public string Name => name;
+                for (int i = 0; i < OrderedTypes.Length; i++)
+                {
+                    actions[i] = CharacterActions[OrderedTypes[i]];
+                }
 
-        [SerializeField]
-        private Sprite sprite;
+                return actions;
+            }
+        }
+
+        [SerializeField] private ActionType type;
+        public ActionType Type => type;
+
+        [SerializeField] private Sprite sprite;
         public Sprite Sprite => sprite;
 
         private void OnEnable()
         {
-            CharacterActions ??= new Dictionary<string, CharacterAction>();
+            CharacterActions ??= new Dictionary<ActionType, CharacterAction>();
 
-            CharacterActions[actionName] = this;
+            CharacterActions[type] = this;
         }
     }
 }

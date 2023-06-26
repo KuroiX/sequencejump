@@ -1,5 +1,5 @@
+using Cinemachine;
 using UnityEngine;
-using System.Linq;
 using Core.Actions;
 using Core.Queue;
 
@@ -7,55 +7,68 @@ namespace Features.StationLogic
 {
     public class StationBehaviour : MonoBehaviour
     {
-        [SerializeField] private StationSettings settings;
-        
-        private Station _station;
+        [Header("Settings")]
+        [SerializeField] private int maxAssignableCount;
 
+        [SerializeField] private int jump;
+        [SerializeField] private int dash;
+        [SerializeField] private int airJump;
+
+        [Header("References")] 
+        [SerializeField] private CinemachineVirtualCamera stationCamera;
+        [SerializeField] private CinemachineVirtualCamera mainCamera;
+
+        public CinemachineVirtualCamera StationCamera => stationCamera;
         public Station Station => _station;
-        
+        public int MaxAssignableCount => maxAssignableCount;
+
+        public int[] ActionCounts
+        {
+            get
+            {
+                _actionCounts ??= new[] {jump, dash, airJump};
+                _actionCounts = _actionCounts.Length != 3 ? new[] {jump, dash, airJump} : _actionCounts;
+                return _actionCounts;
+            }
+        }
+
+        private int[] _actionCounts;
+        private Station _station;
+        private StationCameraSwitch _cameraSwitch;
+
         private void Awake()
         {
-            _station = new Station(FindObjectOfType<QueueHolder>().Queue, Create(), settings.maxAssignableActions);
+            _station = new Station(FindObjectOfType<QueueHolder>().Queue, 
+                new InstanceCounter<ICharacterAction>(CharacterAction.OrderedActions, ActionCounts), 
+                maxAssignableCount);
+            _cameraSwitch = new StationCameraSwitch(_station, mainCamera, stationCamera);
+        }
+
+        public void Construct(CinemachineVirtualCamera mainCam, int[] actionCounts, int maxCount)
+        {
+            mainCamera = mainCam;
+            _actionCounts = actionCounts;
+            maxAssignableCount = maxCount;
+        }
+
+        private void OnEnable()
+        {
+            _cameraSwitch.HandleOnEnable();
+        }
+        
+        private void OnDisable()
+        {
+            _cameraSwitch.HandleOnDisable();
         }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
             _station.HandleOnTriggerEnter();
         }
-        
+
         private void OnTriggerExit2D(Collider2D other)
         {
             _station.HandleOnTriggerExit();
-        }
-
-        private InstanceCounter<ICharacterAction> Create()
-        {
-            // TODO: UGLY AF, SHOULD BE MOVED TO CUSTOM INSPECTOR ASAP
-            int size = CharacterAction.CharacterActions.Count;
-            int inputSize = settings.actionCounts.Length;
-            
-            ICharacterAction[] actions = new ICharacterAction[size];
-            int[] count = new int[size];
-            
-            int i = 0;
-            for (; i < inputSize; i++)
-            {
-                actions[i] = settings.actionCounts[i].characterAction;
-                count[i] = settings.actionCounts[i].count;
-            }
-            
-            foreach (var value in CharacterAction.CharacterActions.Values)
-            {
-                if (!actions.Contains(value))
-                {
-                    actions[i] = value;
-                    count[i] = 0;
-                    i++;
-                }
-            }
-            // --------------------------------------------------------
-
-            return new InstanceCounter<ICharacterAction>(actions, count);
         }
     }
 }

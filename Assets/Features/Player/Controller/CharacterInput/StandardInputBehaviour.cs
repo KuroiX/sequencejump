@@ -3,8 +3,10 @@ using UnityEngine.InputSystem;
 
 namespace Features.Player.Controller.CharacterInput
 {
-    public class StandardInputBehaviour : MonoBehaviour, IControllerInput
+    public class StandardInputBehaviour : MonoBehaviour, IControllerInput, IInputHolder
     {
+        public IControllerInput Input => this;
+        
         private InputManager _inputManager;
 
         private void Awake()
@@ -81,5 +83,7 @@ namespace Features.Player.Controller.CharacterInput
         public float JumpEndTimeStamp { get; private set; }
         
         public bool DashPerformed { get; set; }
+        public bool AirJumpPerformed { get; }
+        public bool AirJumpCanceled { get; }
     }
 }

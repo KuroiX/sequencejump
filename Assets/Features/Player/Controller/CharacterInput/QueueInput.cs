@@ -5,9 +5,9 @@
         private readonly QueueProcessor _queueProcessor;
         private readonly ICharacterInput[] _characterInput;
 
-        private readonly IControllerInput _controllerInput;
+        private readonly IInputSetter _controllerInput;
         
-        public QueueInput(QueueProcessor queueProcessor, ICharacterInput[] inputManager, IControllerInput controllerInput)
+        public QueueInput(QueueProcessor queueProcessor, ICharacterInput[] inputManager, IInputSetter controllerInput)
         {
             _characterInput = inputManager;
             _controllerInput = controllerInput;
@@ -40,24 +40,22 @@
         
         private void Move(float value)
         {
-            _controllerInput.Horizontal = value;
+            _controllerInput.SetHorizontal(value);
         }
 
         private void Action()
         {
-            _queueProcessor.Action(_controllerInput);
+            _queueProcessor.PerformAction(_controllerInput);
         }
 
         private void ActionEnd()
         {
-            _queueProcessor.JumpEnd(_controllerInput);
+            _queueProcessor.CancelAction(_controllerInput);
         }
 
         public void HandleLateUpdate()
         {
-            _controllerInput.JumpPerformed = false;
-            _controllerInput.JumpCanceled = false;
-            _controllerInput.DashPerformed = false;
+            _controllerInput.Reset();
         }
     }
 }

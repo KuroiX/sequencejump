@@ -2,6 +2,6 @@
 {
     public interface IMovementInput
     {
-        float Horizontal { get; set; }
+        float Horizontal { get; }
     }
 }

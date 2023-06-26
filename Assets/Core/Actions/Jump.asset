@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b46101a4411b5624e8ebf88ae4349f45, type: 3}
   m_Name: Jump
   m_EditorClassIdentifier: 
-  actionName: Jump
-  sprite: {fileID: 21300000, guid: 54ba58d706088dd43814b08509d79f5d, type: 3}
+  type: 1
+  sprite: {fileID: 21300000, guid: 83ed46119d5e2fa46af6d4c744374cfa, type: 3}
