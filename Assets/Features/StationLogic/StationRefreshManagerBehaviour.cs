@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Features.StationLogic
 {
-    public class StationRefreshManager : MonoBehaviour
+    public class StationRefreshManagerBehaviour : MonoBehaviour
     {
         [SerializeField] private StationEnteredReceiverBehaviour[] stationEnteredReceivers;
         
