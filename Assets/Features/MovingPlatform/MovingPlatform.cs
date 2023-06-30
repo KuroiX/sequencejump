@@ -8,6 +8,8 @@ public class MovingPlatform : MonoBehaviour
     
     [SerializeField] private float platformSpeed;
     [SerializeField] private List<Transform> platformPoints;
+    [SerializeField] private bool cycle;
+    [SerializeField] private LineRenderer lineRenderer;
     
     private List<bool> stoppablePoints;
     private Transform _currentTransform;
@@ -21,6 +23,15 @@ public class MovingPlatform : MonoBehaviour
         _currentIndex = 0;
         SetNextPosition();
 
+        if (cycle)
+        {
+            lineRenderer.loop = true;
+        }
+        else
+        {
+            lineRenderer.loop = false;
+        }
+        
         //TODO auf null checken?
         transform.position = platformPoints[0].position;
         stoppablePoints = new List<bool>();
@@ -33,20 +44,27 @@ public class MovingPlatform : MonoBehaviour
     // Sets the next position the platform should move to
     private void SetNextPosition()
     {
+        if (cycle)
+        {
+            _currentIndex = (_currentIndex + 1) % platformPoints.Count;
+            _nextPoint = platformPoints[_currentIndex];
+            return;
+        }
+
         if(platformPoints.Count == 1)
             return;
         
-        if (platformPoints.Count <= _currentIndex + 1 * _direction)
+        if (platformPoints.Count <= _currentIndex + _direction)
         {
             _direction = -1;
         }
 
-        else if (_currentIndex + 1 * _direction < 0)
+        else if (_currentIndex + _direction < 0)
         {
             _direction = 1;
         }
 
-        _currentIndex += 1 * _direction;
+        _currentIndex += _direction;
         _nextPoint = platformPoints[_currentIndex];
     }
     
