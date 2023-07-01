@@ -20,11 +20,13 @@ namespace Features.Tutorial
         [SerializeField] private GameObject actionButton;
 
         private ResettableQueue<ICharacterAction> _queue;
+        private Animator _queueAnimator;
 
         private void Awake()
         {
             _queue = FindObjectOfType<QueueHolder>().Queue;
             queueUi.SetActive(false);
+            _queueAnimator = queueUi.GetComponent<Animator>();
             actionButton.SetActive(false);
             
             HandleTutorialStates();
@@ -67,6 +69,7 @@ namespace Features.Tutorial
                 () => {
                     enqueueJumpPointer.SetActive(true);
                     queueUi.SetActive(true);
+                    _queueAnimator.SetTrigger("stationOpened");
                 },
                 () =>
                 {
