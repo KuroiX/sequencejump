@@ -6,31 +6,24 @@ using UnityEngine;
 
 namespace Features.Refresh
 {
-    public class RefreshBehaviour : MonoBehaviour
+    public class RefreshBehaviour : StationEnteredReceiverBehaviour
     {
-        [SerializeField] private StationBehaviour stationBehaviour;
+        [SerializeField] private Color activatedColor;
+        [SerializeField] private Color deactivatedColor;
 
         private ResettableQueue<ICharacterAction> _queue;
-        private bool _isEnabled = true;
         private SpriteRenderer _spriteRenderer;
-        
+        private bool _isEnabled = true;
+
+        private void Awake()
+        {
+            _spriteRenderer = GetComponent<SpriteRenderer>();
+            _spriteRenderer.color = activatedColor;
+        }
+
         private void Start()
         {
             _queue = FindObjectOfType<QueueHolder>().Queue;
-            _spriteRenderer = GetComponent<SpriteRenderer>();
-        }
-
-        private void OnEnable()
-        {
-            Station.StationEntered += OnRefreshRefresher;
-        }
-
-        private void OnRefreshRefresher(object sender, EventArgs e)
-        {
-            if (stationBehaviour.Station != sender) return;
-
-            _isEnabled = true;
-            _spriteRenderer.color = Color.green;
         }
 
         private void OnTriggerEnter2D(Collider2D col)
@@ -44,8 +37,13 @@ namespace Features.Refresh
         private void SetDisabled()
         {
             _isEnabled = false;
-            _spriteRenderer.color = Color.gray;
+            _spriteRenderer.color = deactivatedColor;
         }
-        
+
+        public override void ReceiveStationEntered()
+        {
+            _isEnabled = true;
+            _spriteRenderer.color = activatedColor;
+        }
     }
 }
