@@ -1,4 +1,5 @@
 using System;
+using Features.MobileToggle;
 using Features.StationLogic;
 using UnityEngine;
 
@@ -8,10 +9,10 @@ namespace Features.Player
     {
         [SerializeField] private GameObject[] disableObjects;
 
-        private void Awake()
+        private void Start()
         {
 #if !UNITY_ANDROID
-            gameObject.SetActive(false);
+            gameObject.SetActive(MobileToggleManager.Instance.IsMobile);
 #endif
         }
 

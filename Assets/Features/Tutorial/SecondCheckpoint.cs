@@ -1,5 +1,6 @@
 ﻿using Core.Actions;
 using Core.Queue;
+using Features.MobileToggle;
 using Features.StationLogic;
 using UnityEngine;
 
@@ -44,7 +45,7 @@ namespace Features.Tutorial
                 {
                     actionButtonPointer.SetActive(true);
 #if !UNITY_ANDROID
-                    spaceButton.SetActive(true);
+                    spaceButton.SetActive(!MobileToggleManager.Instance.IsMobile);
 #endif
                 });
             
@@ -56,7 +57,7 @@ namespace Features.Tutorial
                 () => {
                     actionButtonPointer.SetActive(true);
 #if !UNITY_ANDROID
-                    spaceButton.SetActive(true);
+                    spaceButton.SetActive(!MobileToggleManager.Instance.IsMobile);
 #endif
                 },
                 () =>
