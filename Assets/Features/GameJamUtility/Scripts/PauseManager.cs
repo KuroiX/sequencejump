@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace Packages.GameJamUtility.Scripts
+namespace Features.GameJamUtility.Scripts
 {
     public class PauseManager : MonoBehaviour
     {

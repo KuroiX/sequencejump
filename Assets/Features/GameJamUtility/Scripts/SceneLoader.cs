@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-namespace Packages.GameJamUtility.Scripts
+namespace Features.GameJamUtility.Scripts
 {
     public class SceneLoader : MonoBehaviour
     {

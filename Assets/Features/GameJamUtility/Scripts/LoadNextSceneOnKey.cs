@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Controls;
 
-namespace Packages.GameJamUtility.Scripts
+namespace Features.GameJamUtility.Scripts
 {
     public class LoadNextSceneOnKey : MonoBehaviour
     {

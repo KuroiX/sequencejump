@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace Packages.GameJamUtility.Scripts
+namespace Features.GameJamUtility.Scripts
 {
     public class AudioSliderManager : MonoBehaviour
     {

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Packages.GameJamUtility.Scripts
+namespace Features.GameJamUtility.Scripts
 {
     public class MainMenuController : MonoBehaviour
     {

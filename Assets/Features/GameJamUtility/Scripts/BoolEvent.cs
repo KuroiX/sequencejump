@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Packages.GameJamUtility.Scripts
+namespace Features.GameJamUtility.Scripts
 {
     public struct BoolEvent
     {
