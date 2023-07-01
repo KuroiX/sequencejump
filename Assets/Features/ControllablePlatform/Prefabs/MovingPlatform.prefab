@@ -304,7 +304,7 @@ MonoBehaviour:
   - {fileID: 7505757937369579872}
   - {fileID: 5405552734307530829}
   - {fileID: 5405552734086228994}
-  cycle: 1
+  loop: 0
   lineRenderer: {fileID: 7505757937175836587}
 --- !u!212 &7505757938581987116
 SpriteRenderer:
@@ -347,7 +347,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1e591adf932da8348ad7954cb05ac040, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
