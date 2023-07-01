@@ -16,6 +16,9 @@ namespace Features.Player.Controller.CharacterInput
         public bool AirJumpPerformed => _inputs[ActionType.AirJump].Performed;
         public bool AirJumpCanceled => _inputs[ActionType.AirJump].Canceled;
 
+        public bool PlatformPerformed => _inputs[ActionType.Platform].Performed;
+        public bool PlatformCanceled => _inputs[ActionType.Platform].Canceled;
+
         private readonly Dictionary<ActionType, ActionInput> _inputs;
 
         public ControllerInputSetter()
