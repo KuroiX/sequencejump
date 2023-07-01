@@ -6,26 +6,41 @@ namespace Features.Player
 {
     public class DisableButtonOnStationEnter : MonoBehaviour
     {
+        [SerializeField] private GameObject[] disableObjects;
+
+        private void Awake()
+        {
+#if !UNITY_ANDROID
+            gameObject.SetActive(false);
+#endif
+        }
+
         private void OnEnable()
         {
-            Station.StationOpened += DisableThis;
-            Station.StationClosed += EnableThis;
+            Station.StationOpened += DisableChildren;
+            Station.StationClosed += EnableChildren;
         }
 
         private void OnDisable()
         {
-            Station.StationOpened -= DisableThis;
-            Station.StationClosed -= EnableThis;
+            Station.StationOpened -= DisableChildren;
+            Station.StationClosed -= EnableChildren;
         }
 
-        private void DisableThis(object sender, EventArgs args)
+        private void DisableChildren(object sender, EventArgs args)
         {
-            gameObject.SetActive(false);
+            for (int i = 0; i < disableObjects.Length; i++)
+            {
+                disableObjects[i].SetActive(false);
+            }
         }
     
-        private void EnableThis(object sender, EventArgs args)
+        private void EnableChildren(object sender, EventArgs args)
         {
-            gameObject.SetActive(true);
+            for (int i = 0; i < disableObjects.Length; i++)
+            {
+                disableObjects[i].SetActive(true);
+            }
         }
     }
 }
