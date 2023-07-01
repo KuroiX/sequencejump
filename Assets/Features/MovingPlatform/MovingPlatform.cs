@@ -1,14 +1,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Features.StationLogic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-public class MovingPlatform : MonoBehaviour
+public class MovingPlatform : StationEnteredReceiverBehaviour
 {
     
     [SerializeField] private float platformSpeed;
     [SerializeField] private List<Transform> platformPoints;
-    [SerializeField] private bool cycle;
+    [SerializeField] private bool loop;
     [SerializeField] private LineRenderer lineRenderer;
     
     private List<bool> stoppablePoints;
@@ -23,7 +25,7 @@ public class MovingPlatform : MonoBehaviour
         _currentIndex = 0;
         SetNextPosition();
 
-        if (cycle)
+        if (loop)
         {
             lineRenderer.loop = true;
         }
@@ -44,7 +46,7 @@ public class MovingPlatform : MonoBehaviour
     // Sets the next position the platform should move to
     private void SetNextPosition()
     {
-        if (cycle)
+        if (loop)
         {
             _currentIndex = (_currentIndex + 1) % platformPoints.Count;
             _nextPoint = platformPoints[_currentIndex];
@@ -105,5 +107,10 @@ public class MovingPlatform : MonoBehaviour
 
             yield return null;
         }
+    }
+
+    public override void ReceiveStationEntered()
+    {
+        ResetPlatform();
     }
 }

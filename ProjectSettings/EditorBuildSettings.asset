@@ -6,7 +6,19 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/GamesAwardScene.unity
-    guid: de50f404d56d6a34599cd0a8c8cfbca1
+    path: Assets/Scenes/PP#11/sc_simple_level_selection.unity
+    guid: 4cdd472b31db4cc4895cd19d4879d268
+  - enabled: 1
+    path: Assets/Scenes/PP#11/sc_1.unity
+    guid: 7832a33cd61cf274b881649b26eb0857
+  - enabled: 1
+    path: Assets/Scenes/PP#11/sc_2.unity
+    guid: ce616f34ebfc5fc4081bf933ceef5f76
+  - enabled: 1
+    path: Assets/Scenes/PP#11/sc_3.unity
+    guid: 2bdda6219d5ee57419b528de6d847bd2
+  - enabled: 1
+    path: Assets/Scenes/PP#11/sc_4.unity
+    guid: add25eaaca5d3cd4db81c7edd1527da0
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: efcde8085a5602043a9840f6b32c04b4, type: 2}
