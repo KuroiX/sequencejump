@@ -10,6 +10,10 @@ namespace Features.MobileToggle
         
         private void Awake()
         {
+#if UNITY_ANDROID            
+            Destroy(gameObject);
+#endif            
+            
             if (Instance)
             {
                 IsMobile = Instance.IsMobile;
