@@ -1,24 +1,47 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
+using Features.MobileToggle;
 using Features.StationLogic;
 using UnityEngine;
 
-public class DisableButtonOnStationEnter : MonoBehaviour
+namespace Features.Player
 {
-    private void OnEnable()
+    public class DisableButtonOnStationEnter : MonoBehaviour
     {
-        Station.StationOpened += DisableThis;
-        Station.StationClosed += EnableThis;
-    }
+        [SerializeField] private GameObject[] disableObjects;
+
+        private void Start()
+        {
+#if !UNITY_ANDROID
+            gameObject.SetActive(MobileToggleManager.Instance.IsMobile);
+#endif
+        }
+
+        private void OnEnable()
+        {
+            Station.StationOpened += DisableChildren;
+            Station.StationClosed += EnableChildren;
+        }
+
+        private void OnDisable()
+        {
+            Station.StationOpened -= DisableChildren;
+            Station.StationClosed -= EnableChildren;
+        }
+
+        private void DisableChildren(object sender, EventArgs args)
+        {
+            for (int i = 0; i < disableObjects.Length; i++)
+            {
+                disableObjects[i].SetActive(false);
+            }
+        }
     
-    private void DisableThis(object sender, EventArgs args)
-    {
-        gameObject.SetActive(false);
-    }
-    
-    private void EnableThis(object sender, EventArgs args)
-    {
-        gameObject.SetActive(true);
+        private void EnableChildren(object sender, EventArgs args)
+        {
+            for (int i = 0; i < disableObjects.Length; i++)
+            {
+                disableObjects[i].SetActive(true);
+            }
+        }
     }
 }
