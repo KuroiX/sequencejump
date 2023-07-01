@@ -29,14 +29,14 @@ namespace Features.StationLogic
         
         private void MoveToOpenedPosition(object sender, EventArgs e)
         {
-            Debug.Log("opened");
+            //Debug.Log("opened");
             _animator.enabled = true;
             _animator.SetTrigger(StationOpened);
         }
 
         private void MoveToClosedPosition(object sender, EventArgs e)
         {
-            Debug.Log("closed");
+            //Debug.Log("closed");
             _animator.enabled = true;
             _animator.SetTrigger(StationClosed);
         }
