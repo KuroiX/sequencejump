@@ -30,7 +30,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 7505757937056483656}
+  - {fileID: 8185049075832756360}
   - {fileID: 7505757937369579872}
   - {fileID: 5405552734307530829}
   - {fileID: 5405552734086228994}
@@ -127,8 +127,8 @@ LineRenderer:
       m_Mode: 0
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
-    numCornerVertices: 0
-    numCapVertices: 0
+    numCornerVertices: 10
+    numCapVertices: 10
     alignment: 0
     textureMode: 0
     shadowBias: 0.5
@@ -278,8 +278,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7505757938581986515}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.68, y: 2.79, z: 0}
-  m_LocalScale: {x: 1, y: 0.3, z: 1}
+  m_LocalPosition: {x: -0.25, y: -2.34, z: 0}
+  m_LocalScale: {x: 2, y: 0.4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7505757937743635418}
@@ -300,11 +300,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   platformSpeed: 0.2
   platformPoints:
-  - {fileID: 7505757937056483656}
+  - {fileID: 8185049075832756360}
   - {fileID: 7505757937369579872}
   - {fileID: 5405552734307530829}
   - {fileID: 5405552734086228994}
-  cycle: 1
+  loop: 0
   lineRenderer: {fileID: 7505757937175836587}
 --- !u!212 &7505757938581987116
 SpriteRenderer:
@@ -346,9 +346,9 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_SortingOrder: 2
+  m_Sprite: {fileID: 21300000, guid: c928006ac533b984bb827ee5d008085b, type: 3}
+  m_Color: {r: 0.81960785, g: 0.99607843, b: 0.3764706, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -446,7 +446,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8830131873826992282, guid: 835949423a8fbb64791a74a5bd09f9ba, type: 3}
   m_PrefabInstance: {fileID: 1342953621405594106}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &5405552733515511605
+--- !u!1001 &5961231284987619061
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -503,10 +503,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d8119181f37f01b4b807cd0d98819cb7, type: 3}
---- !u!4 &7505757937056483656 stripped
+--- !u!4 &8185049075832756360 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2534874037164146301, guid: d8119181f37f01b4b807cd0d98819cb7, type: 3}
-  m_PrefabInstance: {fileID: 5405552733515511605}
+  m_PrefabInstance: {fileID: 5961231284987619061}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7505757937829057151
 PrefabInstance:
