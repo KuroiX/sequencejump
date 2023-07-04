@@ -7,7 +7,7 @@ namespace Core.Actions
     public class CharacterAction : ScriptableObject, ICharacterAction
     {
         public static Dictionary<ActionType, CharacterAction> CharacterActions { get; private set; }
-        public static ActionType[] OrderedTypes { get; } = {ActionType.Jump, ActionType.Dash, ActionType.AirJump};
+        public static ActionType[] OrderedTypes { get; } = {ActionType.Jump, ActionType.Dash, ActionType.AirJump, ActionType.Platform};
         public static ICharacterAction[] OrderedActions {
             get
             {
