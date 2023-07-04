@@ -32,6 +32,7 @@ namespace Features.Player.Controller
         private DynamicDashController _dash;
         private GroundedController _grounded;
         private MovementController _movement;
+        private PlatformController _platform;
 
         private CharController _charController;
 
@@ -55,8 +56,9 @@ namespace Features.Player.Controller
             _grounded = new GroundedController(_collider, environmentLayerMask, .1f);
             _movement = new MovementController(_controllerInput, _grounded, _rb, movementSettings, 
                 new Ref<float>(() => maxFallSpeed, value => maxFallSpeed = value));
+            _platform = new PlatformController();
 
-            _charController = new CharController(_grounded, _jump, _airJump, _dash, _movement, _controllerInput);
+            _charController = new CharController(_grounded, _jump, _airJump, _dash, _movement, _platform, _controllerInput);
 
             _spriteRenderer = GetComponent<SpriteRenderer>();
         }

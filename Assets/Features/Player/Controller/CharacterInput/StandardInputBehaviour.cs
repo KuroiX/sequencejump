@@ -85,5 +85,7 @@ namespace Features.Player.Controller.CharacterInput
         public bool DashPerformed { get; set; }
         public bool AirJumpPerformed { get; }
         public bool AirJumpCanceled { get; }
+        public bool PlatformPerformed { get; }
+        public bool PlatformCanceled { get; }
     }
 }
