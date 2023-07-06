@@ -10,7 +10,7 @@ public class AnimationSwitch : MonoBehaviour
     public GameObject animation4;
 
     [ContextMenu("Switch to Animation 1")]
-    private void SwitchToAnimation1()
+    public void SwitchToAnimation1()
     {
         animation1.SetActive(true);
         animation2.SetActive(false);
@@ -19,7 +19,7 @@ public class AnimationSwitch : MonoBehaviour
     }
     
     [ContextMenu("Switch to Animation 2")]
-    private void SwitchToAnimation2()
+    public void SwitchToAnimation2()
     {
         animation1.SetActive(false);
         animation2.SetActive(true);
@@ -28,7 +28,7 @@ public class AnimationSwitch : MonoBehaviour
     }
     
     [ContextMenu("Switch to Animation 3")]
-    private void SwitchToAnimation3()
+    public void SwitchToAnimation3()
     {
         animation1.SetActive(false);
         animation2.SetActive(false);
@@ -37,7 +37,7 @@ public class AnimationSwitch : MonoBehaviour
     }
     
     [ContextMenu("Switch to Animation 4")]
-    private void SwitchToAnimation4()
+    public void SwitchToAnimation4()
     {
         animation1.SetActive(false);
         animation2.SetActive(false);

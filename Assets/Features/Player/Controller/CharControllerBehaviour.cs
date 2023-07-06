@@ -31,9 +31,13 @@ namespace Features.Player.Controller
         private JumpController _airJump;
         private DynamicDashController _dash;
         private GroundedController _grounded;
+
+        public GroundedController Grounded => _grounded;
+
         private MovementController _movement;
 
         private CharController _charController;
+        
 
         #region MonoBehaviour
         

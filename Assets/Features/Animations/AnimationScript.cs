@@ -1,18 +1,23 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Features.Player.Controller;
+using Features.Player.Controller.ControllerParts;
 using UnityEngine;
 
 public class AnimationScript : MonoBehaviour
 {
     private SpriteRenderer _sr;
     private Animator _animator;
+    private GroundedController _groundedController;
 
     private float prevX;
 
     private void Start()
     {
         _sr = GetComponent<SpriteRenderer>();
+        _animator = GetComponent<Animator>();
+        _groundedController = GetComponentInParent<CharControllerBehaviour>().Grounded;
         prevX = transform.parent.position.x;
     }
 
@@ -24,6 +29,26 @@ public class AnimationScript : MonoBehaviour
         
         
         Debug.Log("Prev: "+var1+", Current: "+var2);
+
+        if (!_groundedController.IsGrounded)
+        {
+            _animator.SetBool("IsAirborn", true);
+        }
+        else
+        {
+            _animator.SetBool("IsAirborn", false);
+        }
+        
+        
+
+        if (Math.Abs(var1 - var2) > 0.01f)
+        {
+            _animator.SetBool("IsWalking", true);
+        }
+        else
+        {
+            _animator.SetBool("IsWalking", false);
+        }
         
         
         if (var1 > var2)
