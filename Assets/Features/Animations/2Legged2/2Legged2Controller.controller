@@ -22,7 +22,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 023dc7e3669b3174c94b76c2908af72a, type: 2}
+  m_Motion: {fileID: 7400000, guid: 6c67e927f534102439e2082baeb5c4d3, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -50,7 +50,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 95ec7547f60c8cb4782cf6953bf03008, type: 2}
+  m_Motion: {fileID: 7400000, guid: 49bb89fcd28aad8449d3edfd5c3e9554, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -131,7 +131,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 0e4a92e6492683247bd3bd6f6038355a, type: 2}
+  m_Motion: {fileID: 7400000, guid: 2a9dbb4e85288074c8bf07038fb49b87, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -168,7 +168,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 4Legged2Controller
+  m_Name: 2Legged2Controller
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: IsWalking
