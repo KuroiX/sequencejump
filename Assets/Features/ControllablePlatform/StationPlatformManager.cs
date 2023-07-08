@@ -1,4 +1,5 @@
-﻿using Features.Player.Controller.ControllerParts;
+﻿using System;
+using Features.Player.Controller.ControllerParts;
 using UnityEngine;
 
 namespace Features.ControllablePlatform
@@ -36,6 +37,11 @@ namespace Features.ControllablePlatform
             {
                 PlatformController.PlatformsTriggered -= platform.MoveToNextPoint;
             }
+        }
+
+        private void OnDestroy()
+        {
+            UnsubscribeAll();
         }
     }
 }
