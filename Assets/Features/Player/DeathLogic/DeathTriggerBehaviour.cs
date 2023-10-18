@@ -9,6 +9,13 @@ namespace Features.Player.DeathLogic
         public event EventHandler Stop;
         public event EventHandler Start;
 
+        public event Action Respawn;
+
+        private void OnRespawn()
+        {
+            Respawn?.Invoke();
+        }
+
         [SerializeField] private LayerMask hazardMask;
         [SerializeField] private float deathAnimationLength = 1;
 
@@ -40,7 +47,11 @@ namespace Features.Player.DeathLogic
             _isRunning = true;
             OnDeathAnimationStart();
 
-            yield return new WaitForSeconds(deathAnimationLength);
+            yield return new WaitForSeconds(deathAnimationLength/2);
+
+            OnRespawn();
+            
+            yield return new WaitForSeconds(deathAnimationLength/2);
             
             _isRunning = false;
             OnDeathAnimationEnd();

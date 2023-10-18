@@ -30,12 +30,12 @@ namespace Features.Player.DeathLogic
 
         private void DisableSprite(object sender, EventArgs args)
         {
-            sprite.enabled = false;
+            //sprite.enabled = false;
         }
 
         private void EnableSprite(object sender, EventArgs args)
         {
-            sprite.enabled = true;
+            //sprite.enabled = true;
         }
 
     }

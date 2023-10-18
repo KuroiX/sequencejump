@@ -8,7 +8,7 @@ namespace Features.Player.DeathLogic
         [SerializeField] private Component respawnSignal;
         [SerializeField] private LayerMask checkpointLayerMask;
 
-        private IStartSignal _signal;
+        private DeathTriggerBehaviour _signal;
 
         private Vector3 _position;
         private Transform _transform;
@@ -17,7 +17,7 @@ namespace Features.Player.DeathLogic
         {
             _transform = transform;
             _position = _transform.position;
-            _signal = (IStartSignal) respawnSignal;
+            _signal = (DeathTriggerBehaviour) respawnSignal;
         }
 
         private void OnTriggerEnter2D(Collider2D other)
@@ -32,15 +32,15 @@ namespace Features.Player.DeathLogic
 
         private void OnEnable()
         {
-            _signal.Start += Respawn;
+            _signal.Respawn += Respawn;
         }
 
         private void OnDisable()
         {
-            _signal.Start -= Respawn;
+            _signal.Respawn -= Respawn;
         }
         
-        private void Respawn(object sender, EventArgs args)
+        private void Respawn()
         {
             _transform.position = _position;
         }
