@@ -22,8 +22,8 @@ namespace Features.Player.Controller.CharacterInput
             var charInputs = SetupCharacterInputs();
             var iSignals = SetupStopStartSignals();
 
-            _queueInput = new QueueInput(processor, charInputs, _inputSetter);
-            _inputSourceHandler = new InputSourceHandler(charInputs, iSignals);
+            _queueInput = new QueueInput(processor, charInputs, _inputSetter, iSignals);
+            //_inputSourceHandler = new InputSourceHandler(charInputs, iSignals);
         }
 
         private ICharacterInput[] SetupCharacterInputs()
@@ -66,13 +66,13 @@ namespace Features.Player.Controller.CharacterInput
         private void OnEnable()
         {
             _queueInput.HandleOnEnable();
-            _inputSourceHandler.HandleOnEnable();
+            //_inputSourceHandler.HandleOnEnable();
         }
 
         private void OnDisable()
         {
             _queueInput.HandleOnDisable();
-            _inputSourceHandler.HandleOnDisable();
+            //_inputSourceHandler.HandleOnDisable();
         }
 
         private void LateUpdate()

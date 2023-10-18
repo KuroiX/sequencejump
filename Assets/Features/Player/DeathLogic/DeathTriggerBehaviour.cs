@@ -51,6 +51,7 @@ namespace Features.Player.DeathLogic
 
             OnRespawn();
             
+            //TODO 2 variables 
             yield return new WaitForSeconds(deathAnimationLength/2);
             
             _isRunning = false;
