@@ -1,4 +1,5 @@
 ﻿using System;
+using Core;
 using UnityEngine;
 
 namespace Features.Player.Controller.CharacterInput
@@ -11,9 +12,9 @@ namespace Features.Player.Controller.CharacterInput
         private readonly IInputSetter _controllerInput;
         private bool _isDisabled;
         private float _savedMovementInput;
-        private readonly IStopStartSignal[] _signals;
+        private readonly TimedSignalBehaviour[] _signals;
         
-        public QueueInput(QueueProcessor queueProcessor, ICharacterInput[] inputManager, IInputSetter controllerInput, IStopStartSignal[] iSignals)
+        public QueueInput(QueueProcessor queueProcessor, ICharacterInput[] inputManager, IInputSetter controllerInput, TimedSignalBehaviour[] iSignals)
         {
             _characterInput = inputManager;
             _controllerInput = controllerInput;
@@ -34,8 +35,8 @@ namespace Features.Player.Controller.CharacterInput
             
             foreach (var signal in _signals)
             {
-                signal.Stop += DisableInput;
-                signal.Start += EnableInput;
+                signal.Started += DisableInput;
+                signal.Stopped += EnableInput;
             }
         }
         
@@ -52,8 +53,8 @@ namespace Features.Player.Controller.CharacterInput
             
             foreach (var signal in _signals)
             {
-                signal.Stop -= DisableInput;
-                signal.Start -= EnableInput;
+                signal.Started -= DisableInput;
+                signal.Stopped -= EnableInput;
             }
         }
         
@@ -83,12 +84,12 @@ namespace Features.Player.Controller.CharacterInput
             _controllerInput.Reset();
         }
         
-        private void DisableInput(object sender, EventArgs args)
+        private void DisableInput()
         {
             _isDisabled = true;
         }
         
-        private void EnableInput(object sender, EventArgs args)
+        private void EnableInput()
         {
             _isDisabled = false; 
             _controllerInput.SetHorizontal(_savedMovementInput);

@@ -1,7 +1,6 @@
 using Features.Player.Controller.CharacterInput;
 using Features.Player.Controller.ControllerParts;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Features.Player.Controller
 {

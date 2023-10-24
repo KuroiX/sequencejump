@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using Features.Player.Controller;
 using Features.Player.Controller.ControllerParts;
 using Features.Player.DeathLogic;
@@ -33,14 +31,14 @@ public class AnimationScript : MonoBehaviour
         prevX = transform.parent.position.x;
         
         
-        _deathTriggerBehaviour.Stop += StartDeathAnimation;
+        _deathTriggerBehaviour.Started += StartedDeathAnimation;
         _deathTriggerBehaviour.Respawn += StartSpawnAnimation;
     }
     
 
     private void OnDisable()
     {
-        _deathTriggerBehaviour.Stop -= StartDeathAnimation;
+        _deathTriggerBehaviour.Started -= StartedDeathAnimation;
         _deathTriggerBehaviour.Respawn -= StartSpawnAnimation;
     }
 
@@ -90,7 +88,7 @@ public class AnimationScript : MonoBehaviour
         prevX = transform.parent.localPosition.x;
     }
 
-    private void StartDeathAnimation(object obj, EventArgs evt)
+    private void StartedDeathAnimation()
     {
         _animator.SetTrigger("Death");
     }

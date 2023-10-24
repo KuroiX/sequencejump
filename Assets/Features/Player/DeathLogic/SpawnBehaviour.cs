@@ -1,14 +1,11 @@
-using System;
 using UnityEngine;
 
 namespace Features.Player.DeathLogic
 {
     public class SpawnBehaviour : MonoBehaviour
     {
-        [SerializeField] private Component respawnSignal;
+        [SerializeField] private DeathTriggerBehaviour respawnSignal;
         [SerializeField] private LayerMask checkpointLayerMask;
-
-        private DeathTriggerBehaviour _signal;
 
         private Vector3 _position;
         private Transform _transform;
@@ -17,7 +14,6 @@ namespace Features.Player.DeathLogic
         {
             _transform = transform;
             _position = _transform.position;
-            _signal = (DeathTriggerBehaviour) respawnSignal;
         }
 
         private void OnTriggerEnter2D(Collider2D other)
@@ -32,12 +28,12 @@ namespace Features.Player.DeathLogic
 
         private void OnEnable()
         {
-            _signal.Respawn += Respawn;
+            respawnSignal.Respawn += Respawn;
         }
 
         private void OnDisable()
         {
-            _signal.Respawn -= Respawn;
+            respawnSignal.Respawn -= Respawn;
         }
         
         private void Respawn()

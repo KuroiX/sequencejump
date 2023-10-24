@@ -1,4 +1,5 @@
 ﻿using System;
+using Core;
 using UnityEngine;
 
 namespace Features.Player
@@ -7,9 +8,9 @@ namespace Features.Player
     {
         private readonly ICharacterInput[] _charInput;
 
-        private readonly IStopStartSignal[] _signals;
+        private readonly TimedSignalBehaviour[] _signals;
 
-        public InputSourceHandler(ICharacterInput[] charInput, IStopStartSignal[] signals)
+        public InputSourceHandler(ICharacterInput[] charInput, TimedSignalBehaviour[] signals)
         {
             _charInput = charInput;
             _signals = signals;
@@ -20,8 +21,8 @@ namespace Features.Player
             foreach (var signal in _signals)
             {
                 Debug.Log("hallo??");
-                signal.Stop += DisableInput;
-                signal.Start += EnableInput;
+                signal.Stopped += DisableInput;
+                signal.Started += EnableInput;
             }
         }
 
@@ -29,12 +30,12 @@ namespace Features.Player
         {
             foreach (var signal in _signals)
             {
-                signal.Stop -= DisableInput;
-                signal.Start -= EnableInput;
+                signal.Stopped -= DisableInput;
+                signal.Started -= EnableInput;
             }
         }
         
-        private void DisableInput(object sender, EventArgs args)
+        private void DisableInput()
         {
             foreach (var input in _charInput)
             {
@@ -42,7 +43,7 @@ namespace Features.Player
             }
         }
         
-        private void EnableInput(object sender, EventArgs args)
+        private void EnableInput()
         {
             foreach (var input in _charInput)
             {

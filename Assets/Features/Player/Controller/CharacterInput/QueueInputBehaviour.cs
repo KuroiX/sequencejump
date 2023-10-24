@@ -1,3 +1,4 @@
+using Core;
 using Core.Queue;
 using UnityEngine;
 
@@ -7,7 +8,7 @@ namespace Features.Player.Controller.CharacterInput
     {
         public IControllerInput Input => _inputSetter;
 
-        [SerializeField] private Component[] signals;
+        [SerializeField] private TimedSignalBehaviour[] signals;
 
         private QueueInput _queueInput;
         private InputSourceHandler _inputSourceHandler;
@@ -20,9 +21,8 @@ namespace Features.Player.Controller.CharacterInput
             QueueProcessor processor = new QueueProcessor(actionQueue);
 
             var charInputs = SetupCharacterInputs();
-            var iSignals = SetupStopStartSignals();
 
-            _queueInput = new QueueInput(processor, charInputs, _inputSetter, iSignals);
+            _queueInput = new QueueInput(processor, charInputs, _inputSetter, signals);
             //_inputSourceHandler = new InputSourceHandler(charInputs, iSignals);
         }
 
@@ -47,20 +47,6 @@ namespace Features.Player.Controller.CharacterInput
             }
 
             return characterInputs;
-        }
-
-        private IStopStartSignal[] SetupStopStartSignals()
-        {
-            IStopStartSignal[] iSignals = new IStopStartSignal[signals.Length + 1];
-
-            for (int i = 0; i < signals.Length; i++)
-            {
-                iSignals[i] = (IStopStartSignal) signals[i];
-            }
-
-            iSignals[signals.Length] = new StationInputWrapper();
-
-            return iSignals;
         }
         
         private void OnEnable()

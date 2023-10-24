@@ -1,32 +1,29 @@
-using System;
+using Core;
 using UnityEngine;
 
 namespace Features.Player.DeathLogic
 {
     public class PlayParticlesOnSignalBehaviour : MonoBehaviour
     {
-        [SerializeField] private Component signal;
+        [SerializeField] private TimedSignalBehaviour signal;
         [SerializeField] private ParticleSystem particles;
-
-        private IStopSignal _signal;
 
         private void Awake()
         {
-            _signal = (IStopSignal) signal;
             particles = particles ? particles : GetComponent<ParticleSystem>();
         }
 
         private void OnEnable()
         {
-            _signal.Stop += PlayEffect;
+            signal.Started += PlayEffect;
         }
 
         private void OnDisable()
         {
-            _signal.Stop -= PlayEffect;
+            signal.Started -= PlayEffect;
         }
 
-        private void PlayEffect(object sender, EventArgs args)
+        private void PlayEffect()
         {
             particles.Play();
         }
