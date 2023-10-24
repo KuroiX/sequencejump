@@ -18,6 +18,7 @@ namespace Features.Player.DeathLogic
 
         [SerializeField] private LayerMask hazardMask;
         [SerializeField] private float deathAnimationLength = 1;
+        private const float RespawnAnimationLength = 0.8f;
 
         private bool _isRunning;
         
@@ -47,12 +48,11 @@ namespace Features.Player.DeathLogic
             _isRunning = true;
             OnDeathAnimationStart();
 
-            yield return new WaitForSeconds(deathAnimationLength/2);
+            yield return new WaitForSeconds(deathAnimationLength);
 
             OnRespawn();
             
-            //TODO 2 variables 
-            yield return new WaitForSeconds(deathAnimationLength/2);
+            yield return new WaitForSeconds(RespawnAnimationLength);
             
             _isRunning = false;
             OnDeathAnimationEnd();
