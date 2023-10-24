@@ -34,7 +34,6 @@ namespace Features.Player.Controller.CharacterInput
             
             foreach (var signal in _signals)
             {
-                Debug.Log("hallo??");
                 signal.Stop += DisableInput;
                 signal.Start += EnableInput;
             }
@@ -61,6 +60,9 @@ namespace Features.Player.Controller.CharacterInput
         private void Move(float value)
         {
             _savedMovementInput = value;
+
+            if (_isDisabled) return;
+            
             _controllerInput.SetHorizontal(value);
         }
 

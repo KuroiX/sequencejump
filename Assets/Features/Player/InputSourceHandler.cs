@@ -1,4 +1,5 @@
 ﻿using System;
+using UnityEngine;
 
 namespace Features.Player
 {
@@ -18,6 +19,7 @@ namespace Features.Player
         {
             foreach (var signal in _signals)
             {
+                Debug.Log("hallo??");
                 signal.Stop += DisableInput;
                 signal.Start += EnableInput;
             }

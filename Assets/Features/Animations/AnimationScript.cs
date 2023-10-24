@@ -51,7 +51,7 @@ public class AnimationScript : MonoBehaviour
         double var2 = Math.Round(transform.parent.localPosition.x, 3);
         
         
-        Debug.Log("Prev: "+var1+", Current: "+var2);
+        //Debug.Log("Prev: "+var1+", Current: "+var2);
 
         
         if (!_groundedController.IsGrounded)
