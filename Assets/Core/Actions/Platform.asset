@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Platform
   m_EditorClassIdentifier: 
   type: 4
-  sprite: {fileID: 21300000, guid: bcf9b3fc77814254c9b2aaace86d27ca, type: 3}
+  sprite: {fileID: 21300000, guid: 92e7bfd73e4f62a44bd0c55b7fd6b180, type: 3}

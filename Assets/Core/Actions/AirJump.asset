@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: AirJump
   m_EditorClassIdentifier: 
   type: 3
-  sprite: {fileID: 21300000, guid: 54ba58d706088dd43814b08509d79f5d, type: 3}
+  sprite: {fileID: 21300000, guid: 02ccc2dc8f801664da9f02ca8d40a0e0, type: 3}
