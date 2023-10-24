@@ -250,6 +250,8 @@ MonoBehaviour:
   platform: 0
   stationCamera: {fileID: 4849041267807708487}
   mainCamera: {fileID: 0}
+  displayOn: {fileID: 263558810694069395}
+  displayOff: {fileID: 5358817746848835083}
 --- !u!114 &5734705834083158537
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -283,6 +285,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6862189843213298891}
     m_Modifications:
+    - target: {fileID: 863222064249041480, guid: 531c103894fb2244a81c55bd19c9eabe, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4759397616258922704, guid: 531c103894fb2244a81c55bd19c9eabe, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7805158408116566192, guid: 531c103894fb2244a81c55bd19c9eabe, type: 3}
       propertyPath: m_Name
       value: billboard_2D_basic
@@ -333,6 +343,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 531c103894fb2244a81c55bd19c9eabe, type: 3}
+--- !u!1 &263558810694069395 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 863222064249041480, guid: 531c103894fb2244a81c55bd19c9eabe, type: 3}
+  m_PrefabInstance: {fileID: 599716193591353051}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5358817746848835083 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4759397616258922704, guid: 531c103894fb2244a81c55bd19c9eabe, type: 3}
+  m_PrefabInstance: {fileID: 599716193591353051}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7476299069024767646 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8039972994396835909, guid: 531c103894fb2244a81c55bd19c9eabe, type: 3}

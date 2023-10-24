@@ -18,6 +18,10 @@ namespace Features.StationLogic
         [Header("References")] 
         [SerializeField] private CinemachineVirtualCamera stationCamera;
         [SerializeField] private CinemachineVirtualCamera mainCamera;
+        
+        [Header("Station Screen Visuals")] 
+        [SerializeField] private GameObject displayOn;
+        [SerializeField] private GameObject displayOff;
 
         public CinemachineVirtualCamera StationCamera => stationCamera;
         public Station Station => _station;
@@ -65,6 +69,9 @@ namespace Features.StationLogic
         private void OnTriggerEnter2D(Collider2D other)
         {
             _station.HandleOnTriggerEnter();
+
+            displayOn.SetActive(true);
+            displayOff.SetActive(false);
         }
 
         private void OnTriggerExit2D(Collider2D other)
