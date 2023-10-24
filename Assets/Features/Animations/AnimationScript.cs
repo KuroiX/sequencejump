@@ -46,7 +46,7 @@ public class AnimationScript : MonoBehaviour
     private void Update()
     {
         double var1 = Math.Round(prevX, 3);
-        double var2 = Math.Round(transform.parent.position.x, 3);
+        double var2 = Math.Round(transform.parent.localPosition.x, 3);
         
         
         Debug.Log("Prev: "+var1+", Current: "+var2);
@@ -85,7 +85,7 @@ public class AnimationScript : MonoBehaviour
         }
 
 
-        prevX = transform.parent.position.x;
+        prevX = transform.parent.localPosition.x;
     }
 
     private void StartDeathAnimation(object obj, EventArgs evt)
