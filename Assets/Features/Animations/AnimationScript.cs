@@ -8,6 +8,8 @@ using UnityEngine;
 
 public class AnimationScript : MonoBehaviour
 {
+    private string test;
+    
     private Animator _animator;
     private GroundedController _groundedController;
     private IDashController _dashController;
