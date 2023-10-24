@@ -3953,6 +3953,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 56364082256267465}
     m_Modifications:
+    - target: {fileID: 1430704748089227825, guid: eac3274b788ea734c9bd275b98bec7ae, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -175
+      objectReference: {fileID: 0}
     - target: {fileID: 6620870194899489762, guid: eac3274b788ea734c9bd275b98bec7ae, type: 3}
       propertyPath: m_Name
       value: QueueUIHandler
