@@ -74,7 +74,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 10
+  m_SortingOrder: 2
   m_Sprite: {fileID: 1722673002, guid: c8ba193dc8ba94c43a49dbc816e50a73, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -4965,6 +4965,7 @@ GameObject:
   - component: {fileID: 2016303128}
   - component: {fileID: 2016303135}
   - component: {fileID: 2016303136}
+  - component: {fileID: 5569879339804519103}
   m_Layer: 6
   m_Name: PlayerCharacter
   m_TagString: Player
@@ -5155,6 +5156,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   signals:
   - {fileID: 8219934145229362466}
+  - {fileID: 5569879339804519103}
 --- !u!114 &8219934145229362466
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5167,10 +5169,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02daa8ffd25242ff87cebf205ce3f788, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeToStop: 1.8
   hazardMask:
     serializedVersion: 2
     m_Bits: 256
-  deathAnimationLength: 1
 --- !u!114 &2016303128
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5194,7 +5196,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7570952696846952837}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 25a9ac9739c94d06b2e06edb825977e8, type: 3}
   m_Name: 
@@ -5213,8 +5215,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa87534ed4fc400a83ed1e831e079e33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  signals: {fileID: 8219934145229362466}
+  signals:
+  - {fileID: 8219934145229362466}
+  - {fileID: 5569879339804519103}
   rb: {fileID: 7570952696846952838}
+--- !u!114 &5569879339804519103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7570952696846952837}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 430bcc2bd1054f2185720a6d4c64026d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeToStop: 0.2
 --- !u!1001 &1130309584271054528
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -33,6 +33,7 @@ public class AnimationScript : MonoBehaviour
         
         _deathTriggerBehaviour.Started += StartedDeathAnimation;
         _deathTriggerBehaviour.Respawn += StartSpawnAnimation;
+        PlatformController.PlatformsTriggered += OnPlatformTriggered;
     }
     
 
@@ -40,6 +41,7 @@ public class AnimationScript : MonoBehaviour
     {
         _deathTriggerBehaviour.Started -= StartedDeathAnimation;
         _deathTriggerBehaviour.Respawn -= StartSpawnAnimation;
+        PlatformController.PlatformsTriggered -= OnPlatformTriggered;
     }
 
 
@@ -96,5 +98,10 @@ public class AnimationScript : MonoBehaviour
     private void StartSpawnAnimation()
     {
         _animator.SetTrigger("Spawn");
+    }
+
+    private void OnPlatformTriggered()
+    {
+        _animator.SetTrigger("Platform");
     }
 }
