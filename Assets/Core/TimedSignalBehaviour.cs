@@ -8,17 +8,17 @@ namespace Core
     {
         public event Action Started;
         public event Action Stopped;
-
+        
         [SerializeField] protected float timeToStop;
 
         protected bool isRunning;
 
-        private void OnStartTriggered()
+        protected void OnStartTriggered()
         {
             Started?.Invoke();
         }
 
-        private void OnStopTriggered()
+        protected void OnStopTriggered()
         {
             Stopped?.Invoke();
         }
