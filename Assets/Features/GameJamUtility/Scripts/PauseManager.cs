@@ -1,4 +1,5 @@
 using System;
+using Features.StationLogic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -27,6 +28,7 @@ namespace Features.GameJamUtility.Scripts
         [SerializeField] private GameObject pauseMenu;
         [SerializeField] private GameObject pauseMenuPanel;
         [SerializeField] private GameObject volumePanel;
+        [SerializeField] private GameObject pauseMenuButtonCanvas;
 
         private float _timeScale;
 
@@ -37,6 +39,23 @@ namespace Features.GameJamUtility.Scripts
             volumePanel.SetActive(false);
         
             _timeScale = Time.timeScale;
+        }
+
+        private void OnEnable()
+        {
+            Station.StationOpened += OnStationStateChanged;
+            Station.StationClosed += OnStationStateChanged;
+        }
+
+        private void OnDisable()
+        {
+            Station.StationOpened -= OnStationStateChanged;
+            Station.StationClosed -= OnStationStateChanged;
+        }
+
+        private void OnStationStateChanged(object sender, EventArgs e)
+        {
+            pauseMenuButtonCanvas.SetActive(!pauseMenuButtonCanvas.activeSelf);
         }
 
         private void Update()
@@ -69,6 +88,7 @@ namespace Features.GameJamUtility.Scripts
         public void MainMenuButton()
         {
             Time.timeScale = _timeScale;
+            IsPaused = !IsPaused;
             FindObjectOfType<SceneLoader>().LoadSceneByIndex(0);
         }
     }
