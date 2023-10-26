@@ -15,10 +15,13 @@ namespace Features.Refresh
         private SpriteRenderer _spriteRenderer;
         private bool _isEnabled = true;
 
+        private Animator _animator;
+
         private void Awake()
         {
             _spriteRenderer = GetComponent<SpriteRenderer>();
             _spriteRenderer.color = activatedColor;
+            _animator = GetComponent<Animator>();
         }
 
         private void Start()
@@ -38,12 +41,18 @@ namespace Features.Refresh
         {
             _isEnabled = false;
             _spriteRenderer.color = deactivatedColor;
+            
+            _animator.SetTrigger("Collected");
         }
 
         public override void ReceiveStationEntered()
         {
+            if (_isEnabled) return;
+            
             _isEnabled = true;
             _spriteRenderer.color = activatedColor;
+            
+            _animator.SetTrigger("Refresh");
         }
     }
 }
