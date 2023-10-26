@@ -5,7 +5,7 @@ using NUnit.Framework;
 using NSubstitute;
 using Features.StationLogic;
 
-namespace Editor.Tests
+namespace Tests
 {
     [TestFixture]
     public class station

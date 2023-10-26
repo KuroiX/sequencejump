@@ -2,7 +2,7 @@
 using Features.StationLogic;
 using NUnit.Framework;
 
-namespace Editor.Tests
+namespace Tests
 {
     [TestFixture]
     public class instance_counter
