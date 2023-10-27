@@ -1,4 +1,5 @@
-﻿using Core.Actions;
+﻿using System.Collections.Generic;
+using Core.Actions;
 using Core.Queue;
 using Features.MobileToggle;
 using Features.StationLogic;
@@ -20,6 +21,8 @@ namespace Features.Tutorial
         [SerializeField] private TutorialTriggerEntered lowerTrigger;
 
         private ResettableQueue<ICharacterAction> _queue;
+        
+        private readonly List<TutorialState> _states = new List<TutorialState>();
 
         private void Start()
         {
@@ -121,6 +124,21 @@ namespace Features.Tutorial
             TutorialState.Connect(forthState, fifthState);
             
             firstState.Setup();
+            _states.Add(zeroState);
+            _states.Add(firstState);
+            _states.Add(secondState);
+            _states.Add(thirdState);
+            _states.Add(forthState);
+            _states.Add(fifthState);
+        }
+        
+        
+        private void OnDestroy()
+        {
+            foreach (var state in _states)
+            {
+                state.Teardown(true);
+            }
         }
     }
 }
