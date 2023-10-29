@@ -19,6 +19,8 @@ namespace Features.ControllablePlatform
         private int _direction;
         private int _currentIndex;
 
+        private Coroutine _coroutine;
+
         private void Start()
         {
             _direction = 1;
@@ -75,6 +77,12 @@ namespace Features.ControllablePlatform
         [ContextMenu("Reset Platform")]
         public void ResetPlatform()
         {
+            if(_coroutine != null)
+            {
+                StopCoroutine(_coroutine);
+                _coroutine = null;
+            }
+            
             transform.position = platformPoints[0].position;
             _currentIndex = 0;
             _direction = 1;
@@ -85,7 +93,8 @@ namespace Features.ControllablePlatform
         [ContextMenu("Move to next point")]
         public void MoveToNextPoint()
         {
-            StartCoroutine(MoveToNextPointCoroutine());
+            if(_coroutine == null)
+                _coroutine = StartCoroutine(MoveToNextPointCoroutine());
         }
 
         private IEnumerator MoveToNextPointCoroutine()
@@ -102,7 +111,10 @@ namespace Features.ControllablePlatform
                     bool stop = stoppablePoints[_currentIndex];
                     SetNextPosition();
                     if(stop)
+                    {
+                        _coroutine = null;
                         break;
+                    }
                 }
 
                 yield return null;
