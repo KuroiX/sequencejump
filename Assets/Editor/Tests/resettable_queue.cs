@@ -1,7 +1,7 @@
 ﻿using Core.Queue;
 using NUnit.Framework;
 
-namespace Editor.Tests
+namespace Tests
 {
     [TestFixture]
     public class resettable_queue

@@ -17,6 +17,8 @@ namespace Features.ControllablePlatform
             if(!other.CompareTag("Player"))
                 return;
 
+            if (!other.GetComponent<Rigidbody2D>().simulated) return;
+            
             other.transform.parent = null;
         }
     }

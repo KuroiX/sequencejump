@@ -1,4 +1,6 @@
-﻿using Core.Actions;
+﻿using System;
+using System.Collections.Generic;
+using Core.Actions;
 using Core.Queue;
 using Features.StationLogic;
 using UnityEngine;
@@ -21,6 +23,8 @@ namespace Features.Tutorial
 
         private ResettableQueue<ICharacterAction> _queue;
         private Animator _queueAnimator;
+
+        private readonly List<TutorialState> _states = new List<TutorialState>();
 
         private void Awake()
         {
@@ -95,6 +99,19 @@ namespace Features.Tutorial
             TutorialState.Connect(secondState, thirdState);
             TutorialState.Connect(thirdState, forthState);
             firstState.Setup();
+            
+            _states.Add(firstState);
+            _states.Add(secondState);
+            _states.Add(thirdState);
+            _states.Add(forthState);
+        }
+
+        private void OnDestroy()
+        {
+            foreach (var state in _states)
+            {
+                state.Teardown(true);
+            }
         }
     }
 }

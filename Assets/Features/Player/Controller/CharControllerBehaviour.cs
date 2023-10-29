@@ -26,6 +26,7 @@ namespace Features.Player.Controller
         [SerializeField] private float maxFallSpeed;
         [SerializeField] private LayerMask environmentLayerMask;
         [SerializeField] private bool useStandardInput;
+        [SerializeField] private SpriteRenderer spriteRenderer;
 
         private JumpController _jump;
         private JumpController _airJump;
@@ -33,6 +34,10 @@ namespace Features.Player.Controller
         private GroundedController _grounded;
 
         public GroundedController Grounded => _grounded;
+        public IDashController Dash => _dash;
+
+        public JumpController Jump => _jump;
+        public JumpController AirJump => _airJump;
 
         private MovementController _movement;
         private PlatformController _platform;
@@ -64,7 +69,6 @@ namespace Features.Player.Controller
 
             _charController = new CharController(_grounded, _jump, _airJump, _dash, _movement, _platform, _controllerInput);
 
-            _spriteRenderer = GetComponent<SpriteRenderer>();
         }
 
         private void FixedUpdate()
@@ -82,17 +86,15 @@ namespace Features.Player.Controller
         
         #region Move to another script
 
-        private SpriteRenderer _spriteRenderer;
-
         private void FlipDirection()
         {
             if (_charController.Direction < 0)
             {
-                _spriteRenderer.flipX = true;
+                spriteRenderer.flipX = true;
             }
             else if (_charController.Direction > 0)
             {
-                _spriteRenderer.flipX = false;
+                spriteRenderer.flipX = false;
             }
         }
 

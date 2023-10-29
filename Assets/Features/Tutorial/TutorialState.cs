@@ -20,6 +20,8 @@ namespace Features.Tutorial
         private TutorialState _next;
         private TutorialState _prev;
 
+        private bool _isBeingDestroyed;
+
         public TutorialState(
             Action<EventHandler> nextSubHandler, Action<EventHandler> nextUnsubHandler, 
             Action<EventHandler> prevSubHandler, Action<EventHandler> prevUnsubHandler, 
@@ -40,22 +42,26 @@ namespace Features.Tutorial
             _prevSubHandler?.Invoke(OnPrev);
         }
 
-        protected virtual void Teardown()
+        public virtual void Teardown(bool isBeingDestroyed)
         {
-            _onStateExit?.Invoke();
+            if (!isBeingDestroyed)
+            {
+                _onStateExit?.Invoke();
+            }
             _nextUnsubHandler?.Invoke(OnNext);
             _prevUnsubHandler?.Invoke(OnPrev);
         }
         
         private void OnNext(object sender, EventArgs args)
         {
-            Teardown();
+            Teardown(false);
+            
             _next?.Setup();
         }
         
         private void OnPrev(object sender, EventArgs args)
         {
-            Teardown();
+            Teardown(false);
             _prev?.Setup();
         }
     }

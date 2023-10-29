@@ -1,42 +1,44 @@
-﻿using System;
+﻿using Core;
 using UnityEngine;
 
 namespace Features.Player.DeathLogic
 {
     public class EnDisableRbOnSignalsBehaviour : MonoBehaviour
     {
-        [SerializeField] private Component signals;
+        [SerializeField] private TimedSignalBehaviour[] signals;
         [SerializeField] private Rigidbody2D rb;
-
-        private IStopStartSignal _signals;
-
+        
         private void Awake()
         {
-            _signals = (IStopStartSignal) signals;
             rb = rb ? rb : GetComponent<Rigidbody2D>();
         }
 
         private void OnEnable()
         {
-            _signals.Stop += Disable;
-            _signals.Start += Enable;
+            foreach (var signal in signals)
+            {
+                signal.Started += Disable;
+                signal.Stopped += Enable;
+            }
         }
 
         private void OnDisable()
         {
-            _signals.Stop -= Disable;
-            _signals.Start -= Enable;
+            foreach (var signal in signals)
+            {
+                signal.Started -= Disable;
+                signal.Stopped -= Enable;
+            }
         }
 
-        private void Disable(object sender, EventArgs args)
+        private void Disable()
         {
             rb.simulated = false;
         }
 
-        private void Enable(object sender, EventArgs args)
+        private void Enable()
         {
             rb.simulated = true;
         }
-
     }
 }

@@ -5,7 +5,7 @@ using Features.StationLogic;
 using UnityEditor;
 using UnityEngine;
 
-namespace Editor.CustomEditors
+namespace CustomEditors
 {
     // [CustomEditor(typeof(StationBehaviour)), CanEditMultipleObjects]
     // public class StationBehaviourInspector : UnityEditor.Editor
