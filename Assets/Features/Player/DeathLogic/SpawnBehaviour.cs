@@ -39,6 +39,7 @@ namespace Features.Player.DeathLogic
         private void Respawn()
         {
             _transform.position = _position;
+            _transform.parent = null;
         }
     }
 }
