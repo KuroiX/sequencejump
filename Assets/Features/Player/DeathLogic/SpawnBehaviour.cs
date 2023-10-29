@@ -39,6 +39,7 @@ namespace Features.Player.DeathLogic
         private void Respawn()
         {
             _transform.position = _position;
+            // hotfix TODO: remove when platforms are fixed
             _transform.parent = null;
         }
     }
