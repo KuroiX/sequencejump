@@ -87,5 +87,7 @@ namespace Features.Player.Controller.CharacterInput
         public bool AirJumpCanceled { get; }
         public bool PlatformPerformed { get; }
         public bool PlatformCanceled { get; }
+        public bool BaseJumpPerformed { get; }
+        public bool BaseJumpCanceled { get; }
     }
 }

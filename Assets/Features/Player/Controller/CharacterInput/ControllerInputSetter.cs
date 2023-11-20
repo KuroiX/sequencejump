@@ -7,6 +7,9 @@ namespace Features.Player.Controller.CharacterInput
     public class ControllerInputSetter : IControllerInput, IInputSetter
     {
         public float Horizontal { get; private set; }
+        
+        public bool BaseJumpPerformed { get; private set; }
+        public bool BaseJumpCanceled { get; private set; }
 
         public bool JumpPerformed => _inputs[ActionType.Jump].Performed;
         public bool JumpCanceled => _inputs[ActionType.Jump].Canceled;
@@ -33,12 +36,26 @@ namespace Features.Player.Controller.CharacterInput
 
         public void PerformInput(ICharacterAction action)
         {
-            _inputs[action.Type].Performed = true;
+            if (action == null)
+            {
+                BaseJumpPerformed = true;
+            }
+            else
+            {
+                _inputs[action.Type].Performed = true;
+            }
         }
 
         public void CancelInput(ICharacterAction action)
         {
-            _inputs[action.Type].Canceled = true;
+            if (action == null)
+            {
+                BaseJumpCanceled = true;
+            }
+            else
+            {
+                _inputs[action.Type].Canceled = true;
+            }
         }
 
         public void Reset()
@@ -47,6 +64,9 @@ namespace Features.Player.Controller.CharacterInput
             {
                 _inputs[action].Performed = false;
                 _inputs[action].Canceled = false;
+
+                BaseJumpPerformed = false;
+                BaseJumpCanceled = false;
             }
         }
 

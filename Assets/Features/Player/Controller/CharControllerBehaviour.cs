@@ -29,6 +29,7 @@ namespace Features.Player.Controller
         [SerializeField] private SpriteRenderer spriteRenderer;
 
         private JumpController _jump;
+        private JumpController _baseJump;
         private JumpController _airJump;
         private DynamicDashController _dash;
         private GroundedController _grounded;
@@ -57,6 +58,7 @@ namespace Features.Player.Controller
             _controllerInput = GetComponents<IInputHolder>()[i].Input;
 
             _jump = new JumpController(_rb, jumpHeight);
+            _baseJump = new JumpController(_rb, 1);
             _airJump = new JumpController(_rb, jumpHeight - 1);
             _dash = new DynamicDashController(_rb, 
                 new Ref<int>(() => iterations, value => iterations=value), 
@@ -67,7 +69,7 @@ namespace Features.Player.Controller
                 new Ref<float>(() => maxFallSpeed, value => maxFallSpeed = value));
             _platform = new PlatformController();
 
-            _charController = new CharController(_grounded, _jump, _airJump, _dash, _movement, _platform, _controllerInput);
+            _charController = new CharController(_grounded, _jump, _baseJump, _airJump, _dash, _movement, _platform, _controllerInput);
 
         }
 
