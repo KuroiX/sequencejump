@@ -17,7 +17,13 @@ namespace Features.Player.Controller.CharacterInput
         
         public void PerformAction(IInputSetter controllerInput)
         {
-            if (_actionQueue.Count == 0) return;
+            /*
+            if (_actionQueue.Count == 0)
+            {
+                controllerInput.PerformInput(null);
+                return;
+            }
+            */
             
             _lastAction = _actionQueue.Dequeue();
             
@@ -26,7 +32,7 @@ namespace Features.Player.Controller.CharacterInput
 
         public void CancelAction(IInputSetter controllerInput)
         {
-            if (ReferenceEquals(_lastAction, null)) return;
+            //if (ReferenceEquals(_lastAction, null)) return;
             controllerInput.CancelInput(_lastAction);
         }
     }

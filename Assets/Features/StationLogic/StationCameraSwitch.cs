@@ -33,16 +33,18 @@ namespace Features.StationLogic
         {
             if (_station != (sender)) return;
             //Debug.Log("Subscribe CameraSwitch");
-            Station.StationOpened += CameraSwitchOnOpened;
-            Station.StationClosed += CameraSwitchOnClosed;
+            //Station.StationOpened += CameraSwitchOnOpened;
+            //Station.StationClosed += CameraSwitchOnClosed;
+            CameraSwitch(true);
         }
 
         private void Unsubscribe(object sender, EventArgs e)
         {
             if (_station != ((Station) sender)) return;
             //Debug.Log("Unsubscribe CameraSwitch");
-            Station.StationOpened -= CameraSwitchOnOpened;
-            Station.StationClosed -= CameraSwitchOnClosed;
+            //Station.StationOpened -= CameraSwitchOnOpened;
+            //Station.StationClosed -= CameraSwitchOnClosed;
+            CameraSwitch(false);
         }
 
         private void CameraSwitchOnOpened(object sender, EventArgs e)
