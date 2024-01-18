@@ -11,9 +11,9 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Hazard
+  - Environment
+  - PostProcessing
   - 
   - 
   - 
@@ -40,4 +40,34 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background_1
+    uniqueID: 705457265
+    locked: 0
+  - name: Background_2
+    uniqueID: 1384584887
+    locked: 0
+  - name: Background_3
+    uniqueID: 747776389
+    locked: 0
+  - name: Level_1
+    uniqueID: 3660451945
+    locked: 0
+  - name: Level_2
+    uniqueID: 4270922627
+    locked: 0
+  - name: Player
+    uniqueID: 1984099343
+    locked: 0
+  - name: Level_3
+    uniqueID: 2880628643
+    locked: 0
+  - name: Foreground_1
+    uniqueID: 400939389
+    locked: 0
+  - name: Foreground_2
+    uniqueID: 2518832005
+    locked: 0
+  - name: Foreground_3
+    uniqueID: 1185003883
     locked: 0

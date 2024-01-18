@@ -6,9 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 8c9cfa26abfee488c85f1582747f6a02
-  - enabled: 1
-    path: Assets/Plugins/Zenject/OptionalExtras/IntegrationTests/SceneTests/TestSceneContextEvents/TestSceneContextEvents.unity
-    guid: 6a6e139b8a4d4d544a3318c53b9ae3d6
+    path: Assets/Scenes/level1.unity
+    guid: 3198a7a915fa8fc49b6aeaf55a677976
   m_configObjects: {}
