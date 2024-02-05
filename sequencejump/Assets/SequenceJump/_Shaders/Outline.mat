@@ -43,7 +43,7 @@ Material:
     m_Floats:
     - _OutlineThickness: 0.005
     m_Colors:
-    - _Color: {r: 0.46778384, g: 0.913099, b: 0.37123778, a: 1}
+    - _Color: {r: 0, g: 19.888836, b: 22.363522, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &9119245823314757443
 MonoBehaviour:
